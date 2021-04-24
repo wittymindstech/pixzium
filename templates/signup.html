@@ -1,0 +1,175 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %} SignUp {% endblock %}
+{% block style %}
+
+{% endblock %}
+
+{% block body %}
+
+	<!-- ============================ Dashboard Header Start================================== -->
+	<div class="_agt_dash dark" style="background:#675bca url(assets/img/tag-light.png) no-repeat;">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12">
+					<div class="_capt9oi">
+						<h1 class="text-light">Create An Account</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ========================== Dashboard Header header ============================= -->
+
+
+	<!-- ========================== SignUp Elements ============================= -->
+	<section class="gray-light">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-11 col-md-11">
+
+					<div class="row no-gutters position-relative log_rads">
+						<div class="col-lg-5 col-md-5 theme-bg">
+							<div class="lui_9okt6">
+								<h2 class="text-light">Check Out<br>Customers Reviews</h2>
+								<p class="text-light">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium.</p>
+								<div class="_loh_revu97">
+									<div class="owl-carousel owl-theme middle-arrow-hover" id="reviews-login">
+
+										<!-- Single Reviews -->
+										<div class="_loh_r96">
+											<div class="_bloi_quote"><i class="fa fa-quote-left"></i></div>
+											<div class="_loh_r92">
+												<h4>Good Services</h4>
+											</div>
+											<div class="_loh_r93">
+												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+											</div>
+											<div class="_loh_foot_r93">
+												<h4>Shilpa D. Setty</h4>
+												<span>Team Leader</span>
+											</div>
+										</div>
+
+										<!-- Single Reviews -->
+										<div class="_loh_r96">
+											<div class="_bloi_quote"><i class="fa fa-quote-left"></i></div>
+											<div class="_loh_r92">
+												<h4>Good Services</h4>
+											</div>
+											<div class="_loh_r93">
+												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+											</div>
+											<div class="_loh_foot_r93">
+												<h4>Adam Wilsom</h4>
+												<span>Mak Founder</span>
+											</div>
+										</div>
+
+										<!-- Single Reviews -->
+										<div class="_loh_r96">
+											<div class="_bloi_quote"><i class="fa fa-quote-left"></i></div>
+											<div class="_loh_r92">
+												<h4>Customer Support</h4>
+											</div>
+											<div class="_loh_r93">
+												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+											</div>
+											<div class="_loh_foot_r93">
+												<h4>Kunal M. Wilsom</h4>
+												<span>CEO & Founder</span>
+											</div>
+										</div>
+
+										<!-- Single Reviews -->
+										<div class="_loh_r96">
+											<div class="_bloi_quote"><i class="fa fa-quote-left"></i></div>
+											<div class="_loh_r92">
+												<h4>Ultimate Services</h4>
+											</div>
+											<div class="_loh_r93">
+												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+											</div>
+											<div class="_loh_foot_r93">
+												<h4>Mark Jugermark</h4>
+												<span>MCL Founder</span>
+											</div>
+										</div>
+										<!-- Single Reviews -->
+										<div class="_loh_r96">
+											<div class="_bloi_quote"><i class="fa fa-quote-left"></i></div>
+											<div class="_loh_r92">
+												<h4>Item Support</h4>
+											</div>
+											<div class="_loh_r93">
+												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+											</div>
+											<div class="_loh_foot_r93">
+												<h4>Kirti Washinton</h4>
+												<span>Web Designer</span>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-lg-7 col-md-7 position-static p-4 pl-md-0">
+							<div class="log_wraps">
+								<div class="log__heads">
+									<h4 class="mt-0 logs_title">Sign <span class="theme-cl">Up</span></h4>
+								</div>
+								<form action="" method="post">
+									{% csrf_token %}
+									<div class="form-group">
+										{{ form.username|as_crispy_field }}
+									</div>
+
+									<div class="form-group">
+										{{ form.first_name|as_crispy_field }}
+									</div>
+
+									<div class="form-group">
+										{{ form.last_name|as_crispy_field }}
+									</div>
+
+									<div class="form-group">
+										{{ form.email|as_crispy_field }}
+									</div>
+
+									<div class="form-group">
+										{{ form.password1|as_crispy_field }}
+									</div>
+
+									<div class="form-group">
+										{{ form.password2|as_crispy_field }}
+									</div>
+
+									<div class="logs_foot mb-3">
+										<div class="logs_foot_first">
+											<input id="ct-1" class="checkbox-custom" name="ct-1" type="checkbox">
+											<label for="ct-1" class="checkbox-custom-label">I agree with terms.</label>
+										</div>
+										<div class="logs_foot_last">
+											Already An Account? <a href="{% url 'login' %}" class="theme-cl">Login</a>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<button type="submit" class="btn btn-primary w-100">Sign In</button>
+									</div>
+								</form>
+
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- ========================== Login Elements ============================= -->
+
+{% endblock body %}

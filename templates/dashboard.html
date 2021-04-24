@@ -1,0 +1,525 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block title %} My Account {% endblock %}
+{% block head %}
+	<!--  Video.js -->
+  	<link href="https://vjs.zencdn.net/7.8.4/video-js.css" rel="stylesheet" />
+	<script src="https://vjs.zencdn.net/7.8.4/video.js"></script>
+  	<!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
+  	<script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+  	<!-- Forest -->
+  	<link href="https://unpkg.com/@videojs/themes@1/dist/forest/index.css" rel="stylesheet">
+{% endblock %}
+{% block style %}
+
+{% endblock %}
+
+{% block body %}
+
+			<!-- ============================ Dashboard Header Start================================== -->
+			<div class="_agt_dash dark" style="background:#675bca url(assets/img/tag-light.png) no-repeat;">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12">
+							<div class="dash_hyu76">
+								<div class="dash_hyu74">
+									<div class="dash_hyu72">
+										<img src="{{profile.profile_pic.url}}" class="img-fluid" alt="">
+									</div>
+									<div class="dash_hyu71">
+										<h4 class="_hyu71_title">{{profile.user.first_name}} {{profile.user.last_name}}</h4>
+										<span>Member Since {{profile.user.date_joined|date:"M Y"}}</span>
+										<div class="_hyu71_button">
+											<a href="#" class="_njy_likes">Submit Photo for POW</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Dashboard Header Navigation -->
+			<div class="_dash_navigation_wraps">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12">
+							<ul class="nav-fill nav nav-tabs" id="myTab" role="tablist">
+							  <li class="nav-item">
+								<a class="nav-link active" id="dashboard-tab" data-toggle="tab" href="#dashboard" role="tab" aria-controls="dashboard" aria-selected="true">Dashboard</a>
+							  </li>
+							  <li class="nav-item">
+								<a class="nav-link" id="portfolio-tab" data-toggle="tab" href="#portfolio" role="tab" aria-controls="portfolio" aria-selected="false">Portfolio</a>
+							  </li>
+							  <li class="nav-item">
+								<a class="nav-link" id="setting-tab" data-toggle="tab" href="#setting" role="tab" aria-controls="setting" aria-selected="false">Settings</a>
+							  </li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- ========================== Dashboard Header header ============================= -->
+			
+			<!-- ========================== Dashboard Elements ============================= -->
+			<section class="gray-light">
+				<div class="container">
+					<div class="messages col-lg-12 col-md-12">
+						{% for message in messages %}
+						<p {% if message.tags %} class="{{ message.tags }} alert alert-success" role="alert"{% endif %}>{{ message }}</p>
+						{% endfor %}
+					</div>
+					<div class="tab-content" id="myTabContent">
+						<div class="col-lg-12 col-md-12 col-sm-12 tab-pane fade show active" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+							<div class="row">
+								<div class="col-lg-4 col-md-12 col-sm-12">
+									<div class="_the_capt5t">
+										<!-- Single Author Info -->
+										<div class="urip_widget_wrap shadow_0 large mb-4">
+											<div class="urip_widget_avater">
+												<a href="author-portfolio.html"><img src="{{profile.profile_pic.url}}" class="img-fluid circle" alt=""></a>
+												<div class="veryfied_author"><img src="{% static 'img/verified.svg' %}" class="img-fluid" width="15" alt=""></div>
+											</div>
+											<div class="widget_avater_124">
+												<h4 class="avater_name_214"><a href="#">{{profile.user.first_name}} {{profile.user.last_name}}</a></h4>
+												<span>Member since {{profile.user.date_joined|date:"M Y"}}</span>
+											</div>
+											<div class="widget_lkpi">
+												<ul class="auhor_info_list_215">
+													<li><div class="urip_jbl"><span class="count">102</span>K</div><span class="smallest">Followers</span></li>
+													<li><div class="urip_jbl urip_rates good">4.7</div><span class="smallest">Likes</span></li>
+													<li><div class="urip_jbl">152</div><span class="smallest">Donations</span></li>
+												</ul>
+											</div>
+											<div class="widget_avater_423">
+												<a href="author-portfolio.html" class="link_portfolio">Submit Profile for Verification</a>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-8 col-md-12 col-sm-12">
+									<!-- Contact Author -->
+									<h4 class="p-4 mb-5 lit98_jhy my-auto">Welcome Back {{profile.user.first_name}} {{profile.user.last_name}} </h4>
+									<div class="urip_widget_wrap shadow_0 mt-4 mb-4">
+
+										<div class="urip_widget_header bg__2">
+											<h4>Complaint or Suggestion Desk</h4>
+											<span>Drop a message to our Team</span>
+										</div>
+
+										<div class="urip_widget_body">
+											<div class="wid_bghbody simple_uyt">
+												<div class="form-group">
+													<label>From</label>
+													<input type="text" class="form-control" value="developerteam@pixzium.com" disabled>
+												</div>
+												<div class="form-group">
+													<label>Message</label>
+													<textarea name="message" class="form-control" class="ht-80" placeholder="Type Message"></textarea>
+												</div>
+												<div class="form-group">
+													<div class="widget_avater_423 p-0">
+														<button type="submit" class="link_portfolio">Send Message</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<!-- Social Profiles -->
+									<div class="lit98_jhy">
+										<ul class="socil_uyh">
+											<li><a href="{{profile.facebook}}" target="_blank" class="fb"><i class="fa fa-facebook"></i></a></li>
+											<li><a href="{{profile.twitter}}" target="_blank" class="twt"><i class="fa fa-twitter"></i></a></li>
+											<li><a href="{{profile.youtube}}" target="_blank" class="twt"><i class="fa fa-youtube"></i></a></li>
+											<li><a href="{{profile.instagram}}" target="_blank" class="ins"><i class="fa fa-instagram"></i></a></li>
+											<li><a href="{{profile.pinterest}}" target="_blank" class="pin"><i class="fa fa-pinterest"></i></a></li>
+										</ul>
+									</div>
+
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane fade" id="portfolio" role="tabpanel" aria-labelledby="portfolio-tab">
+							<!-- ========================== Dashboard Elements ============================= -->
+							<div class="row">
+								<div class="col-lg-3 col-md-4 col-sm-12">
+									<div class="nav flex-column nav-pills extra_jhysfr" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+										<a class="nav-link active" id="v-pills-image-tab" data-toggle="pill" href="#v-pills-image" role="tab" aria-controls="v-pills-image" aria-selected="true">Images</a>
+										<a class="nav-link" id="v-pills-video-tab" data-toggle="pill" href="#v-pills-video" role="tab" aria-controls="v-pills-video" aria-selected="false">Videos</a>
+										<a class="nav-link" id="v-pills-music-tab" data-toggle="pill" href="#v-pills-music" role="tab" aria-controls="v-pills-music" aria-selected="false">Musics</a>
+									</div>
+								</div>
+
+								<div class="col-lg-9 col-md-8 col-sm-12">
+									<div class="tab-content" id="v-pills-tabContent">
+										<div class="tab-pane fade show active" id="v-pills-image" role="tabpanel" aria-labelledby="v-pills-image-tab">
+											<div class="alert alert-success" role="alert">
+											  We do not sell or share your details without your permission.
+											</div>
+											<div class="extra_ijyu98">
+												<div class="extra_ijyu98_head">
+													<h4>Uploaded Images</h4>
+												</div>
+												<div class="extra_ijyu98_body">
+													<div class="row">
+														<div class="col-lg-12 col-md-12 col-sm-12">
+															<div class="row">
+																{% for portfolio in image %}
+																{% if portfolio.status == 'Pending' %}
+																<!-- Single -->
+																<div class="col-lg-6 col-md-6 col-sm-12">
+																	<div class="urip_column_three">
+																		<div class="item_image_urip">
+																			<a href="{{ portfolio.file.url }}" class="urip_link download" download="{{ portfolio.file.url }}"><i class="fa fa-download"></i></a>
+																			<a class="item-img">
+																				<img src="{{ portfolio.file.url }}" class="img-fluid" alt="">
+																			</a>
+																		</div>
+																	</div>
+																</div>
+																{% endif %}
+																{% endfor %}
+															</div>
+
+															<div class="row">
+																<div class="col-lg-12 col-md-12 text-center">
+																	<a href="#" class="ure09w">Browse More</a>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="tab-pane fade" id="v-pills-video" role="tabpanel" aria-labelledby="v-pills-video-tab">
+											<div class="extra_ijyu98">
+												<div class="extra_ijyu98_head">
+													<h4>Uploaded Video's</h4>
+												</div>
+												<div class="extra_ijyu98_body">
+													<div class="row">
+														<div class="col-lg-12 col-md-12 col-sm-12">
+															<div class="row">
+																{% for portfolio in video %}
+																<!-- Single -->
+																<div class="col-lg-6 col-md-6 col-sm-12">
+																	<div class="urip_column_three">
+																		<div class="item_image_urip">
+																		  <video id="my-video" class="video-js vjs-theme-forest" controls preload="auto" width="360" height="264" data-setup="{'controls': true}">
+																			<source src="{{ portfolio.file.url }}" type="video/mp4">
+																		  </video>
+																		</div>
+																	</div>
+																</div>
+																{% endfor %}
+															</div>
+
+															<div class="row">
+																<div class="col-lg-12 col-md-12 text-center">
+																	<a href="#" class="ure09w">Browse More</a>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="tab-pane fade" id="v-pills-music" role="tabpanel" aria-labelledby="v-pills-music-tab">
+
+											<div class="extra_ijyu98">
+												<div class="extra_ijyu98_head">
+													<h4>Uploaded Music</h4>
+												</div>
+												<div class="extra_ijyu98_body">
+													<div class="row">
+														<div class="col-lg-12 col-md-12 col-sm-12">
+															<div class="row">
+																<div class="col-lg-12 col-md-12 text-center">
+																	<a href="#" class="ure09w">Coming Soon</a>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+
+										</div>
+
+									</div>
+								</div>
+							</div>
+							<!-- ========================== Dashboard Elements ============================= -->
+						</div>
+						<div class="tab-pane fade" id="setting" role="tabpanel" aria-labelledby="setting-tab">
+							<!-- ========================== Dashboard Elements ============================= -->
+							<div class="row">
+								<div class="col-lg-3 col-md-4 col-sm-12">
+									<div class="nav flex-column nav-pills extra_jhysfr" id="v-pill-tab" role="tablist" aria-orientation="vertical">
+										<a class="nav-link active" id="v-pills-basic-tab" data-toggle="pill" href="#v-pills-basic" role="tab" aria-controls="v-pills-basic" aria-selected="true">Basic Information</a>
+										<a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Public Profile</a>
+										<a class="nav-link" id="v-pills-social-tab" data-toggle="pill" href="#v-pills-social" role="tab" aria-controls="v-pills-social" aria-selected="false">Social Links</a>
+										<a class="nav-link" id="v-pills-payment-tab" data-toggle="pill" href="#v-pills-payment" role="tab" aria-controls="v-pills-payment" aria-selected="false">Payment Integration</a>
+										<a class="nav-link" id="v-pills-featured-tab" data-toggle="pill" href="#v-pills-featured" role="tab" aria-controls="v-pills-featured" aria-selected="false">Featured Item</a>
+									</div>
+								</div>
+
+								<div class="col-lg-9 col-md-8 col-sm-12">
+									<div class="tab-content" id="v-pill-tabContent">
+										<div class="tab-pane fade show active" id="v-pills-basic" role="tabpanel" aria-labelledby="v-pills-basic-tab">
+											<div class="alert alert-success" role="alert">
+											  We do not sell or share your details without your permission.
+											</div>
+											<div class="extra_ijyu98">
+												<div class="extra_ijyu98_head">
+													<h4>Your Information</h4>
+												</div>
+												<div class="extra_ijyu98_body">
+													<form class="simple_uyt" autocomplete="off" method="POST" enctype="multipart/form-data">
+														{% csrf_token %}
+														<div class="row">
+
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<label>First Name</label>
+																	<input type="text" name="firstname" class="form-control" placeholder="{{profile.user.first_name}}">
+																</div>
+															</div>
+
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<label>Last Name</label>
+																	<input type="text" name="lastname" class="form-control" placeholder="{{profile.user.last_name}}">
+																</div>
+															</div>
+
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<label>Username</label>
+																	<input type="text" class="form-control" value="{{profile.user.username}}" disabled>
+																</div>
+															</div>
+
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<label>Email</label>
+																	<input type="email" class="form-control" value="{{profile.user.email}}" disabled>
+																</div>
+															</div>
+
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<label>Mobile No.</label>
+																	<input placeholder="{{profile.mobile}}" type="text" name="mobile" class="form-control">
+																</div>
+															</div>
+
+															<div class="col-lg-12 col-md-12">
+																<div class="form-group">
+																	<label>Full Address</label>
+																	<input placeholder="{{profile.address}}" type="text" name="address" class="form-control">
+																</div>
+															</div>
+
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<label>City/Zone</label>
+																	<input placeholder="{{profile.city}}" type="text" name="city" class="form-control">
+																</div>
+															</div>
+
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<label>State</label>
+																	<input placeholder="{{profile.state}}" type="text" name="state" class="form-control">
+																</div>
+															</div>
+
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<label>Country</label>
+																	<input placeholder="{{profile.country}}" type="text" name="country" class="form-control">
+																</div>
+															</div>
+
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<label>Pin Code</label>
+																	<input placeholder="{{profile.pincode}}" type="text" name="pincode" class="form-control">
+																</div>
+															</div>
+
+
+
+															<div class="col-lg-12 col-md-12">
+																<div class="form-group">
+																	<button type="submit" name="btnSave" class="btn btn_update">Save & Update</button>
+																</div>
+															</div>
+														</div>
+													</form>
+												</div>
+											</div>
+										</div>
+
+										<div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+											<div class="extra_ijyu98">
+												<div class="extra_ijyu98_head">
+													<h4>Public Profile</h4>
+												</div>
+												<div class="extra_ijyu98_body">
+													<div class="row">
+														<div class="col-lg-12 col-md-12">
+															<form autocomplete="off" method="POST" enctype="multipart/form-data">
+																{% csrf_token %}
+																<div class="_sin89lio">
+																	<div class="form-group row">
+																		 <label class="col-lg-3 col-md-4 col-sm-12 col-form-label">Avatar</label>
+																		<div class="_sin89lio_thumb col-lg-9 col-md-8 col-sm-12">
+																			<img src="{{profile.profile_pic.url}}" class="img-fluid w-25 mb-2" alt="">
+																			<div class="_sin89lio_caption">
+																				<div class="custom-file">
+																					<label class="custom-file-label" for="file">Choose file</label>
+																					<input type="file" class="custom-file-input" name="profielogo" required id="file">
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		 <label class="col-lg-3 col-md-4 col-sm-12 col-form-label">Profile Heading</label>
+																		<div class="_sin89lio_thumb col-lg-9 col-md-8 col-sm-12">
+																			<input type="text" name="heading" class="form-control" placeholder="{{profile.profileheading}}">
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		 <label class="col-lg-3 col-md-4 col-sm-12 col-form-label">Description</label>
+																		<div class="_sin89lio_thumb col-lg-9 col-md-8 col-sm-12">
+																			<textarea name="message" class="form-control" placeholder="{{profile.description}}"></textarea>
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<label class="col-lg-3 col-md-4 col-sm-12 col-form-label">Available for freelance?</label>
+																		<div class="_sin89lio_thumb col-lg-9 col-md-8 col-sm-12">
+																			<ul class="no-ul-list mb-3">
+																				<li>
+																					<input id="b" class="checkbox-custom" name="freelance" value="True" type="checkbox" checked>
+																					<label for="b" class="checkbox-custom-label">Yes</label>
+																				</li>
+																			</ul>
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<div class="_sin89lio_thumb col-lg-12 col-md-12 col-sm-12">
+																			<button type="submit" name="btnPPSave" class="btn btn_update">Save &amp; Update</button>
+																		</div>
+																	</div>
+																</div>
+															</form>
+														</div>
+
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="tab-pane fade" id="v-pills-social" role="tabpanel" aria-labelledby="v-pills-social-tab">
+											<div class="extra_ijyu98">
+												<div class="extra_ijyu98_head">
+													<h4>Your Social Networks</h4>
+												</div>
+												<div class="extra_ijyu98_body">
+													<form class="simple_uyt" autocomplete="off" method="POST" enctype="multipart/form-data">
+														{% csrf_token %}
+														<div class="row">
+
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<label><i class="fa fa-facebook"></i> Facebook User</label>
+																	<input type="text" name="facebook" class="form-control" placeholder="{{profile.facebook}}">
+																</div>
+															</div>
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<label><i class="fa fa-twitter"></i> Twitter User</label>
+																	<input type="text" name="twitter" class="form-control" placeholder="{{profile.twitter}}">
+																</div>
+															</div>
+
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<label><i class="fa fa-instagram"></i> Instagram User</label>
+																	<input type="text" name="instagram" class="form-control" placeholder="{{profile.instagram}}">
+																</div>
+															</div>
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<label><i class="fa fa-youtube"></i> Youtube User</label>
+																	<input type="text" name="youtube" class="form-control" placeholder="{{profile.youtube}}">
+																</div>
+															</div>
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<label><i class="fa fa-pinterest"></i> Pinterest User</label>
+																	<input type="text" name="pinterest" class="form-control" placeholder="{{profile.pinterest}}">
+																</div>
+															</div>
+														</div>
+														<div class="form-group row">
+															<div class="_sin89lio_thumb col-lg-12 col-md-12 col-sm-12">
+																<button type="submit" name="btnSMSave" class="btn btn_update">Save &amp; Update</button>
+															</div>
+														</div>
+													</form>
+												</div>
+											</div>
+										</div>
+
+										<div class="tab-pane fade" id="v-pills-payment" role="tabpanel" aria-labelledby="v-pills-payment-tab">
+											<div class="extra_ijyu98">
+												<div class="extra_ijyu98_head">
+													<h4>Your Payments Link</h4>
+												</div>
+												<div class="extra_ijyu98_body">
+													<form class="simple_uyt" autocomplete="off" method="POST" enctype="multipart/form-data">
+														{% csrf_token %}
+														<div class="row">
+
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<label>Razorpay Link</label>
+																	<input type="text" name="razorpay" class="form-control" placeholder="{{profile.razorpay}}">
+																</div>
+															</div>
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<label>Paypal Link</label>
+																	<input type="text" name="paypal" class="form-control" placeholder="{{profile.paypal}}">
+																</div>
+															</div>
+														</div>
+														<div class="form-group row">
+															<div class="_sin89lio_thumb col-lg-12 col-md-12 col-sm-12">
+																<button type="submit" name="btnPLSave" class="btn btn_update">Save &amp; Update</button>
+															</div>
+														</div>
+													</form>
+												</div>
+											</div>
+										</div>
+
+										<div class="tab-pane fade" id="v-pills-featured" role="tabpanel" aria-labelledby="v-pills-featured-tab">...</div>
+
+									</div>
+								</div>
+							</div>
+
+							<!-- ========================== Dashboard Elements ============================= -->
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- ========================== Dashboard Elements ============================= -->
+
+{% endblock body %}

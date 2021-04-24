@@ -1,0 +1,132 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block title %} {{profile.user.first_name}} {{profile.user.last_name}} Profile {% endblock %}
+{% block style %}
+
+{% endblock %}
+
+{% block body %}
+			
+	<!-- ============================ Dashboard Header Start================================== -->
+	<div class="_agt_dash dark" style="background:#675bca url(assets/img/tag-light.png) no-repeat;">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12">
+
+					<div class="dash_hyu76">
+						<div class="dash_hyu74">
+							<div class="dash_hyu72">
+								<img src="{{profile.profile_pic.url}}" class="img-fluid" alt="">
+							</div>
+							<div class="dash_hyu71">
+								<h4 class="_hyu71_title">{{profile.user.first_name}} {{profile.user.last_name}}</h4>
+								<span>Member since {{profile.user.date_joined|date:"M Y"}}</span>
+								<div class="_hyu71_button">
+									<a href="#" class="_njy_likes">Follow</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ========================== Dashboard Elements ============================= -->
+	<section class="gray-light">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4 col-md-12 col-sm-12">
+					<!-- Single Author Info -->
+					<div class="urip_widget_wrap shadow_0 large mb-4">
+						<div class="urip_widget_avater">
+							<a href="author-portfolio.html"><img src="{{profile.profile_pic.url}}" class="img-fluid circle" alt=""></a>
+							<div class="veryfied_author"><img src="{% static 'img/verified.svg' %}" class="img-fluid" width="15" alt=""></div>
+						</div>
+						<div class="widget_avater_124">
+							<h4 class="avater_name_214"><a href="author-portfolio.html">{{profile.user.first_name}} {{profile.user.last_name}}</a></h4>
+							<span>Member since {{profile.user.date_joined|date:"M Y"}}</span>
+						</div>
+						<div class="widget_avater_124">
+							<span>Earned Badges</span>
+							<ul class="auhor_list_badges">
+								<li><img src="{% static 'img/golden.svg' %}" class="img-avater rounded" width="40" alt=""></li>
+								<li><img src="{% static 'img/1st.svg' %}" class="img-avater rounded" width="40" alt=""></li>
+								<li><img src="{% static 'img/2year.svg' %}" class="img-avater rounded" width="40" alt=""></li>
+								<li><img src="{% static 'img/3year.svg' %}" class="img-avater rounded" width="40" alt=""></li>
+								<li><img src="{% static 'img/platinum.svg' %}" class="img-avater rounded" width="40" alt=""></li>
+								<li><img src="{% static 'img/green-elite.svg' %}" class="img-avater rounded" width="40" alt=""></li>
+								<li><img src="{% static 'img/gold-medal.svg' %}" class="img-avater rounded" width="40" alt=""></li>
+								<li><img src="{% static 'img/smart.svg' %}" class="img-avater rounded" width="40" alt=""></li>
+							</ul>
+						</div>
+						<div class="widget_lkpi">
+							<ul class="auhor_info_list_215">
+								<li><div class="urip_jbl"><span class="count">102</span>K</div><span class="smallest">Sales</span></li>
+								<li><div class="urip_jbl urip_rates good">4.7</div><span class="smallest">42Reviews</span></li>
+								<li><div class="urip_jbl">152</div><span class="smallest">Comments</span></li>
+							</ul>
+						</div>
+						<div class="widget_avater_423">
+							<a href="#" class="link_portfolio">Hire Now</a>
+						</div>
+						<div class="widget_avater_423">
+							<a href="#" class="link_portfolio">Donate Now</a>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="col-lg-8 col-md-12 col-sm-12">
+					<div class="_the_capt5t">
+						<h4>{{profile.profileheading}}</h4>
+						<p>{{profile.description}}</p>
+					</div>
+
+					<!-- Contact Author -->
+					<div class="urip_widget_wrap shadow_0 mb-4">
+
+						<div class="urip_widget_header bg__2">
+							<h4>Contact Creator</h4>
+							<span>Drop a message to Creator</span>
+						</div>
+
+						<div class="urip_widget_body">
+							<div class="wid_bghbody simple_uyt">
+								<div class="form-group">
+									<label>From</label>
+									<input type="text" class="form-control" value="{{profile.user.email}}" disabled>
+								</div>
+								<div class="form-group">
+									<label>Message</label>
+									<textarea name="message" class="form-control" class="ht-80" placeholder="Type Message"></textarea>
+								</div>
+								<div class="form-group">
+									<div class="widget_avater_423 p-0">
+										<button type="submit" class="link_portfolio">Send Message</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Social Profiles -->
+					<div class="lit98_jhy">
+						<ul class="socil_uyh">
+							<li><a href="{{profile.facebook}}" class="fb"><i class="fa fa-facebook"></i></a></li>
+							<li><a href="{{profile.twitter}}" class="twt"><i class="fa fa-twitter"></i></a></li>
+							<li><a href="{{profile.instagram}}" class="ins"><i class="fa fa-instagram"></i></a></li>
+							<li><a href="{{profile.pinterest}}" class="pin"><i class="fa fa-pinterest"></i></a></li>
+							<li><a href="{{profile.youtube}}" class="tum"><i class="fa fa-youtube"></i></a></li>
+						</ul>
+					</div>
+				</div>
+
+
+
+			</div>
+		</div>
+	</section>
+	<!-- ========================== Dashboard Elements ============================= -->
+
+{% endblock body %}
