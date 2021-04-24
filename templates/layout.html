@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+{% load static %}
+{% load crispy_forms_tags %}
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="" name="descriptison">
+    <meta content="" name="keywords">
+    <title>{% block title %} {% endblock %} | Pixzium</title>
+
+    <!-- Favicons -->
+    <link href="{% static 'img/favicon.png' %}" rel="icon">
+    <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+    <!-- All Plugins Css -->
+    <link href="{% static 'css/plugins.css' %}" rel="stylesheet">
+
+
+    <!-- Custom CSS -->
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <link href="{% static 'boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'remixicon/remixicon.css' %}" rel="stylesheet">
+    <link href="{% static 'dropify/css/dropify.min.css' %}" rel="stylesheet">
+    <link href="{% static 'tagsinput/tagsinput.css' %}" rel="stylesheet">
+    <!-- Portfolio-->
+    <link href="{% static 'portfolio/venobox/venobox.css' %}" rel="stylesheet">
+    <link href="{% static 'portfolio/icofont/icofont.min.css' %}" rel="stylesheet">
+    <link href="{% static 'portfolio/aos/aos.css' %}" rel="stylesheet">
+    <link href="{% static 'portfolio/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+    {% block head %}
+
+    {% endblock %}
+
+    {% block style %}
+
+    {% endblock %}
+    <style>
+    </style>
+</head>
+
+<body class="blue-skin">
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+        <!-- ============================================================== -->
+        <!-- Top header  -->
+        <!-- ============================================================== -->
+        <!-- Start Navigation -->
+        <div class="header header-light">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <nav id="navigation" class="navigation navigation-landscape">
+                            <div class="nav-header">
+                                <a class="nav-brand" href="{% url 'index' %}">
+                                    <img src="{% static 'img/logo.png' %}" class="logo" alt="">
+                                </a>
+                                <div class="nav-toggle"></div>
+                            </div>
+                            <div class="nav-menus-wrapper">
+                                <ul class="nav-menu">
+
+                                    <li><a href="{% url 'video' %}">Video</a></li>
+                                    <li><a href="{% url 'music' %}">Music</a></li>
+
+                                </ul>
+
+                                <ul class="nav-menu nav-menu-social align-to-right">
+
+                                    <li class="header-search">
+                                        <form action="{% url 'search' %}" method="get">
+                                            <div class="input-group ">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="ti-search"></i></span>
+                                                </div>
+                                              <input type="text" name="q" class="form-control" placeholder="Search free Photos">
+                                            </div>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <a>Services<span class="submenu-indicator"></span></a>
+                                        <ul class="nav-dropdown nav-submenu">
+                                            <li {% if request.user.is_authenticated %} style="display: none;" {% endif %}><a href="{% url 'register' %}">Signup</a></li>
+                                            <li><a href="{% url 'subscription' %}">Pricing</a></li>
+                                            <li><a href="#">FAQ's</a></li>
+                                            <li><a href="#">About Us</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="add-listing primary">
+                                        <a href="{% url 'pow' %}" data-toggle="tooltip" data-placement="bottom" title="Photo of Week">POW</a>
+                                    </li>
+
+                                    <li class="add-listing red-bg">
+                                        <a href="{% url 'upload' %}">Submit Creativity</a>
+                                    </li>
+
+                                    <li {% if request.user.is_authenticated %} style="display: none;" {% endif %} class="add-listing green-bg">
+                                        <a href="#" data-toggle="modal" data-target="#login">Login</a>
+                                    </li>
+                                    {% if request.user.is_authenticated %}
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                          <img src="https://img.icons8.com/color/48/000000/batman-old.png" width="25" height="25" class="rounded-circle">
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                          <a class="dropdown-item" href="{% url 'my_account' %}">{{request.user.first_name}} {{request.user.last_name}}</a>
+                                          <a class="dropdown-item" href="#">Dashboard</a>
+                                          <a class="dropdown-item" href="#">Edit Profile</a>
+                                          <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
+                                        </div>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation -->
+        <div class="clearfix"></div>
+        <!-- ============================================================== -->
+        <!-- Top header  -->
+        <!-- ============================================================== -->
+        <!-- ======= Section ======= -->
+        {% block body %}
+
+        {% endblock %}
+        <!-- End Section -->
+
+        <!-- =========================== Footer Start ========================================= -->
+        <footer class="dark-footer skin-dark-footer">
+            <div>
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-4 col-md-6">
+                            <div class="footer-widget">
+                                <img src="{% static 'img/logo.png' %}" class="img-fluid f-logo" width="120" alt="">
+                                <p>407-472 Rue Saint-Sulpice, Montreal<br>Quebec, H2Y 2V8</p>
+                                <ul class="footer-bottom-social">
+                                    <li><a href="#"><i class="ti-facebook"></i></a></li>
+                                    <li><a href="#"><i class="ti-twitter"></i></a></li>
+                                    <li><a href="#"><i class="ti-instagram"></i></a></li>
+                                    <li><a href="#"><i class="ti-linkedin"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-4">
+                            <div class="footer-widget">
+                                <h4 class="widget-title">Useful links</h4>
+                                <ul class="footer-menu">
+                                    <li><a href="about.html">About Us</a></li>
+                                    <li><a href="faq.html">FAQs Page</a></li>
+                                    <li><a href="billing.html">Checkout</a></li>
+                                    <li><a href="login.html">Login</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-md-4">
+                            <div class="footer-widget">
+                                <h4 class="widget-title">Developers</h4>
+                                <ul class="footer-menu">
+                                    <li><a href="#">Booking</a></li>
+                                    <li><a href="#l">Stays</a></li>
+                                    <li><a href="#">Adventures</a></li>
+                                    <li><a href="#">Author Detail</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-md-4">
+                            <div class="footer-widget">
+                                <h4 class="widget-title">Useful links</h4>
+                                <ul class="footer-menu">
+                                    <li><a href="about.html">About Us</a></li>
+                                    <li><a href="faq.html">Jobs</a></li>
+                                    <li><a href="#">Events</a></li>
+                                    <li><a href="#">Press</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-md-4">
+                            <div class="footer-widget">
+                                <h4 class="widget-title">Useful links</h4>
+                                <ul class="footer-menu">
+                                    <li><a href="#">Support</a></li>
+                                    <li><a href="contact.html">Contact Us</a></li>
+                                    <li><a href="#">Privacy &amp; Terms</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="row align-items-center">
+
+                        <div class="col-lg-12 col-md-12 text-center">
+                            <p class="mb-0">© 2021 Pixzium. Designd By <a href="#">WittyMinds Technology</a> All Rights Reserved</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- =========================== Footer End ========================================= -->
+
+        <!-- Log In Modal -->
+        <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="registermodal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered login-pop-form" role="document">
+                <div class="modal-content" id="registermodal">
+                    <div class="modal-header">
+                        <h4>Close Window</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="ti-close"></i></span></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4 class="modal-header-title">Sign <span class="theme-cl">In</span></h4>
+
+                        <div class="login-form">
+                            <form role="form" method="post" action="">
+                                {% csrf_token %}
+                                {% if msg %}
+                                    <span class="text-danger">{{ msg }}</span>
+                                {% endif %}
+                                <div class="form-group">
+                                    <label>User Name</label>
+                                    <div class="input-with-gray light">
+                                        {{ form.username }}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <div class="input-with-gray light">
+                                        {{ form.password1 }}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn theme-bg btn-md full-width pop-login">Login</button>
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <div class="mf-link"><i class="ti-user"></i>Haven't An Account?<a href="javascript:void(0)" class="theme-cl"> Sign Up</a></div>
+                        <div class="mf-forget"><a href="#"><i class="ti-help"></i>Forget Password</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Modal -->
+
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/select2.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/ion.rangeSlider.min.js' %}"></script>
+    <script src="{% static 'js/counterup.min.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+    <script src="{% static 'dropify/js/dropify.min.js' %}"></script>
+    <script src="{% static 'tagsinput/tagsinput.js' %}"></script>
+    <!-- Portfolio-->
+    <script src="{% static 'portfolio/jquery.easing/jquery.easing.min.js' %}"></script>
+    <script src="{% static 'portfolio/isotope-layout/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'portfolio/venobox/venobox.min.js' %}"></script>
+    <script src="{% static 'portfolio/waypoints/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'portfolio/aos/aos.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/infinity/0.2.2/infinity.min.js"></script>
+    <!-- <script src="{% static 'bootstrap/css/bootstrap.min.js' %}"></script>-->
+    <!-- ============================================================== -->
+    <!-- This page plugins -->
+    <!-- ============================================================== -->
+    <script text="javascript">
+
+    </script>
+    <script>
+        function openRightMenu() {
+            document.getElementById("rightMenu").style.display = "block";
+        }
+        function closeRightMenu() {
+            document.getElementById("rightMenu").style.display = "none";
+        }
+    </script>
+    <script>
+        $(function () {
+          $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+</body>
+</html>

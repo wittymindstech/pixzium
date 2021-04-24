@@ -1,0 +1,57 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block title %} Video {% endblock %}
+{% block head %}
+	<!--  Video.js -->
+  	<link href="https://vjs.zencdn.net/7.8.4/video-js.css" rel="stylesheet" />
+	<script src="https://vjs.zencdn.net/7.8.4/video.js"></script>
+  	<!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
+  	<script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+  	<!-- Forest -->
+  	<link href="https://unpkg.com/@videojs/themes@1/dist/forest/index.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+	<!-- ============================ Dashboard Header Start================================== -->
+	<div class="_agt_dash dark" style="background:#675bca url({% static 'img/tag-light.png' %}) no-repeat;">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12">
+					<div class="_capt9oi">
+						<h1 class="text-light">Latest Uploaded Video by Creator's</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ========================== Dashboard Header header ============================= -->
+	{% for portfolio in videooj %}
+	<!-- ======= Portfolio Section ======= -->
+	<section id="portfolio" class="portfolio">
+	  <div class="container" data-aos="fade-up">
+
+		<div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
+
+			  <div class="col-lg-4 col-md-6 portfolio-item">
+				  <video id="my-video" onclick="videoviews({{portfolio.id}})" class="video-js vjs-theme-forest" controls preload="auto" width="360" height="264" data-setup="{}">
+					<source src="{{ portfolio.file.url }}" type="video/mp4">
+				  </video>
+				  <div class="mx-auto my-1 col-lg-12 d-block" style="font-size: 13px;">
+					<p class="float-left">
+					  <span class="font-weight-bold">Upload by:</span> <a href="{% url 'profile' username=portfolio.user.username %}">{{portfolio.user}}</a>
+					</p>
+					<p class="float-right">
+					  <span class="font-weight-bold" id="views{{portfolio.id}}"><i class="fa fa-eye mr-1"></i>: {{portfolio.views}}</span>
+					  <a class="ml-2 font-weight-bold" href="{{ portfolio.file.url }}" download> <i class="fa fa-download"></i></a>
+					</p>
+				  </div>
+			  </div>
+		</div>
+
+	  </div>
+	</section>
+	{% empty %}
+		<img class="w-25 img-fluid mx-auto d-block" src="{% static 'img/nodata.jpg' %}">
+	{% endfor %}
+	<!-- End Portfolio Section -->
+{% endblock body %}
