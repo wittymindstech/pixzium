@@ -10,7 +10,8 @@ from django.contrib.auth.views import LogoutView
 urlpatterns = [
     path('', views.index, name='index'),
     # path('dashboard/', views.dashbt, name='dashboard'),
-    path('dashb/', views.dashb, name='dashb'),
+    path('dashboard/', views.dashboard, name='dashboard'),
+    path('photo-approval/', views.approval, name='approval'),
     path('profile/<str:username>', views.profile, name='profile'),
     path('photo_detail/<int:id>', views.photo_detail, name='photo_detail'),
     path('upload/', views.upload, name='upload'),
@@ -20,6 +21,7 @@ urlpatterns = [
     path('image/', views.image, name='image'),
     path('music/', views.music, name='music'),
     path('login/', views.login_view, name='login'),
+    path('contact/', views.contact, name='contact'),
     path('logout/', LogoutView.as_view(), {'next_page': settings.LOGOUT_REDIRECT_URL}, name='logout'),
     path('register/', views.register, name='register'),
     path('search/', views.SearchResultsView.as_view(), name='search'),

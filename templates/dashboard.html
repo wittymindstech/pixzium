@@ -109,19 +109,25 @@
 
 										<div class="urip_widget_body">
 											<div class="wid_bghbody simple_uyt">
-												<div class="form-group">
-													<label>From</label>
-													<input type="text" class="form-control" value="developerteam@pixzium.com" disabled>
-												</div>
-												<div class="form-group">
-													<label>Message</label>
-													<textarea name="message" class="form-control" class="ht-80" placeholder="Type Message"></textarea>
-												</div>
-												<div class="form-group">
-													<div class="widget_avater_423 p-0">
-														<button type="submit" class="link_portfolio">Send Message</button>
+												<form method="post" class="needs-validation" novalidate enctype="multipart/form-data">
+													{% csrf_token %}
+													<div class="form-group">
+														<label>To</label>
+														<input type="text" class="form-control" value="developerteam@pixzium.com" disabled>
 													</div>
-												</div>
+													<div class="form-group">
+														<label>Message</label>
+														<textarea name="message" class="form-control" class="ht-80" required placeholder="Type Message"></textarea>
+														<div class="invalid-feedback">
+															Please provide a Message.
+														</div>
+													</div>
+													<div class="form-group">
+														<div class="widget_avater_423 p-0">
+															<button type="submit" name="btnContact" class="link_portfolio">Send Message</button>
+														</div>
+													</div>
+												</form>
 											</div>
 										</div>
 									</div>

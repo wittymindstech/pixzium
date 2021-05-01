@@ -45,7 +45,7 @@ class SignUpForm(UserCreationForm):
 class ImageForm(forms.ModelForm):
     class Meta:
         model = Image
-        fields = ('title', 'file_uploaded', 'description', 'tags')
+        fields = ('title', 'file', 'description', 'tags')
         widgets = {
             'tags': forms.TextInput(attrs={'data-role': 'tagsinput'})
         }
@@ -58,7 +58,7 @@ class ImageForm(forms.ModelForm):
 class VideoForm(forms.ModelForm):
     class Meta:
         model = Video
-        fields = ('title', 'file_uploaded', 'description', 'tags')
+        fields = ('title', 'file', 'description', 'tags')
         widgets = {
             'tags': forms.TextInput(attrs={'data-role': 'tagsinput'})
         }
@@ -71,7 +71,7 @@ class VideoForm(forms.ModelForm):
 class MusicForm(forms.ModelForm):
     class Meta:
         model = Music
-        fields = ('title', 'file_uploaded', 'description', 'tags')
+        fields = ('title', 'file', 'description', 'tags')
         widgets = {
             'tags': forms.TextInput(attrs={'data-role': 'tagsinput'})
         }

@@ -2,6 +2,7 @@
 
 import os
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
@@ -11,6 +12,8 @@ from django.urls import reverse
 from django.views import generic
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView
+
+from pixzium import settings
 from .forms import ImageForm, SignUpForm, LoginForm, VideoForm, MusicForm
 from django.contrib import messages
 from .models import Image, Video, Music, Profile
@@ -32,7 +35,7 @@ def index(request):
             if user is not None:
                 login(request, user)
                 if request.user.is_superuser:
-                    return redirect('/dashb')
+                    return redirect('/dashboard')
                 return redirect("/")
 
             else:
@@ -102,12 +105,20 @@ def index(request):
 @login_required(login_url="/login/")
 def my_account(request):
     current_user = request.user
+    print(current_user)
     profileRecord = Profile.objects.filter(user=current_user.id).first()
+    print(profileRecord.user)
     image = Image.objects.filter(user=current_user.id)
     video = Video.objects.filter(user=current_user.id)
     music = Music.objects.filter(user=current_user.id)
 
     if request.method == "POST":
+        if 'btnContact' in request.POST:
+            message = request.POST.get('message')
+            detail = "Name : " + profileRecord.user.username + "\n" + "Email : " + profileRecord.user.email + "\n" + "Message : " + message
+            send_mail("Complaint or Suggestion", detail, "Pixzium", ["yadavrajneesh999@gmail.com"])
+            messages.success(request, 'Message Submitted Successfully. Our Team will reply you ASAP.')
+
         if 'btnSave' in request.POST:
             # user_id = request.POST.get("user_id", None)
             FirstName = request.POST.get("firstname", None)
@@ -173,20 +184,59 @@ def my_account(request):
 
 
 @login_required(login_url="/login/")
-def dashb(request):
+def dashboard(request):
+    return render(request, "dashboard/dashboard.html")
+
+
+@login_required(login_url="/login/")
+def approval(request):
     if request.method == 'POST':
         pic_id = int(request.POST.get("pic_id"))
         status = str(request.POST.get("status"))
-        sts = Image.objects.get(id=pic_id)
-        sts.status = status
-        sts.save()
+        user_id = request.POST.get("user_id")
+        user = User.objects.get(id=user_id)
+        u_email = user.email
+        print(u_email)
+        print(user)
+        if status == "Approved":
+            sts = Image.objects.get(id=pic_id)
+            sts.status = status
+            sts.save()
+        else:
+            sts = Image.objects.filter(id=pic_id)
+            subject = 'Waring Message for Uploaded Image from Pixzium'
+            message = f'Hi {user}, we have found Inappropriate Image. This is a waring Email, Please Follow ' \
+                      f'Our Company Guideline. '
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [u_email, ]
+            send_mail(subject, message, email_from, recipient_list)
+            sts.delete()
+            messages.success(request, 'Record Deleted Successfully.')
+
     portfolio = Image.objects.all()
     context = {"portfolios": portfolio}
-    return render(request, "dashb/index.html", context)
+    return render(request, "dashboard/gallery.html", context)
 
 
+@login_required(login_url="/login/")
 def pow(request):
     return render(request, "pow.html")
+
+
+def contact(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        print(name)
+        email = request.POST.get('email')
+        print(email)
+        subject = request.POST.get('subject')
+        print(subject)
+        message = request.POST.get('message')
+        print(message)
+        detail = "Name : " + name + "\n" + "Email : " + email + "\n" + "Message : " + message
+        send_mail(subject, detail, email, ["yadavrajneesh999@gmail.com"])
+        messages.success(request, 'Message Send Successfully.')
+    return render(request, "contact.html")
 
 
 def register(request):
