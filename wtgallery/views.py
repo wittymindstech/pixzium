@@ -16,10 +16,7 @@ from django.views.generic import ListView
 from pixzium import settings
 from .forms import ImageForm, SignUpForm, LoginForm, VideoForm, MusicForm
 from django.contrib import messages
-from .models import Image, Video, Music, Profile
-
-
-# import nude
+from .models import Image, Video, Music, Profile, UserFollowing
 
 
 def index(request):
@@ -37,14 +34,12 @@ def index(request):
                 if request.user.is_superuser:
                     return redirect('/dashboard')
                 return redirect("/")
-
             else:
                 msg = "Username or Password Doesn't match"
-
         else:
             msg = 'Error validating the form'
 
-    portfolio = Image.objects.all().order_by('-uploaded_at')
+    portfolio = Image.objects.all().order_by('-uploaded_at').filter(status__exact='A')
     common_tags = Image.tags.most_common()[:4]
     context = {
         "form": form,
@@ -92,44 +87,35 @@ def index(request):
 #         return Image.objects.order_by('-uploaded_at')
 
 
-# def index(request):
-#     portfolio = Image.objects.all().order_by('-uploaded_at')
-#     common_tags = Image.tags.most_common()[:4]
-#     context = {
-#         "portfolios": portfolio,
-#         "common_tags": common_tags
-#     }
-#     return render(request, "index.html", context)
-
-
-@login_required(login_url="/login/")
+@login_required
 def my_account(request):
     current_user = request.user
-    print(current_user)
-    profileRecord = Profile.objects.filter(user=current_user.id).first()
-    print(profileRecord.user)
-    image = Image.objects.filter(user=current_user.id)
-    video = Video.objects.filter(user=current_user.id)
-    music = Music.objects.filter(user=current_user.id)
+    profileRecord = Profile.objects.get_or_create(user=current_user)[0]
+    print(profileRecord)
+    image = Image.objects.filter(user__user__username__exact=profileRecord)
+    video = Video.objects.filter(user__user__username__exact=profileRecord)
+    music = Music.objects.filter(user__user__username__exact=profileRecord)
 
     if request.method == "POST":
+        # Message for the team
         if 'btnContact' in request.POST:
             message = request.POST.get('message')
             detail = "Name : " + profileRecord.user.username + "\n" + "Email : " + profileRecord.user.email + "\n" + "Message : " + message
             send_mail("Complaint or Suggestion", detail, "Pixzium", ["yadavrajneesh999@gmail.com"])
             messages.success(request, 'Message Submitted Successfully. Our Team will reply you ASAP.')
-
+        # User Profile Update(Basic Info)
         if 'btnSave' in request.POST:
-            # user_id = request.POST.get("user_id", None)
             FirstName = request.POST.get("firstname", None)
             LastName = request.POST.get("lastname", None)
-            Mobile = request.POST.get("mobile", None)
+            Mobile = request.POST.get("mobile", 000)
             Address = request.POST.get("address", None)
             City = request.POST.get("city", None)
             State = request.POST.get("state", None)
             Country = request.POST.get("country", None)
-            Pincode = request.POST.get("pincode", None)
+            Pincode = request.POST.get("pincode", 000)
 
+            current_user.first_name = FirstName
+            current_user.last_name = LastName
             profileRecord.mobile = Mobile
             profileRecord.address = Address
             profileRecord.city = City
@@ -138,22 +124,26 @@ def my_account(request):
             profileRecord.pincode = Pincode
 
             profileRecord.save()
+            current_user.save()
             messages.success(request, 'Your Profile is successfully Uploaded')
-
+        # User Public Profile Update
         if 'btnPPSave' in request.POST:
             # user_id = request.POST.get("user_id", None)
-            logo = request.FILES['profielogo']
-            heading = request.POST.get("heading", None)
-            message = request.POST.get("message", None)
-            freelance = request.POST.get("freelance", None)
+            if request.FILES:
+                logo = request.FILES['profielogo']
+                profileRecord.profile_pic = logo
+            heading = request.POST.get("heading")
+            message = request.POST.get("message")
+            if request.POST.get("freelance") is None:
+                profileRecord.freelance = False
+            else:
+                profileRecord.freelance = True
 
-            profileRecord.profile_pic = logo
             profileRecord.profileheading = heading
             profileRecord.description = message
-            profileRecord.freelance = freelance
             profileRecord.save()
             messages.success(request, 'Your Payment Profile is successfully Uploaded')
-
+        # User Social Links Update
         if 'btnSMSave' in request.POST:
             facebook = request.POST.get("facebook")
             twitter = request.POST.get("twitter")
@@ -168,7 +158,7 @@ def my_account(request):
             profileRecord.pinterest = pinterest
             profileRecord.save()
             messages.success(request, 'Your Social Media Profile is successfully Uploaded')
-
+        # User Payment links
         if 'btnPLSave' in request.POST:
             razorpay = request.POST.get("razorpay", None)
             paypal = request.POST.get("paypal", None)
@@ -179,16 +169,20 @@ def my_account(request):
             messages.success(request, 'Your Payment Link is successfully Uploaded')
 
         return HttpResponseRedirect(reverse('my_account'))
+    context = {'profile': profileRecord,
+               'image': image,
+               'video': video,
+               'music': music,
+               'followers': '',}
+    return render(request, "dashboard.html", context)
 
-    return render(request, "dashboard.html", {'profile': profileRecord, 'image': image, 'video': video, 'music': music})
 
-
-@login_required(login_url="/login/")
+@login_required
 def dashboard(request):
     return render(request, "dashboard/dashboard.html")
 
 
-@login_required(login_url="/login/")
+@login_required
 def approval(request):
     if request.method == 'POST':
         pic_id = int(request.POST.get("pic_id"))
@@ -198,7 +192,7 @@ def approval(request):
         u_email = user.email
         print(u_email)
         print(user)
-        if status == "Approved":
+        if status == "A":
             sts = Image.objects.get(id=pic_id)
             sts.status = status
             sts.save()
@@ -213,12 +207,12 @@ def approval(request):
             sts.delete()
             messages.success(request, 'Record Deleted Successfully.')
 
-    portfolio = Image.objects.all()
+    portfolio = Image.objects.all().filter(status__exact='P')
     context = {"portfolios": portfolio}
     return render(request, "dashboard/gallery.html", context)
 
 
-@login_required(login_url="/login/")
+@login_required
 def pow(request):
     return render(request, "pow.html")
 
@@ -281,20 +275,16 @@ def login_view(request):
 
 def profile(request, username):
     user = get_object_or_404(User, username=username)
-    print(user)
-    # us = User.objects.get(username=user)
     profile = Profile.objects.filter(user=user.id).first()
-    print(profile)
-    image = Image.objects.filter(user=user)
-    video = Video.objects.filter(user=user)
-    music = Music.objects.filter(user=user)
-    return render(request, 'profile.html', {'profile': profile, 'image': image, 'video': video, 'music': music})
+    image = Image.objects.filter(user=profile)
+    video = Video.objects.filter(user=profile)
+    music = Music.objects.filter(user=profile)
+    context = {'profile': profile, 'image': image, 'video': video, 'music': music}
+    return render(request, 'profile.html', context)
 
 
 def photo_detail(request, id):
-    # user = get_object_or_404(User, username=username)
-    # us = User.objects.filter(username=user)
-    image = Image.objects.get(id=id)
+    image = get_object_or_404(Image, id=id)
     print(image)
     tagsList = []
     for tag in image.tags.all():
@@ -323,7 +313,7 @@ def music(request):
     return render(request, "music.html", context)
 
 
-@login_required(login_url="/login/")
+@login_required
 def upload(request):
     if request.method == 'POST':
         image = ImageForm(request.POST, request.FILES)
@@ -339,7 +329,7 @@ def upload(request):
             if video.is_valid:
                 # form.save()
                 fs = video.save(commit=False)
-                fs.user = request.user
+                fs.user = Profile.objects.get(user=request.user)
                 fs.save()
                 video.save_m2m()
                 messages.success(request, 'Video successfully Uploaded, It will be Visible after reviewed by our Team.')
@@ -352,7 +342,7 @@ def upload(request):
             if video.is_valid:
                 # form.save()
                 fs = video.save(commit=False)
-                fs.user = request.user
+                fs.user = Profile.objects.get(user=request.user)
                 fs.save()
                 video.save_m2m()
                 messages.success(request, 'Video successfully Uploaded, It will be Visible after reviewed by our Team.')
@@ -365,7 +355,7 @@ def upload(request):
             if video.is_valid:
                 # form.save()
                 fs = video.save(commit=False)
-                fs.user = request.user
+                fs.user = Profile.objects.get(user=request.user)
                 fs.save()
                 video.save_m2m()
                 messages.success(request, 'Video successfully Uploaded, It will be Visible after reviewed by our Team.')
@@ -378,7 +368,7 @@ def upload(request):
             if music.is_valid:
                 # form.save()
                 fs = music.save(commit=False)
-                fs.user = request.user
+                fs.user = Profile.objects.get(user=request.user)
                 fs.save()
                 music.save_m2m()
                 messages.success(request, 'Music Successfully Uploaded, It will be Visible after reviewed by our Team.')
@@ -394,7 +384,7 @@ def upload(request):
                 # else:
                 # form.save()
                 fs = image.save(commit=False)
-                fs.user = request.user
+                fs.user = Profile.objects.get(user=request.user)
                 fs.save()
                 image.save_m2m()
                 messages.success(request, 'Image Successfully Uploaded, It will be Visible after reviewed by our Team.')
@@ -443,6 +433,7 @@ class SearchResultsView(ListView):
             return object_list
 
         else:
+            print("HERE Goes the Blank Search")
             object_list = Image.objects.filter(
                 Q(title__icontains=query) | Q(file__icontains=query) | Q(
                     tags__name__icontains=query))
@@ -488,12 +479,10 @@ def music_views(req):
     pass
 
 
-@csrf_exempt
 def count_likes(req):
-    if req.method == 'POST':
-        print("inside")
-        post = get_object_or_404(Image, id=req.POST.get("id"))
-        print(req.POST.get("id"))
+    if req.method == 'GET':
+        id = req.GET.get('post_id')
+        post = get_object_or_404(Image, id=id)
 
         liked = False
         if post.likes.filter(id=req.user.id).exists():
@@ -503,12 +492,8 @@ def count_likes(req):
             liked = True
             post.likes.add(req.user)
 
-        total_likes = post.number_of_liked
-        print(total_likes)
-        print("end view")
-        print(req.user)
-        return JsonResponse({'liked': liked, 'total_likes': total_likes, 'id': str(req.POST.get("id"))})
-    pass
+        total_likes = post.number_of_likes
+        return JsonResponse({'liked': liked, 'total_likes': total_likes, 'id': id})
 
 
 def save_music_view(req):

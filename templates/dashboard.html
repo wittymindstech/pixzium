@@ -13,11 +13,20 @@
 {% block style %}
 
 {% endblock %}
+{% block script %}
+<script>
+{# previews the profile image while updating #}
+    var loadFile = function(event) {
+        var image = document.getElementById('avtar-src');
+        image.src = URL.createObjectURL(event.target.files[0]);
+    };
+</script>
+{% endblock %}
 
 {% block body %}
 
 			<!-- ============================ Dashboard Header Start================================== -->
-			<div class="_agt_dash dark" style="background:#675bca url(assets/img/tag-light.png) no-repeat;">
+			<div class="_agt_dash dark" style="background:#675bca url({% static 'assets/img/tag-light.png' %}) no-repeat;">
 				<div class="container">
 					<div class="row">
 						<div class="col-lg-12 col-md-12 col-sm-12">
@@ -77,11 +86,13 @@
 										<!-- Single Author Info -->
 										<div class="urip_widget_wrap shadow_0 large mb-4">
 											<div class="urip_widget_avater">
-												<a href="author-portfolio.html"><img src="{{profile.profile_pic.url}}" class="img-fluid circle" alt=""></a>
-												<div class="veryfied_author"><img src="{% static 'img/verified.svg' %}" class="img-fluid" width="15" alt=""></div>
+												<img src="{{ profile.profile_pic.url }}" class="img-fluid circle" alt="">
+											    {% if profile.verified %}
+                                                    <div class="veryfied_author"><img src="{% static 'img/verified.svg' %}" class="img-fluid" width="15" alt=""></div>
+                                                {% endif %}
 											</div>
 											<div class="widget_avater_124">
-												<h4 class="avater_name_214"><a href="#">{{profile.user.first_name}} {{profile.user.last_name}}</a></h4>
+												<h4 class="avater_name_214">{{profile.user.first_name}} {{profile.user.last_name}}</h4>
 												<span>Member since {{profile.user.date_joined|date:"M Y"}}</span>
 											</div>
 											<div class="widget_lkpi">
@@ -92,14 +103,14 @@
 												</ul>
 											</div>
 											<div class="widget_avater_423">
-												<a href="author-portfolio.html" class="link_portfolio">Submit Profile for Verification</a>
+												<a href="#" class="link_portfolio">Submit Profile for Verification</a>
 											</div>
 										</div>
 									</div>
 								</div>
 								<div class="col-lg-8 col-md-12 col-sm-12">
 									<!-- Contact Author -->
-									<h4 class="p-4 mb-5 lit98_jhy my-auto">Welcome Back {{profile.user.first_name}} {{profile.user.last_name}} </h4>
+									<h4 class="p-4 mb-5 lit98_jhy my-auto">Welcome {{ profile.user.first_name }} {{ profile.user.last_name }} </h4>
 									<div class="urip_widget_wrap shadow_0 mt-4 mb-4">
 
 										<div class="urip_widget_header bg__2">
@@ -135,11 +146,21 @@
 									<!-- Social Profiles -->
 									<div class="lit98_jhy">
 										<ul class="socil_uyh">
-											<li><a href="{{profile.facebook}}" target="_blank" class="fb"><i class="fa fa-facebook"></i></a></li>
-											<li><a href="{{profile.twitter}}" target="_blank" class="twt"><i class="fa fa-twitter"></i></a></li>
-											<li><a href="{{profile.youtube}}" target="_blank" class="twt"><i class="fa fa-youtube"></i></a></li>
-											<li><a href="{{profile.instagram}}" target="_blank" class="ins"><i class="fa fa-instagram"></i></a></li>
+                                            {% if profile.facebook %}
+                                                <li><a href="{{profile.facebook}}" target="_blank" class="fb"><i class="fa fa-facebook"></i></a></li>
+                                            {% endif %}
+                                            {% if profile.twitter %}
+                                                <li><a href="{{profile.twitter}}" target="_blank" class="twt"><i class="fa fa-twitter"></i></a></li>
+                                            {% endif %}
+                                            {% if profile.youtube %}
+											<li><a href="{{profile.youtube}}" target="_blank" class="pin"><i class="fa fa-youtube"></i></a></li>
+                                            {% endif %}
+                                            {% if profile.instagram %}
+                                            <li><a href="{{profile.instagram}}" target="_blank" class="ins"><i class="fa fa-instagram"></i></a></li>
+                                            {% endif %}
+                                            {% if profile.pinterest %}
 											<li><a href="{{profile.pinterest}}" target="_blank" class="pin"><i class="fa fa-pinterest"></i></a></li>
+                                            {% endif %}
 										</ul>
 									</div>
 
@@ -260,7 +281,7 @@
 							<!-- ========================== Dashboard Elements ============================= -->
 						</div>
 						<div class="tab-pane fade" id="setting" role="tabpanel" aria-labelledby="setting-tab">
-							<!-- ========================== Dashboard Elements ============================= -->
+							<!-- ========================== Settings Elements ============================= -->
 							<div class="row">
 								<div class="col-lg-3 col-md-4 col-sm-12">
 									<div class="nav flex-column nav-pills extra_jhysfr" id="v-pill-tab" role="tablist" aria-orientation="vertical">
@@ -274,6 +295,7 @@
 
 								<div class="col-lg-9 col-md-8 col-sm-12">
 									<div class="tab-content" id="v-pill-tabContent">
+{#                                        BASIC INFORMATION #}
 										<div class="tab-pane fade show active" id="v-pills-basic" role="tabpanel" aria-labelledby="v-pills-basic-tab">
 											<div class="alert alert-success" role="alert">
 											  We do not sell or share your details without your permission.
@@ -290,21 +312,21 @@
 															<div class="col-lg-6 col-md-6">
 																<div class="form-group">
 																	<label>First Name</label>
-																	<input type="text" name="firstname" class="form-control" placeholder="{{profile.user.first_name}}">
+																	<input type="text" name="firstname" class="form-control" value="{{profile.user.first_name}}">
 																</div>
 															</div>
 
 															<div class="col-lg-6 col-md-6">
 																<div class="form-group">
 																	<label>Last Name</label>
-																	<input type="text" name="lastname" class="form-control" placeholder="{{profile.user.last_name}}">
+																	<input type="text" name="lastname" class="form-control" value="{{profile.user.last_name}}">
 																</div>
 															</div>
 
 															<div class="col-lg-6 col-md-6">
 																<div class="form-group">
 																	<label>Username</label>
-																	<input type="text" class="form-control" value="{{profile.user.username}}" disabled>
+																	<input type="text" class="form-control" value="{{ profile.user.username }}" disabled>
 																</div>
 															</div>
 
@@ -318,46 +340,44 @@
 															<div class="col-lg-6 col-md-6">
 																<div class="form-group">
 																	<label>Mobile No.</label>
-																	<input placeholder="{{profile.mobile}}" type="text" name="mobile" class="form-control">
+																	<input value="{{ profile.mobile | default:"" }}" type="text" name="mobile" class="form-control">
 																</div>
 															</div>
 
 															<div class="col-lg-12 col-md-12">
 																<div class="form-group">
 																	<label>Full Address</label>
-																	<input placeholder="{{profile.address}}" type="text" name="address" class="form-control">
+																	<input value="{{ profile.address | default:"" }}" type="text" name="address" class="form-control">
 																</div>
 															</div>
 
 															<div class="col-lg-6 col-md-6">
 																<div class="form-group">
 																	<label>City/Zone</label>
-																	<input placeholder="{{profile.city}}" type="text" name="city" class="form-control">
+																	<input value="{{profile.city | default:""}}" type="text" name="city" class="form-control">
 																</div>
 															</div>
 
 															<div class="col-lg-6 col-md-6">
 																<div class="form-group">
 																	<label>State</label>
-																	<input placeholder="{{profile.state}}" type="text" name="state" class="form-control">
+																	<input value="{{ profile.state |default:"" }}" type="text" name="state" class="form-control">
 																</div>
 															</div>
 
 															<div class="col-lg-6 col-md-6">
 																<div class="form-group">
 																	<label>Country</label>
-																	<input placeholder="{{profile.country}}" type="text" name="country" class="form-control">
+																	<input value="{{profile.country |default:""}}" type="text" name="country" class="form-control">
 																</div>
 															</div>
 
 															<div class="col-lg-6 col-md-6">
 																<div class="form-group">
 																	<label>Pin Code</label>
-																	<input placeholder="{{profile.pincode}}" type="text" name="pincode" class="form-control">
+																	<input value="{{ profile.pincode | default:''}}" type="text" name="pincode" class="form-control">
 																</div>
 															</div>
-
-
 
 															<div class="col-lg-12 col-md-12">
 																<div class="form-group">
@@ -369,7 +389,7 @@
 												</div>
 											</div>
 										</div>
-
+{#                                        Public Profile #}
 										<div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
 											<div class="extra_ijyu98">
 												<div class="extra_ijyu98_head">
@@ -384,11 +404,11 @@
 																	<div class="form-group row">
 																		 <label class="col-lg-3 col-md-4 col-sm-12 col-form-label">Avatar</label>
 																		<div class="_sin89lio_thumb col-lg-9 col-md-8 col-sm-12">
-																			<img src="{{profile.profile_pic.url}}" class="img-fluid w-25 mb-2" alt="">
+																			<img id="avtar-src" src="{{profile.profile_pic.url}}" class="img-fluid w-25 mb-2" alt="">
 																			<div class="_sin89lio_caption">
 																				<div class="custom-file">
 																					<label class="custom-file-label" for="file">Choose file</label>
-																					<input type="file" class="custom-file-input" name="profielogo" required id="file">
+																					<input type="file" class="custom-file-input" name="profielogo" id="file" onchange="loadFile(event)">
 																				</div>
 																			</div>
 																		</div>
@@ -396,13 +416,13 @@
 																	<div class="form-group row">
 																		 <label class="col-lg-3 col-md-4 col-sm-12 col-form-label">Profile Heading</label>
 																		<div class="_sin89lio_thumb col-lg-9 col-md-8 col-sm-12">
-																			<input type="text" name="heading" class="form-control" placeholder="{{profile.profileheading}}">
+																			<input type="text" name="heading" class="form-control" value="{{ profile.profileheading|default:'' }}">
 																		</div>
 																	</div>
 																	<div class="form-group row">
 																		 <label class="col-lg-3 col-md-4 col-sm-12 col-form-label">Description</label>
 																		<div class="_sin89lio_thumb col-lg-9 col-md-8 col-sm-12">
-																			<textarea name="message" class="form-control" placeholder="{{profile.description}}"></textarea>
+																			<textarea name="message" class="form-control" value="{{profile.description|default:''}}"></textarea>
 																		</div>
 																	</div>
 																	<div class="form-group row">
@@ -410,7 +430,7 @@
 																		<div class="_sin89lio_thumb col-lg-9 col-md-8 col-sm-12">
 																			<ul class="no-ul-list mb-3">
 																				<li>
-																					<input id="b" class="checkbox-custom" name="freelance" value="True" type="checkbox" checked>
+																					<input id="b" class="checkbox-custom" name="freelance" value="{{ profile.freelance | default:"False" }}" type="checkbox"  {% if profile.freelance %}checked{% endif %}>
 																					<label for="b" class="checkbox-custom-label">Yes</label>
 																				</li>
 																			</ul>
@@ -429,7 +449,7 @@
 												</div>
 											</div>
 										</div>
-
+{#                                        Social Links #}
 										<div class="tab-pane fade" id="v-pills-social" role="tabpanel" aria-labelledby="v-pills-social-tab">
 											<div class="extra_ijyu98">
 												<div class="extra_ijyu98_head">
@@ -443,32 +463,32 @@
 															<div class="col-lg-6 col-md-6">
 																<div class="form-group">
 																	<label><i class="fa fa-facebook"></i> Facebook User</label>
-																	<input type="text" name="facebook" class="form-control" placeholder="{{profile.facebook}}">
+																	<input type="text" name="facebook" class="form-control" value="{{profile.facebook|default:''}}">
 																</div>
 															</div>
 															<div class="col-lg-6 col-md-6">
 																<div class="form-group">
 																	<label><i class="fa fa-twitter"></i> Twitter User</label>
-																	<input type="text" name="twitter" class="form-control" placeholder="{{profile.twitter}}">
+																	<input type="text" name="twitter" class="form-control" value="{{profile.twitter|default:''}}">
 																</div>
 															</div>
 
 															<div class="col-lg-6 col-md-6">
 																<div class="form-group">
 																	<label><i class="fa fa-instagram"></i> Instagram User</label>
-																	<input type="text" name="instagram" class="form-control" placeholder="{{profile.instagram}}">
+																	<input type="text" name="instagram" class="form-control" value="{{profile.instagram|default:''}}">
 																</div>
 															</div>
 															<div class="col-lg-6 col-md-6">
 																<div class="form-group">
 																	<label><i class="fa fa-youtube"></i> Youtube User</label>
-																	<input type="text" name="youtube" class="form-control" placeholder="{{profile.youtube}}">
+																	<input type="text" name="youtube" class="form-control" value="{{profile.youtube|default:''}}">
 																</div>
 															</div>
 															<div class="col-lg-6 col-md-6">
 																<div class="form-group">
 																	<label><i class="fa fa-pinterest"></i> Pinterest User</label>
-																	<input type="text" name="pinterest" class="form-control" placeholder="{{profile.pinterest}}">
+																	<input type="text" name="pinterest" class="form-control" value="{{profile.pinterest|default:''}}">
 																</div>
 															</div>
 														</div>
@@ -481,7 +501,7 @@
 												</div>
 											</div>
 										</div>
-
+{#                                        Payment Integration #}
 										<div class="tab-pane fade" id="v-pills-payment" role="tabpanel" aria-labelledby="v-pills-payment-tab">
 											<div class="extra_ijyu98">
 												<div class="extra_ijyu98_head">
@@ -495,13 +515,13 @@
 															<div class="col-lg-6 col-md-6">
 																<div class="form-group">
 																	<label>Razorpay Link</label>
-																	<input type="text" name="razorpay" class="form-control" placeholder="{{profile.razorpay}}">
+																	<input type="text" name="razorpay" class="form-control" value="{{profile.razorpay|default:''}}">
 																</div>
 															</div>
 															<div class="col-lg-6 col-md-6">
 																<div class="form-group">
 																	<label>Paypal Link</label>
-																	<input type="text" name="paypal" class="form-control" placeholder="{{profile.paypal}}">
+																	<input type="text" name="paypal" class="form-control" value="{{profile.paypal|default:''}}">
 																</div>
 															</div>
 														</div>
@@ -514,13 +534,12 @@
 												</div>
 											</div>
 										</div>
-
+{#                                        Featured Item #}
 										<div class="tab-pane fade" id="v-pills-featured" role="tabpanel" aria-labelledby="v-pills-featured-tab">...</div>
 
 									</div>
 								</div>
 							</div>
-
 							<!-- ========================== Dashboard Elements ============================= -->
 						</div>
 					</div>

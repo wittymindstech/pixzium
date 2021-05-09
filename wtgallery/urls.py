@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from django.views.generic import TemplateView
 from django.conf.urls.static import static
 from . import views
@@ -14,6 +14,7 @@ urlpatterns = [
     path('photo-approval/', views.approval, name='approval'),
     path('profile/<str:username>', views.profile, name='profile'),
     path('photo_detail/<int:id>', views.photo_detail, name='photo_detail'),
+    path('like_post/', views.count_likes, name='like_post'),
     path('upload/', views.upload, name='upload'),
     path('video/', views.video, name='video'),
     path('my_account/', views.my_account, name='my_account'),
@@ -35,6 +36,7 @@ urlpatterns = [
     path('saveviews/', views.save_views, name='saveviews'),
     path('save_video_views/', views.save_video_views, name='save_video_views'),
     path('save_music_views/', views.save_music_view, name='save_music_views'),
+    path('accounts/', include('allauth.urls')),
 ]
 
 if settings.DEBUG:

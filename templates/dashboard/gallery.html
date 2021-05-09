@@ -21,7 +21,7 @@
                 </div>
                 <div class="row">
                     {% for portfolio in portfolios %}
-                    {% if portfolio.status == 'Pending' %}
+                    {% if portfolio.status == 'P' %}
                     <div class="col-md-6 col-sm-6 col-lg-4 flt-itm">
                         <div class="gallery-box">
                             <img src="{{ portfolio.file.url }}" alt="{{ portfolio.title }}">
@@ -34,8 +34,8 @@
                             {% csrf_token %}
                             <input type="hidden" name="pic_id" value="{{portfolio.id}}">
                             <input type="hidden" name="user_id" value="{{portfolio.user_id}}">
-                            <button class="btn btn-success details-link btn-sm" name="status" value="Approved" type="submit">Approve</button>
-                            <button class="btn btn-danger details-link btn-sm" name="status" value="Reject" type="submit">Reject</button>
+                            <button class="btn btn-success details-link btn-sm" name="status" value="A" type="submit">Approve</button>
+                            <button class="btn btn-danger details-link btn-sm" name="status" value="R" type="submit">Reject</button>
                         </form>
                     </div>
                     {% endif %}
