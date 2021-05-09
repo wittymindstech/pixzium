@@ -22,10 +22,9 @@
 	<!-- ======= Portfolio Section ======= -->
 	<section id="portfolio" class="portfolio">
 	  <div class="container" data-aos="fade-up">
-		{% for search in object_list %}
+		{% for search in all_search_results %}
 		<div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
 
-		  {% if search.status == 'Pending' %}
 		  <div class="col-lg-4 col-md-6 portfolio-item">
 			<div class="item_image_urip">
 				<a href="{{ search.file.url }}" class="urip_link download"><i class="fa fa-download"></i></a>
@@ -41,8 +40,8 @@
 								</a>
 							</div>
 							<div class="urip_avater_place">
-								<h3 class="urip_title"><a href="{% url 'profile' username=search.user.username %}">{{search.user}}</a></h3>
-								<span>Liverpool, London</span>
+								<h3 class="urip_title"><a href="{% url 'profile' username=search.user.user.username  %}">{{ search.user.user.first_name | capfirst }}</a></h3>
+								<span>{{ search.title }}</span>
 							</div>
 						</div>
 					</div>
@@ -55,7 +54,6 @@
 				</div>
 			</div>
 		  </div>
-		  {% endif %}
 			{% empty %}
 			<img class="w-25 img-fluid mx-auto d-block" src="{% static 'img/nosearch.jpg' %}">
 		</div>

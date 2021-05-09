@@ -17,8 +17,8 @@
 					</div>
 					<div class="_uy76_caption">
 						<div class="g6">
-							Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi nesciunt.
-						</div>
+                            {{ image.description }}
+                        </div>
 					</div>
 				</div>
 
@@ -62,13 +62,14 @@
 
 					<!-- Download Options -->
 					<div class="dropdown">
-						<a class="btn btn-download" href="#" role="button" data-toggle="dropdown" aria-expanded="false">Free Download<i class="ti-angle-down"></i></a>
-						<ul class="dropdown-menu light" aria-labelledby="dropdownMenuLink">
-							<li><a class="dropdown-item" href="#"><strong>Small</strong> (600x400)</a></li>
-							<li><a class="dropdown-item" href="#"><strong>Medium</strong> (1200x800)</a></li>
-							<li><a class="dropdown-item" href="#"><strong>Large</strong> (1920x900)</a></li>
-							<div class="dropdown-divider"></div>
-							<li><a class="dropdown-item" href="#"><strong>Original</strong> (5420x2400)</a></li>
+						<a class="btn btn-download" href="{% url 'countdownloads' %}" role="button" data-toggle="dropdown" aria-expanded="false">Free Download</a>
+{#                        <i class="ti-angle-down"></i>#}
+{#						<ul class="dropdown-menu light" aria-labelledby="dropdownMenuLink">#}
+{#							<li><a class="dropdown-item" href="#"><strong>Small</strong> (600x400)</a></li>#}
+{#							<li><a class="dropdown-item" href="#"><strong>Medium</strong> (1200x800)</a></li>#}
+{#							<li><a class="dropdown-item" href="#"><strong>Large</strong> (1920x900)</a></li>#}
+{#							<div class="dropdown-divider"></div>#}
+{#							<li><a class="dropdown-item" href="#"><strong>Original</strong> (5420x2400)</a></li>#}
 						</ul>
 					</div>
 
