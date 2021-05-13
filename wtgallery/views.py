@@ -12,16 +12,19 @@ from django.urls import reverse
 from django.views import generic
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView
+from django.core.paginator import Paginator
+
 
 from pixzium import settings
 from .forms import ImageForm, SignUpForm, LoginForm, VideoForm, MusicForm
 from django.contrib import messages
-from .models import Image, Video, Music, Profile, UserFollowing
+from .models import Image, Video, Music, Profile
 
 
 def index(request):
     form = LoginForm(request.POST or None)
     msg = None
+    portfolio_list = Image.objects.all().order_by('-uploaded_at').filter(status__exact='A')
     if request.method == "POST":
         if form.is_valid():
             username = form.cleaned_data.get("username")
@@ -39,59 +42,30 @@ def index(request):
         else:
             msg = 'Error validating the form'
 
-    portfolio = Image.objects.all().order_by('-uploaded_at').filter(status__exact='A')
+    current_page = request.GET.get('page', 1)
+    paginator = Paginator(portfolio_list, 4)
+    try:
+        portfolio = paginator.page(current_page)
+    except PageNotAnInteger:
+        portfolio = paginator.page(1)
+    except EmptyPage:
+        portfolio = paginator.page(paginator.num_pages)
+    page_obj = paginator.get_page(current_page)
     common_tags = Image.tags.most_common()[:4]
     context = {
         "form": form,
         "msg": msg,
         "portfolios": portfolio,
-        "common_tags": common_tags
+        "common_tags": common_tags,
+        'page_obj': page_obj,
     }
     return render(request, "index.html", context)
-
-
-# class IndexView(generic.ListView):
-#     model = Image
-#     context_object_name = 'portfolios'
-#     template_name = 'index.html'
-#
-#     def get_context_data(self, **kwargs):
-#         form = LoginForm(request.POST or None)
-#         msg = None
-#         if request.method == "POST":
-#
-#             if form.is_valid():
-#                 username = form.cleaned_data.get("username")
-#                 password = form.cleaned_data.get("password1")
-#
-#                 user = authenticate(username=username, password=password)
-#                 if user is not None:
-#                     login(request, user)
-#                     if request.user.is_superuser:
-#                         return redirect('/dashb')
-#                     return redirect("/")
-#
-#                 else:
-#                     msg = "Username or Password Doesn't match"
-#             else:
-#                 msg = 'Error validating the form'
-#         context = super(IndexView, self).get_context_data(**kwargs)
-#         context.update({
-#             "form": form,
-#             "msg": msg,
-#             'common_tags': Image.tags.most_common()[:4],
-#         })
-#         return context
-#
-#     def get_queryset(self):
-#         return Image.objects.order_by('-uploaded_at')
 
 
 @login_required
 def my_account(request):
     current_user = request.user
     profileRecord = Profile.objects.get_or_create(user=current_user)[0]
-    print(profileRecord)
     image = Image.objects.filter(user__user__username__exact=profileRecord)
     video = Video.objects.filter(user__user__username__exact=profileRecord)
     music = Music.objects.filter(user__user__username__exact=profileRecord)
@@ -188,10 +162,10 @@ def approval(request):
         pic_id = int(request.POST.get("pic_id"))
         status = str(request.POST.get("status"))
         user_id = request.POST.get("user_id")
+        print(user_id)
         user = User.objects.get(id=user_id)
         u_email = user.email
-        print(u_email)
-        print(user)
+
         if status == "A":
             sts = Image.objects.get(id=pic_id)
             sts.status = status
@@ -220,13 +194,9 @@ def pow(request):
 def contact(request):
     if request.method == 'POST':
         name = request.POST.get('name')
-        print(name)
         email = request.POST.get('email')
-        print(email)
         subject = request.POST.get('subject')
-        print(subject)
         message = request.POST.get('message')
-        print(message)
         detail = "Name : " + name + "\n" + "Email : " + email + "\n" + "Message : " + message
         send_mail(subject, detail, email, ["yadavrajneesh999@gmail.com"])
         messages.success(request, 'Message Send Successfully.')
@@ -285,11 +255,9 @@ def profile(request, username):
 
 def photo_detail(request, id):
     image = get_object_or_404(Image, id=id)
-    print(image)
     tagsList = []
     for tag in image.tags.all():
         tagsList.append(tag.name)
-    print(tagsList)
     return render(request, 'photo_detail.html', {'image': image, 'tagsList': tagsList})
 
 
@@ -301,14 +269,12 @@ def image(request):
 
 def video(request):
     portfolio = Video.objects.all().order_by('-uploaded_at')
-    print(portfolio)
     context = {"videooj": portfolio}
     return render(request, "video.html", context)
 
 
 def music(request):
     portfolio = Music.objects.all().order_by('-uploaded_at')
-    print(portfolio)
     context = {"portfolio": portfolio}
     return render(request, "music.html", context)
 
@@ -321,7 +287,6 @@ def upload(request):
         music = MusicForm(request.POST, request.FILES)
 
         ext = os.path.splitext(str(request.FILES['file']))[-1].lower()
-        print(ext)
 
         if ext == ".mp4":
             print("mp4 file!")
@@ -420,8 +385,6 @@ class SearchResultsView(ListView):
     def get_queryset(self):
         query = self.request.GET.get('q')
         st = self.request.GET.get('searchType')
-
-        print(st)
         if st == 'image':
             object_list = Image.objects.filter(
                 Q(title__icontains=query) | Q(file__icontains=query) | Q(tags__name__icontains=query))
@@ -433,88 +396,95 @@ class SearchResultsView(ListView):
             return object_list
 
         else:
-            print("HERE Goes the Blank Search")
             object_list = Image.objects.filter(
                 Q(title__icontains=query) | Q(file__icontains=query) | Q(
                     tags__name__icontains=query))
             return object_list
 
 
-def save_views(req):
-    if req.method == "GET":
-        pk = req.GET.get("obj")
+def save_views(request):
+    if request.method == "GET":
+        pk = request.GET.get("obj")
         obj = Image.objects.get(pk=pk)
         obj.views += 1
         obj.save()
 
-        print("inside save view")
-
         return JsonResponse({'status': obj.views})
     pass
 
 
-def save_video_views(req):
-    if req.method == 'GET':
-        pk = req.GET.get("obj")
+def save_video_views(request):
+    if request.method == 'GET':
+        pk = request.GET.get("obj")
         obj = Video.objects.get(pk=pk)
         obj.views += 1
         obj.save()
 
-        print("inside save view")
-
         return JsonResponse({'status': obj.views})
     pass
 
 
-def music_views(req):
-    if req.method == 'GET':
-        pk = req.GET.get("obj")
+def music_views(request):
+    if request.method == 'GET':
+        pk = request.GET.get("obj")
         obj = Music.objects.get(pk=pk)
         obj.views += 1
         obj.save()
 
-    print("inside save view")
-
     return JsonResponse({'status': obj.views})
-    pass
 
 
-def count_likes(req):
-    if req.method == 'GET':
-        id = req.GET.get('post_id')
+@login_required
+def count_likes(request):
+    if request.method == 'GET':
+        id = request.GET.get('post_id')
         post = get_object_or_404(Image, id=id)
 
         liked = False
-        if post.likes.filter(id=req.user.id).exists():
-            post.likes.remove(req.user)
+        if post.likes.filter(id=request.user.id).exists():
+            post.likes.remove(request.user)
 
         else:
             liked = True
-            post.likes.add(req.user)
+            post.likes.add(request.user)
 
         total_likes = post.number_of_likes
         return JsonResponse({'liked': liked, 'total_likes': total_likes, 'id': id})
 
 
-def save_music_view(req):
-    if req.method == 'GET':
-        pk = req.GET.get("obj")
+@login_required
+def follow(request):
+    if request.method == 'GET':
+        id = request.GET.get('profile_id')
+        follower = Profile.objects.get(user=request.user)
+        profile = Profile.objects.get(pk=id)
+        followed = False
+        if follower in profile.followers:
+            follow_list.remove(profile)
+        else:
+            followed = True
+            profile.followers.add(request.user)
+
+        total_followers = profile.number_of_followers
+        return JsonResponse({'followed': followed, 'total_followers': total_followers, 'id': id})
+
+
+def save_music_view(request):
+    if request.method == 'GET':
+        pk = request.GET.get("obj")
         obj = Music.objects.get(pk=pk)
         obj.views += 1
         obj.save()
-        print('inside music views')
         return JsonResponse({'status': obj.views})
     pass
 
 
-def count_downloads(req):
-    if req.method == "GET":
-        pk = req.GET.get("obj")
+def count_downloads(request):
+    if request.method == "GET":
+        pk = request.GET.get("obj")
         obj = Image.objects.get(pk=pk)
         obj.total_downloads += 1
         obj.save()
-
-        print("inside save view")
 
     return JsonResponse({'status': obj.total_downloads})
 
@@ -529,3 +499,41 @@ def subscription(request):
 
 def about(request):
     return render(request, "subscription.html")
+
+
+
+# class IndexView(generic.ListView):
+#     model = Image
+#     context_object_name = 'portfolios'
+#     template_name = 'index.html'
+#
+#     def get_context_data(self, **kwargs):
+#         form = LoginForm(request.POST or None)
+#         msg = None
+#         if request.method == "POST":
+#
+#             if form.is_valid():
+#                 username = form.cleaned_data.get("username")
+#                 password = form.cleaned_data.get("password1")
+#
+#                 user = authenticate(username=username, password=password)
+#                 if user is not None:
+#                     login(request, user)
+#                     if request.user.is_superuser:
+#                         return redirect('/dashb')
+#                     return redirect("/")
+#
+#                 else:
+#                     msg = "Username or Password Doesn't match"
+#             else:
+#                 msg = 'Error validating the form'
+#         context = super(IndexView, self).get_context_data(**kwargs)
+#         context.update({
+#             "form": form,
+#             "msg": msg,
+#             'common_tags': Image.tags.most_common()[:4],
+#         })
+#         return context
+#
+#     def get_queryset(self):
+#         return Image.objects.order_by('-uploaded_at')
