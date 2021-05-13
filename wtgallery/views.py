@@ -359,22 +359,10 @@ def upload(request):
         else:
             print("Unknown file format.")
             messages.warning(request, 'Unknown File Format !!')
-
-        # if image.is_valid() or video.is_valid:
-        #
-        #     if nude.is_nude(request.FILES['image']):
-        #         messages.warning(request, 'Inappropriate image detected, This is against our company policy !!')
-        #     else:
-        #         # form.save()
-        #         fs = image.save(commit=False)
-        #         fs.user = request.user
-        #         fs.save()
-        #         messages.success(request, 'Image inserted successfully.')
-        #
-        #     return redirect('upload')
+            return redirect('upload')
     else:
         form = ImageForm() or VideoForm() or MusicForm()
-    return render(request, 'upload.html', {'form': form})
+        return render(request, 'upload.html', {'form': form})
 
 
 class SearchResultsView(ListView):
