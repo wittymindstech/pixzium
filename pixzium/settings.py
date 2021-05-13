@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'l)ll(*5)=y!gof=b#!ejiawcv1@&j_out4!uqtzql5%pxpygq8'
+SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -136,8 +136,8 @@ DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
 #         'NAME': 'pixiziumdb',  # Your AWS DB name
-#         'USER': 'pixiziumadmin',  # Your AWS Username
-#         'PASSWORD': 'redhat123',  # Your AWS Password
+#         'USER': '',  # Your AWS Username
+#         'PASSWORD': '',  # Your AWS Password
 #         'HOST': 'pixziummain.cssgwjlhiewv.ap-south-1.rds.amazonaws.com',  # Your AWS Hostname
 #         'PORT': '5432',
 #     }
@@ -205,8 +205,8 @@ LOGOUT_REDIRECT_URL = '/'
 # AWS Settings
 
 # AWS_LOCATION = 'static'
-# AWS_ACCESS_KEY_ID = 'AKIA2QMUNTD5LYJEECAV'  # Your AWS Access Key ID
-# AWS_SECRET_ACCESS_KEY = 'g72hBmUWRIaOZJsztuhKb0pOt0wvB9ruas8zpGQ7'  # Your AWS Secret Access Key
+# AWS_ACCESS_KEY_ID = ''  # Your AWS Access Key ID
+# AWS_SECRET_ACCESS_KEY = ''  # Your AWS Secret Access Key
 # AWS_STORAGE_BUCKET_NAME = 'pixziummain'  # Your AWS Bucket name
 # AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 # AWS_S3_OBJECT_PARAMETERS = {
