@@ -1,7 +1,7 @@
 # Create your views here.
 
 import os
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.core.mail import send_mail
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.contrib.auth import login, authenticate
@@ -38,12 +38,19 @@ def index(request):
                 msg = "Username or Password Doesn't match"
         else:
             msg = 'Error validating the form'
+    # current_user = request.user
+
+    # current_user = request.user if type(request.user) is not AnonymousUser else None
+    # profileRecord = Profile.objects.get_or_create(user=current_user)[0]
+    # print(profileRecord.profile_pic)
+    # image = Image.objects.filter(user__user__username__exact=profileRecord)
 
     portfolio = Image.objects.all().order_by('-uploaded_at').filter(status__exact='A')
     common_tags = Image.tags.most_common()[:4]
     context = {
         "form": form,
         "msg": msg,
+        # "profileRecord": profileRecord,
         "portfolios": portfolio,
         "common_tags": common_tags
     }
