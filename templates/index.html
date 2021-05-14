@@ -163,12 +163,28 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-lg-12 col-md-12 text-center">
-                    <a href="#" class="ure09w">Browse More</a>
-                </div>
-            </div>
-
+{#            <div class="row">#}
+{#                <div class="col-lg-12 col-md-12 text-center">#}
+{#                    <a href="#" class="ure09w">Browse More</a>#}
+{#                </div>#}
+{#            </div>#}
+        {% if page_obj.has_other_pages %}
+          <ul class="pagination">
+            {% if page_obj.has_previous %}
+              <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+            {% endif %}
+            {% for i in page_obj.paginator.page_range %}
+              {% if page_obj.number == i %}
+                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+              {% else %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+              {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+              <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+            {% endif %}
+          </ul>
+        {% endif %}
         </div>
     </section>
     <!-- ============================ All Images List End ================================== -->

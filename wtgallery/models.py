@@ -5,6 +5,13 @@ from taggit.managers import TaggableManager
 from PIL import Image
 
 
+class Ranks(models.Model):
+    name = models.CharField(max_length=20)
+    followers = models.IntegerField(default=0)
+    likes = models.IntegerField(default=0)
+    downloads = models.IntegerField(default=0)
+
+
 # TODO: Add followers field for each user
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -12,6 +19,7 @@ class Profile(models.Model):
     description = models.TextField(max_length=1000, blank=True, null=True)
     freelance = models.BooleanField(default=False)
     verified = models.BooleanField(default=False)
+    ranks = models.ManyToManyField(Ranks, blank=True)
     profile_pic = models.ImageField(upload_to='profile/images', default='img/profile.png')
     address = models.CharField(max_length=500, blank=True, null=True)
     country = models.CharField(max_length=50, blank=True, null=True)
@@ -29,6 +37,9 @@ class Profile(models.Model):
     instagram = models.CharField(max_length=200, blank=True, null=True)
     youtube = models.CharField(max_length=200, blank=True, null=True)
     pinterest = models.CharField(max_length=200, blank=True, null=True)
+    # Followers & Following
+    followers = models.ManyToManyField(User, blank=True, related_name='followers')
+    following = models.ManyToManyField(User, blank=True, related_name='following')
 
     class Meta:
         verbose_name = 'User Profile'
@@ -46,31 +57,6 @@ class Profile(models.Model):
     def number_of_following(self):
         return self.following.count()
 
-    # def save(self, *args, **kwargs):
-    #     super(Profile, self).save(*args, **kwargs)
-    #
-    #     img = Image.open(self.profile_pic.path)
-    #
-    #     if img.height > 300 or img.width > 300:
-    #         output_size = (300, 300)
-    #         img.thumbnail(output_size)
-    #         img.save(self.profile_pic.path)
-
-
-# Need Not to register on admin
-class UserFollowing(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='following')
-    follows = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followers')
-
-    class Meta:
-        verbose_name = "Following"
-
-    def get_followers(self):
-        return self.objects.filter(follows=self.user).count()
-
-    def get_following(self):
-        return self.objects.filter(user=self.user).count()
-
 
 STATUS = (
     ("A", "Approved"),
@@ -83,7 +69,7 @@ class Image(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, related_name='image_user')
     title = models.CharField(max_length=255, blank=False)
     description = models.TextField(max_length=1000, blank=True, null=True)
-    file = models.FileField(upload_to='images', blank=False)
+    file = models.ImageField(upload_to='images', blank=False)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     tags = TaggableManager()
     views = models.IntegerField(default=0)
@@ -141,3 +127,6 @@ class Music(models.Model):
 
     def __str__(self):
         return self.title
+
+
+
