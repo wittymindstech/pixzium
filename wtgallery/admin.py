@@ -27,6 +27,10 @@ class ProfileAdmin(admin.ModelAdmin):
         ('Social Liks', {
             'classes': ('collapse',),
             'fields': ('facebook', 'twitter', 'instagram', 'youtube', 'pinterest'),
+        }),
+        ('Follow', {
+            'classes': ('collapse',),
+            'fields': ('followers', 'following',),
         })
     )
 
