@@ -1,7 +1,7 @@
 
 import os
 from pathlib import Path
-
+from dotenv import dotenv_values
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -10,7 +10,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ''
+# SECRET_KEY = 'fsfs@4%mskd%s9sec1qf1$v*ix1_6lo-1iyapjahausdh3n2a3M'
+SECRET_KEY = config['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -135,9 +136,9 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'pixiziumdb',  # Your AWS DB name
-#         'USER': '',  # Your AWS Username
-#         'PASSWORD': '',  # Your AWS Password
+#         'NAME': config['DB_NAME'],  # Your AWS DB name
+#         'USER': config['DB_USERNAME'],  # Your AWS Username
+#         'PASSWORD': config['DB_PASSWORD'],  # Your AWS Password
 #         'HOST': 'pixziummain.cssgwjlhiewv.ap-south-1.rds.amazonaws.com',  # Your AWS Hostname
 #         'PORT': '5432',
 #     }
@@ -180,8 +181,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_USER = config['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = config['EMAIL_HOST_PASSWORD']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -205,9 +206,9 @@ LOGOUT_REDIRECT_URL = '/'
 # AWS Settings
 
 # AWS_LOCATION = 'static'
-# AWS_ACCESS_KEY_ID = ''  # Your AWS Access Key ID
-# AWS_SECRET_ACCESS_KEY = ''  # Your AWS Secret Access Key
-# AWS_STORAGE_BUCKET_NAME = 'pixziummain'  # Your AWS Bucket name
+# AWS_ACCESS_KEY_ID = config['AWS_ACCESS_KEY']  # Your AWS Access Key ID
+# AWS_SECRET_ACCESS_KEY = config['AWS_SECRET_KEY']  # Your AWS Secret Access Key
+# AWS_STORAGE_BUCKET_NAME = config['AWS_BUCKET_NAME']  # Your AWS Bucket name
 # AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 # AWS_S3_OBJECT_PARAMETERS = {
 #     'CacheControl': 'max-age=86400',

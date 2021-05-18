@@ -36,3 +36,4 @@ sqlparse==0.4.1
 urllib3==1.26.4
 wincertstore==0.2
 wrapt==1.11.2
+dotenv

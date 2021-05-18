@@ -30,7 +30,7 @@
 					<div class="urip_follo_link">
 						<ul class="mt-0">
 							<li><a href="#" class="liks light-dark"><i class="fa fa-heart mr-1"></i>{{ image.number_of_likes }} Likes</a></li>
-							<li><a href="#" class="liks light-red"><i class="fa fa-share mr-1"></i>Share</a></li>
+							<li><a href="#" class="liks light-dark"><i class="fa fa-download mr-1"></i>{{ image.total_downloads }} Downloads</a></li>
 						</ul>
 					</div>
 
@@ -64,7 +64,7 @@
 					<!-- Download Options -->
 					<div class="dropdown">
 {#						<a class="btn btn-download" href="#"  download="{{ image.file.url }}" role="button" data-toggle="dropdown" aria-expanded="false">Free Download</a>#}
-						<a class="btn btn-download" href="{{ image.file.url }}"  download="{{ image.file.url }}" role="button" >Free Download</a>
+						<a class="btn btn-download" href="{% url 'download' 'image' image.slug%}"role="button" >Free Download</a>
 {#                        <i class="ti-angle-down"></i>#}
 {#						<ul class="dropdown-menu light" aria-labelledby="dropdownMenuLink">#}
 {#							<li><a class="dropdown-item" href="#"><strong>Small</strong> (600x400)</a></li>#}

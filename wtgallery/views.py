@@ -3,7 +3,7 @@
 import os
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect, FileResponse, Http404
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -13,6 +13,7 @@ from django.views import generic
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView
 from django.core.paginator import Paginator
+from django.core.files import File
 
 from itertools import chain
 from pixzium import settings
@@ -264,8 +265,8 @@ def profile(request, username):
     return render(request, 'profile.html', context)
 
 
-def photo_detail(request, id):
-    image = get_object_or_404(Image, id=id)
+def photo_detail(request, slug):
+    image = get_object_or_404(Image, slug=slug)
     tagsList = []
     for tag in image.tags.all():
         tagsList.append(tag.name)
@@ -517,14 +518,22 @@ def save_music_view(request):
     pass
 
 
-def count_downloads(request):
+# TODO update with slug
+def count_downloads(request, type, slug):
     if request.method == "GET":
-        pk = request.GET.get("obj")
-        obj = Image.objects.get(pk=pk)
+        if type == 'image':
+            obj = Image.objects.get(slug=slug)
+        elif type == 'music':
+            obj = Music.objects.get(slug=slug)
+        elif type == 'video':
+            obj = Video.objects.get(slug=slug)
+        else:
+            return Http404
         obj.total_downloads += 1
+        file = open(f'.{obj.file.url}', 'rb')
         obj.save()
-
-    return JsonResponse({'status': obj.total_downloads})
+        return FileResponse(file, content_type='application/force-download')
+    return Http404
 
 
 def sitemap(request):
