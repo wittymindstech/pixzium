@@ -20,10 +20,12 @@
 	</div>
 	<!-- ========================== Dashboard Header header ============================= -->
 	<!-- ======= Portfolio Section ======= -->
+	{% for portfolio in portfolios %}
 	<section id="portfolio" class="portfolio">
 	  <div class="container" data-aos="fade-up">
 
 		<div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
+
 		  {% for music in portfolio %}
 		  <div class="col-lg-4 col-md-6 portfolio-item">
 			<div class="item_image_urip">
@@ -39,6 +41,7 @@
 									<img src="{{ music.user.profile_pic.url }}" class="img-fluid" alt="" />
 								</a>
 							</div>
+
                             <div class="urip_avater_place">
                                 <h3 class="urip_title">{{ music.title | capfirst }}</h3>
                                 <span><a href="{% url 'profile' username=music.user.user.username %}">{{music.user.user}}</a></span>
@@ -46,6 +49,7 @@
                                     <span>{{ music.user.city  | default_if_none:'unknown' | capfirst }}, {{ music.user.country | default_if_none:'' | capfirst }}</span>
                                 {% endif %}
                             </div>
+
 						</div>
 					</div>
 {#					<div class="urip_caption_last">#}
@@ -58,8 +62,12 @@
 			</div>
 		  </div>
 		  {% endfor %}
+
 		</div>
 	  </div>
 	</section>
+	{% empty %}
+		<img class="w-25 img-fluid mx-auto d-block" src="{% static 'img/nodata.jpg' %}">
+	{% endfor %}
 	<!-- End Portfolio Section -->
 {% endblock body %}

@@ -64,8 +64,9 @@
                             </div>
                             <div class="nav-menus-wrapper">
                                 <ul class="nav-menu">
-                                    <li><a href="{% url 'video' %}">Video</a></li>
-                                    <li><a href="{% url 'music' %}">Music</a></li>
+                                    <li {% if request.path != '/' and request.path != '/image/' and request.path != '/music/' %} style="display: none;" {% endif %}><a href="{% url 'video' %}">Video</a></li>
+                                    <li {% if request.path != '/video/' and request.path != '/music/' %} style="display: none;" {% endif %}><a href="{% url 'image' %}">Image</a></li>
+                                    <li {% if request.path != '/video/' and request.path != '/image/' and request.path != '/' %} style="display: none;" {% endif %}><a href="{% url 'music' %}">Music</a></li>
                                 </ul>
 
                                 <ul class="nav-menu nav-menu-social align-to-right">
@@ -103,12 +104,11 @@
                                     {% if request.user.is_authenticated %}
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-{#                                            TODO: it must show the user profile pic #}
-                                            <i class="fa fa-user" style="color: black"></i>
-{#                                          <img src="https://img.icons8.com/color/48/000000/batman-old.png" width="25" height="25" class="rounded-circle">#}
+                                            <img src="https://img.icons8.com/color/48/000000/batman-old.png" width="25" height="25" class="rounded-circle">
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                          <a class="dropdown-item" href="{% url 'my_account' %}">{{request.user.first_name | capfirst}} {{ request.user.last_name | capfirst }}</a>
+                                          <a class="dropdown-item" href="{% url 'my_account' %}">{{request.user.first_name | capfirst}} {{request.user.last_name | capfirst}}</a>
+
                                           <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
                                         </div>
                                     </li>
@@ -137,12 +137,12 @@
                         <div class="col-lg-4 col-md-6">
                             <div class="footer-widget">
                                 <img src="{% static 'img/logo.png' %}" class="img-fluid f-logo" width="120" alt="">
-                                <p>407-472 Rue Saint-Sulpice, Montreal<br>Quebec, H2Y 2V8</p>
+                                <p>HSR Layout, Bengaluru<br>India, 560102</p>
                                 <ul class="footer-bottom-social">
-                                    <li><a>{% post_to_facebook object_or_url "<i class='fa fa-facebook' aria-hidden='true'></i>" %}</a></li>
-                                    <li><a>{% post_to_twitter "" object_or_url "<i class='fa fa-twitter' aria-hidden='true'></i>" %}</a></li>
-                                    <li><a>{% post_to_whatsapp '' object_or_url "<i class='fa fa-' aria-hidden='true'></i>" %}</a></li>
-                                    <li><a>{% post_to_linkedin object_or_url "<i class='fa fa-linkedin-square' aria-hidden='true'></i>" %}</a></li>
+                                    <li><a><i class='fa fa-facebook' aria-hidden='true'></i></a></li>
+                                    <li><a><i class='fa fa-twitter' aria-hidden='true'></i></a></li>
+                                    <li><a><i class='fa fa-instagram' aria-hidden='true'></i></a></li>
+                                    <li><a><i class='fa fa-linkedin-square' aria-hidden='true'></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -261,7 +261,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <div class="mf-link"><i class="ti-user"></i>Haven't An Account?<a href="{% url "register" %}" class="theme-cl"> Sign Up</a></div>
+                        <div class="mf-link"><i class="ti-user"></i>Haven't An Account?<a href="{% url 'register' %}" class="theme-cl"> Sign Up</a></div>
                         <div class="mf-forget"><a href="#"><i class="ti-help"></i>Forget Password</a></div>
                     </div>
                 </div>

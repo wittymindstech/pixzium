@@ -1,7 +1,7 @@
 # Create your views here.
 
 import os
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.core.mail import send_mail
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect, FileResponse, Http404
 from django.contrib.auth import login, authenticate
@@ -41,7 +41,9 @@ def index(request):
                 msg = "Username or Password Doesn't match"
         else:
             msg = 'Error validating the form'
+
     portfolio_list = Image.objects.all().order_by('-uploaded_at').filter(status__exact='A')
+
     current_page = request.GET.get('page', 1)
     paginator = Paginator(portfolio_list, 4)
     try:
@@ -55,6 +57,7 @@ def index(request):
     context = {
         "form": form,
         "msg": msg,
+        # "profileRecord": profileRecord,
         "portfolios": portfolio,
         "common_tags": common_tags,
         'page_obj': page_obj,

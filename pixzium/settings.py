@@ -124,25 +124,17 @@ WSGI_APPLICATION = 'pixzium.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-#
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config['DB_NAME'],  # Your AWS DB name
+        'USER': config['DB_USERNAME'],  # Your AWS Username
+        'PASSWORD': config['DB_PASSWORD'],  # Your AWS Password
+        'HOST': 'pixziummain.cssgwjlhiewv.ap-south-1.rds.amazonaws.com',  # Your AWS Hostname
+        'PORT': '5432',
 }
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': config['DB_NAME'],  # Your AWS DB name
-#         'USER': config['DB_USERNAME'],  # Your AWS Username
-#         'PASSWORD': config['DB_PASSWORD'],  # Your AWS Password
-#         'HOST': 'pixziummain.cssgwjlhiewv.ap-south-1.rds.amazonaws.com',  # Your AWS Hostname
-#         'PORT': '5432',
-#     }
-# }
 
 
 # Password validation
@@ -181,8 +173,11 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
+
 EMAIL_HOST_USER = config['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = config['EMAIL_HOST_PASSWORD']
+
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -202,8 +197,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-
-# AWS Settings
 
 # AWS Settings
 

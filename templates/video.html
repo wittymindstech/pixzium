@@ -36,6 +36,7 @@
 				  </video>
 				  <div class="mx-auto my-1 col-lg-12 d-block" style="font-size: 13px;">
 					<p class="float-left">
+
 					  <h4 class="_uy76_title">{{video.title}}</h4>
                       </p>
                       <a class="img-fluid urip_title" href="{% url 'profile' username=video.user.user.username %}">{{video.user.user.first_name | capfirst}} {{video.user.user.last_name | capfirst}} </a>
@@ -44,6 +45,7 @@
                           <a class="ml-2 font-weight-bold" href="{% url 'download' 'video' video.slug %}" download> <i class="fa fa-download"></i></a> &nbsp; : {{video.total_downloads}}
                       </p>
                   </div>
+
 			  </div>
 	{% empty %}
 		<img class="w-25 img-fluid mx-auto d-block" src="{% static 'img/nodata.jpg' %}">
