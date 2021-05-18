@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from taggit.managers import TaggableManager
 from PIL import Image
+from django.conf import settings
+from django.utils.text import slugify
 
 
 class Ranks(models.Model):
@@ -10,6 +12,9 @@ class Ranks(models.Model):
     followers = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
     downloads = models.IntegerField(default=0)
+
+    class Meta:
+        verbose_name_plural = "Ranks"
 
 
 # TODO: Add followers field for each user
@@ -76,6 +81,7 @@ class Image(models.Model):
     total_downloads = models.IntegerField(default=0)
     likes = models.ManyToManyField(User, default=None, blank=True)
     status = models.CharField(max_length=1, default='P', choices=STATUS)
+    slug = models.SlugField(max_length=80, unique=True)
 
     class Meta:
         verbose_name = 'Image'
@@ -83,6 +89,10 @@ class Image(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = self.slug or slugify(self.title)
+        super().save(*args, **kwargs)
 
     @property
     def number_of_likes(self):
@@ -100,6 +110,7 @@ class Video(models.Model):
     total_downloads = models.IntegerField(default=0)
     likes = models.ManyToManyField(User, default=None, blank=True)
     status = models.CharField(max_length=1, default='P', choices=STATUS)
+    slug = models.SlugField(max_length=80, unique=True)
 
     class Meta:
         verbose_name = 'video'
@@ -108,18 +119,24 @@ class Video(models.Model):
     def __str__(self):
         return self.title
 
+    def save(self, *args, **kwargs):
+        self.slug = self.slug or slugify(self.title)
+        super().save(*args, **kwargs)
+
 
 class Music(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=255, blank=False)
     description = models.TextField(max_length=1000, blank=True, null=True)
     file = models.FileField(upload_to='musics', blank=False)
+    thumbnail = models.ImageField(upload_to='musics/thumbnails', default='img/9.jpg')
     tags = TaggableManager()
     uploaded_at = models.DateTimeField(auto_now_add=True)
     views = models.IntegerField(default=0)
     total_downloads = models.IntegerField(default=0)
     likes = models.ManyToManyField(User, default=None, blank=True)
     status = models.CharField(max_length=1, default='P', choices=STATUS)
+    slug = models.SlugField(max_length=80, unique=True)
 
     class Meta:
         verbose_name = 'Music'
@@ -128,5 +145,6 @@ class Music(models.Model):
     def __str__(self):
         return self.title
 
-
-
+    def save(self, *args, **kwargs):
+        self.slug = self.slug or slugify(self.title)
+        super().save(*args, **kwargs)

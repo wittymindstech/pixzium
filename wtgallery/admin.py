@@ -2,7 +2,7 @@ import django.contrib.auth.models
 from django.contrib import admin
 
 # Register your models here.
-from wtgallery.models import Music, Image, Video, Profile
+from wtgallery.models import Music, Image, Video, Profile, Ranks
 
 
 @admin.register(Profile)
@@ -27,6 +27,10 @@ class ProfileAdmin(admin.ModelAdmin):
         ('Social Liks', {
             'classes': ('collapse',),
             'fields': ('facebook', 'twitter', 'instagram', 'youtube', 'pinterest'),
+        }),
+        ('Follow', {
+            'classes': ('collapse',),
+            'fields': ('followers', 'following',),
         })
     )
 
@@ -38,6 +42,7 @@ class ImageAdmin(admin.ModelAdmin):
     list_filter = ('user', 'status',)
     filter_horizontal = ('likes',)
     search_fields = ('tags__name', 'user__user__username', 'title')
+    prepopulated_fields = {'slug': ('title',)}
 
 
 @admin.register(Video)
@@ -47,6 +52,7 @@ class VideoAdmin(admin.ModelAdmin):
     list_filter = ('user', 'status',)
     filter_horizontal = ('likes',)
     search_fields = ('tags__name', 'user__user__username', 'title')
+    prepopulated_fields = {'slug': ('title',)}
 
 
 @admin.register(Music)
@@ -56,3 +62,7 @@ class MusicAdmin(admin.ModelAdmin):
     list_filter = ('user', 'status',)
     filter_horizontal = ('likes',)
     search_fields = ('tags__name', 'user__user__username', 'title')
+    prepopulated_fields = {'slug': ('title',)}
+
+
+# admin.site.register(Ranks)

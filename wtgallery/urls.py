@@ -13,7 +13,7 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('photo-approval/', views.approval, name='approval'),
     path('profile/<str:username>', views.profile, name='profile'),
-    path('photo_detail/<int:id>', views.photo_detail, name='photo_detail'),
+    path('photo_detail/<str:slug>', views.photo_detail, name='photo_detail'),
     path('like_post/', views.count_likes, name='like_post'),
     path('upload/', views.upload, name='upload'),
     path('video/', views.video, name='video'),
@@ -31,7 +31,7 @@ urlpatterns = [
     path("sitemap.xml", TemplateView.as_view(template_name="sitemap.xml", content_type="text/xml")),
 
     path('musicviews/', views.save_music_view, name='musicviews'),
-    path('countdownloads/', views.count_downloads, name='countdownloads'),
+    path('download/<str:type>/<slug:slug>', views.count_downloads, name='download'),
     path('imagelikes/', views.count_likes, name='imagelikes'),
     path('saveviews/', views.save_views, name='saveviews'),
     path('save_video_views/', views.save_video_views, name='save_video_views'),

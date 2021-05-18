@@ -17,11 +17,14 @@
                 <div class="messages col-lg-12 col-md-12 mb-3">
                     {% for message in messages %}
                         <p {% if message.tags %} class="{{ message.tags }} alert alert-success" role="alert"{% endif %}>{{ message }}</p>
+                        <br>
                     {% endfor %}
                 </div>
+                <h3 class="text-info">
+                    <hr>Images<hr>
+                </h3>
                 <div class="row">
-                    {% for portfolio in portfolios %}
-                    {% if portfolio.status == 'P' %}
+                    {% for portfolio in images %}
                     <div class="col-md-6 col-sm-6 col-lg-4 flt-itm">
                         <div class="gallery-box">
                             <img src="{{ portfolio.file.url }}" alt="{{ portfolio.title }}">
@@ -32,13 +35,65 @@
                         </div>
                         <form class="mb-3" role="form" method="post" action="">
                             {% csrf_token %}
-                            <input type="hidden" name="pic_id" value="{{portfolio.id}}">
+                            <input type="hidden" name="obj_id" value="{{portfolio.id}}">
                             <input type="hidden" name="user_id" value="{{portfolio.user_id}}">
+                            <input type="hidden" name="type" value="image" >
                             <button class="btn btn-success details-link btn-sm" name="status" value="A" type="submit">Approve</button>
                             <button class="btn btn-danger details-link btn-sm" name="status" value="R" type="submit">Reject</button>
                         </form>
                     </div>
-                    {% endif %}
+                    {% endfor %}
+                </div>
+                <h3 class="text-info">
+                    <hr>Videos<hr>
+                </h3>
+                <div class="row">
+                    {% for portfolio in videos %}
+                    <div class="col-md-6 col-sm-6 col-lg-4 flt-itm">
+                        <div class="gallery-box">
+                            <img src="{{ portfolio.file.url }}" alt="{{ portfolio.title }}">
+                            <div class="gallery-info">
+                                <h2>{{ portfolio.title }}</h2>
+                                <span class="cate"><a href="" title="">{{ portfolio.tags }}</a></span>
+                            </div>
+                        </div>
+                        <form class="mb-3" role="form" method="post" action="">
+                            {% csrf_token %}
+                            <input type="hidden" name="obj_id" value="{{portfolio.id}}">
+                            <input type="hidden" name="user_id" value="{{portfolio.user_id}}">
+                            <input type="hidden" name="type" value="video">
+                            <button class="btn btn-success details-link btn-sm" name="status" value="A" type="submit">Approve</button>
+                            <button class="btn btn-danger details-link btn-sm" name="status" value="R" type="submit">Reject</button>
+                        </form>
+                    </div>
+                        {% empty %}
+                        <p class="danger text-lg-center"> No Pending Video Submissions </p>
+                    {% endfor %}
+                </div>
+                <h3 class="text-info">
+                    <hr>Music<hr>
+                </h3>
+                <div class="row">
+                    {% for portfolio in music %}
+                    <div class="col-md-6 col-sm-6 col-lg-4 flt-itm">
+                        <div class="gallery-box">
+                            <img src="{{ portfolio.file.url }}" alt="{{ portfolio.title }}">
+                            <div class="gallery-info">
+                                <h2>{{ portfolio.title }}</h2>
+                                <span class="cate"><a href="" title="">{{ portfolio.tags }}</a></span>
+                            </div>
+                        </div>
+                        <form class="mb-3" role="form" method="post" action="">
+                            {% csrf_token %}
+                            <input type="hidden" name="obj_id" value="{{portfolio.id}}">
+                            <input type="hidden" name="user_id" value="{{portfolio.user_id}}">
+                            <input type="hidden" name="type" value="music">
+                            <button class="btn btn-success details-link btn-sm" name="status" value="A" type="submit">Approve</button>
+                            <button class="btn btn-danger details-link btn-sm" name="status" value="R" type="submit">Reject</button>
+                        </form>
+                    </div>
+                        {% empty %}
+                        <p class="danger text-lg-center"> No Pending Music Submissions </p>
                     {% endfor %}
                 </div>
             </div>
