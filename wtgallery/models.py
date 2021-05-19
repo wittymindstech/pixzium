@@ -5,6 +5,7 @@ from taggit.managers import TaggableManager
 from PIL import Image
 from django.conf import settings
 from django.utils.text import slugify
+import re
 
 
 class Ranks(models.Model):
@@ -30,11 +31,11 @@ class Profile(models.Model):
     country = models.CharField(max_length=50, blank=True, null=True)
     state = models.CharField(max_length=50, blank=True, null=True)
     city = models.CharField(max_length=50, blank=True, null=True)
-    pincode = models.PositiveIntegerField(blank=True, null=True)
-    mobile = models.PositiveIntegerField(blank=True, null=True)
+    pincode = models.CharField(max_length=15, blank=True, null=True)
+    mobile = models.CharField(max_length=15, blank=True, null=True)
     # Payment Integration
     razorpay = models.CharField(max_length=200, blank=True, null=True)
-    paypal = models.CharField(max_length=200, blank=True, null=True)
+    paypal = models.CharField(max_length=20, blank=True, null=True)
     upi = models.CharField(max_length=20, blank=True, null=True)
     # Social Media
     facebook = models.CharField(max_length=200, blank=True, null=True)

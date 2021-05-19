@@ -32,7 +32,7 @@
         	{% for video in portfolio %}
 			  <div class="col-lg-4 col-md-6 portfolio-item">
 				  <video id="my-video" onclick="videoviews({{video.id}})" class="video-js vjs-theme-forest" controls preload="auto" width="360" height="264" data-setup="{}">
-					<source src="{{ video.file.url }}" type="video/mp4">
+					<source src="{{ video.file.url }}" type="video/mp4" >
 				  </video>
 				  <div class="mx-auto my-1 col-lg-12 d-block" style="font-size: 13px;">
 					<p class="float-left">
@@ -41,8 +41,7 @@
                       </p>
                       <a class="img-fluid urip_title" href="{% url 'profile' username=video.user.user.username %}">{{video.user.user.first_name | capfirst}} {{video.user.user.last_name | capfirst}} </a>
                       <p class="float-right">
-                          {#					  <span class="font-weight-bold" id="views{{video.id}}"><i class="fa fa-download mr-1"></i>: {{video.views}}</span>#}
-                          <a class="ml-2 font-weight-bold" href="{% url 'download' 'video' video.slug %}" download> <i class="fa fa-download"></i></a> &nbsp; : {{video.total_downloads}}
+                          <a class="ml-2 font-weight-bold" href="{{ video.file.url }}" download> <i class="fa fa-download"></i></a> &nbsp; : {{video.total_downloads}}
                       </p>
                   </div>
 
@@ -51,6 +50,23 @@
 		<img class="w-25 img-fluid mx-auto d-block" src="{% static 'img/nodata.jpg' %}">
 	{% endfor %}
     </div>
+              {% if page_obj.has_other_pages %}
+          <ul class="pagination">
+            {% if page_obj.has_previous %}
+              <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+            {% endif %}
+            {% for i in page_obj.paginator.page_range %}
+              {% if page_obj.number == i %}
+                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+              {% else %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+              {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+              <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+            {% endif %}
+          </ul>
+        {% endif %}
 	  </div>
     	</section>
 

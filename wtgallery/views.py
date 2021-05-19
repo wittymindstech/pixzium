@@ -51,7 +51,7 @@ def index(request):
     portfolio_list = Image.objects.all().order_by('-uploaded_at').filter(status__exact='A')
 
     current_page = request.GET.get('page', 1)
-    paginator = Paginator(portfolio_list, 4)
+    paginator = Paginator(portfolio_list, 12)
     try:
         portfolio = paginator.page(current_page)
     except PageNotAnInteger:
@@ -84,7 +84,7 @@ def my_account(request):
         if 'btnContact' in request.POST:
             message = request.POST.get('message')
             detail = "Name : " + profileRecord.user.username + "\n" + "Email : " + profileRecord.user.email + "\n" + "Message : " + message
-            send_mail("Complaint or Suggestion", detail, "Pixzium", ["yadavrajneesh999@gmail.com"])
+            send_mail("Complaint or Suggestion", detail, "Pixzium", ["pixziumfootages@gmail.com"])
             messages.success(request, 'Message Submitted Successfully. Our Team will reply you ASAP.')
         # User Profile Update(Basic Info)
         if 'btnSave' in request.POST:
@@ -100,16 +100,19 @@ def my_account(request):
             current_user.first_name = FirstName
             current_user.last_name = LastName
             current_user.email = Email
-            profileRecord.mobile = Mobile
             profileRecord.address = Address
             profileRecord.city = City
             profileRecord.state = State
             profileRecord.country = Country
-            profileRecord.pincode = Pincode
-
-            profileRecord.save()
-            current_user.save()
-            messages.success(request, 'Your Profile is successfully Uploaded')
+            if Mobile[-10:].isdigit():
+                profileRecord.mobile = Mobile
+                if Pincode.isdigit():
+                    profileRecord.pincode = Pincode
+                profileRecord.save()
+                current_user.save()
+                messages.success(request, 'Your Profile is successfully Uploaded')
+            else:
+                messages.warning(request, 'Enter Fields properly. Mobile should be digits only!')
         # User Public Profile Update
         if 'btnPPSave' in request.POST:
             # user_id = request.POST.get("user_id", None)
@@ -126,7 +129,7 @@ def my_account(request):
             profileRecord.profileheading = heading
             profileRecord.description = message
             profileRecord.save()
-            messages.success(request, 'Your Payment Profile is successfully Uploaded')
+            messages.success(request, 'Your Public Profile is successfully Uploaded')
         # User Social Links Update
         if 'btnSMSave' in request.POST:
             facebook = request.POST.get("facebook")
@@ -174,7 +177,6 @@ def approval(request):
             status = str(request.POST.get("status"))
             user_id = request.POST.get("user_id")
             type = request.POST.get("type")
-            print(user_id)
             user = User.objects.get(id=user_id)
             u_email = user.email
 
@@ -222,7 +224,7 @@ def contact(request):
         subject = request.POST.get('subject')
         message = request.POST.get('message')
         detail = "Name : " + name + "\n" + "Email : " + email + "\n" + "Message : " + message
-        send_mail(subject, detail, email, ["yadavrajneesh999@gmail.com"])
+        send_mail(subject, detail, email, ["pixziumfootages@gmail.com"])
         messages.success(request, 'Message Send Successfully.')
     return render(request, "contact.html")
 
@@ -279,16 +281,23 @@ def profile(request, username):
 
 def photo_detail(request, slug):
     image = get_object_or_404(Image, slug=slug)
+    profile = Profile.objects.filter(user=image.user.id).first()
+
     tagsList = []
     for tag in image.tags.all():
         tagsList.append(tag.name)
-    return render(request, 'photo_detail.html', {'image': image, 'tagsList': tagsList})
+    context = {
+        'image': image,
+        'tagsList': tagsList,
+        'profile': profile,
+    }
+    return render(request, 'photo_detail.html', context)
 
 
 def image(request):
     portfolio_list = Image.objects.all().order_by('-uploaded_at').filter(status__exact='A')
     current_page = request.GET.get('page', 1)
-    paginator = Paginator(portfolio_list, 4)
+    paginator = Paginator(portfolio_list, 12)
     try:
         portfolio = paginator.page(current_page)
     except PageNotAnInteger:
@@ -303,7 +312,7 @@ def image(request):
 def video(request):
     video_list = Video.objects.all().order_by('-uploaded_at').filter(status__exact='A')
     current_page = request.GET.get('page', 1)
-    paginator = Paginator(video_list, 4)
+    paginator = Paginator(video_list, 12)
     try:
         videos = paginator.page(current_page)
     except PageNotAnInteger:
@@ -316,17 +325,9 @@ def video(request):
 
 
 def music(request):
-    music_list = Music.objects.all().order_by('-uploaded_at').filter(status__exact='A')
-    current_page = request.GET.get('page', 1)
-    paginator = Paginator(music_list, 4)
-    try:
-        music_obj = paginator.page(current_page)
-    except PageNotAnInteger:
-        music_obj = paginator.page(1)
-    except EmptyPage:
-        music_obj = paginator.page(paginator.num_pages)
-    page_obj = paginator.get_page(current_page)
-    context = {"portfolio": music_obj, 'page_obj': page_obj}
+    portfolio = Music.objects.all().order_by('-uploaded_at')
+    context = {"portfolio": portfolio}
+
     return render(request, "music.html", context)
 
 
@@ -339,8 +340,8 @@ def upload(request):
 
         ext = os.path.splitext(str(request.FILES['file']))[-1].lower()
 
-        if ext == ".mp4":
-            print("mp4 file!")
+        if ext == ".mp4" or ext == ".mkv" or ext == ".mov":
+            print(f"{ext} file!")
 
             if video.is_valid:
                 # form.save()
@@ -352,34 +353,8 @@ def upload(request):
 
                 return redirect('upload')
 
-        elif ext == ".mkv":
-            print("mkv file!")
-
-            if video.is_valid:
-                # form.save()
-                fs = video.save(commit=False)
-                fs.user = Profile.objects.get(user=request.user)
-                fs.save()
-                video.save_m2m()
-                messages.success(request, 'Video successfully Uploaded, It will be Visible after reviewed by our Team.')
-
-                return redirect('upload')
-
-        elif ext == ".mov":
-            print("mov file!")
-
-            if video.is_valid:
-                # form.save()
-                fs = video.save(commit=False)
-                fs.user = Profile.objects.get(user=request.user)
-                fs.save()
-                video.save_m2m()
-                messages.success(request, 'Video successfully Uploaded, It will be Visible after reviewed by our Team.')
-
-                return redirect('upload')
-
-        elif ext == ".mp3":
-            print("mp3 file!")
+        elif ext == ".mp3" or ext == ".avi" or ext == ".m4a":
+            print(f"{ext} file!")
 
             if music.is_valid:
                 # form.save()
@@ -391,14 +366,10 @@ def upload(request):
 
                 return redirect('upload')
 
-        elif ext == ".png" or ".jpg" or ".jpeg":
-            print("image file!")
+        elif ext == ".png" or ext == ".jpg" or ext == ".jpeg":
+            print(f"{ext} file!")
 
             if image.is_valid():
-                # if nude.is_nude(request.FILES['file']):
-                #     messages.warning(request, 'Inappropriate image detected, This is against our company policy !!')
-                # else:
-                # form.save()
                 fs = image.save(commit=False)
                 fs.user = Profile.objects.get(user=request.user)
                 fs.save()
@@ -481,15 +452,20 @@ def music_views(request):
         obj = Music.objects.get(pk=pk)
         obj.views += 1
         obj.save()
-
-    return JsonResponse({'status': obj.views})
+        return JsonResponse({'status': obj.views})
+    raise Http404
 
 
 @login_required
 def count_likes(request):
     if request.method == 'GET':
         id = request.GET.get('post_id')
-        post = get_object_or_404(Image, id=id)
+        images = Image.objects.all()
+        videos = Video.objects.all()
+        musics = Music.objects.all()
+        object_list = list(chain(images, videos, musics))
+
+        post = get_object_or_404(object_list, id=id)
 
         liked = False
         if post.likes.filter(id=request.user.id).exists():
@@ -546,10 +522,10 @@ def count_downloads(request, type, slug):
         obj.total_downloads += 1
         try:
             # TODO: Works absolutely fine with images and music but not videos
-            # filename = obj.file.name.split('/')[-1]
-            # response = HttpResponse(obj.file, content_type='text/plain')
-            # response['Content-Disposition'] = f'attachment; filename={filename}'
-            # obj.save()
+            filename = obj.file.name.split('/')[-1]
+            response = HttpResponse(obj.file, content_type='text/plain')
+            response['Content-Disposition'] = f'attachment; filename={filename}'
+            obj.save()
             return response
         except:
             raise Http404
@@ -565,7 +541,7 @@ def subscription(request):
 
 
 def about(request):
-    return render(request, "subscription.html")
+    return render(request, "about.html")
 
 # class IndexView(generic.ListView):
 #     model = Image

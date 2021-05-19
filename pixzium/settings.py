@@ -10,8 +10,9 @@ config = dotenv_values()
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'l)ll(*5)=y!gof=b#!ejiawcv1@&j_out4!uqtzql5%pxpygq8'
 # SECRET_KEY = 'fsfs@4%mskd%s9sec1qf1$v*ix1_6lo-1iyapjahausdh3n2a3M'
-SECRET_KEY = config['SECRET_KEY']
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -225,4 +226,5 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder', 'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 AWS_DEFAULT_ACL = None
+
 
