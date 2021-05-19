@@ -32,7 +32,7 @@
 				<div class="col-lg-7 col-md-7">
 					<div class="messages col-lg-12 col-md-12 mb-3">
 						{% for message in messages %}
-							<p {% if message.tags %} class="{{ message.tags }} alert alert-success" role="alert"{% endif %}>{{ message }}</p>
+							<p {% if message.tags %} class="{{ message.tags }} alert alert-{{ message.tags }}" role="alert"{% endif %}>{{ message }}</p>
 						{% endfor %}
 					</div>
 					<form method="post" class="needs-validation" novalidate enctype="multipart/form-data">

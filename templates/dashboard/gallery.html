@@ -16,7 +16,7 @@
             <div class="rmv-ext gallery-wrp">
                 <div class="messages col-lg-12 col-md-12 mb-3">
                     {% for message in messages %}
-                        <p {% if message.tags %} class="{{ message.tags }} alert alert-success" role="alert"{% endif %}>{{ message }}</p>
+                        <p {% if message.tags %} class="{{ message.tags }} alert alert-{{ message.tags }}" role="alert"{% endif %}>{{ message }}</p>
                         <br>
                     {% endfor %}
                 </div>
@@ -30,7 +30,7 @@
                             <img src="{{ portfolio.file.url }}" alt="{{ portfolio.title }}">
                             <div class="gallery-info">
                                 <h2>{{ portfolio.title }}</h2>
-                                <span class="cate"><a href="" title="">{{ portfolio.tags }}</a></span>
+                                <span class="cate"><a href="" title="">{{ portfolio.user.user }}</a></span>
                             </div>
                         </div>
                         <form class="mb-3" role="form" method="post" action="">
@@ -42,6 +42,8 @@
                             <button class="btn btn-danger details-link btn-sm" name="status" value="R" type="submit">Reject</button>
                         </form>
                     </div>
+                        {% empty %}
+                            <p class="danger text-lg-center"> No Pending image Submissions. </p>
                     {% endfor %}
                 </div>
                 <h3 class="text-info">
@@ -51,11 +53,13 @@
                     {% for portfolio in videos %}
                     <div class="col-md-6 col-sm-6 col-lg-4 flt-itm">
                         <div class="gallery-box">
-                            <img src="{{ portfolio.file.url }}" alt="{{ portfolio.title }}">
-                            <div class="gallery-info">
-                                <h2>{{ portfolio.title }}</h2>
-                                <span class="cate"><a href="" title="">{{ portfolio.tags }}</a></span>
-                            </div>
+                          <video id="my-video" onclick="videoviews({{portfolio.id}})" class="video-js vjs-theme-forest" controls preload="auto" width="240" height="240" data-setup="{}">
+                            <source src="{{ portfolio.file.url }}" type="video/mp4" >
+                          </video>
+                          <div class="gallery-info">
+                              <h2>{{ portfolio.title }}</h2>
+                              <span class="cate"><a href="" title="">{{ portfolio.user.user }}</a></span>
+                          </div>
                         </div>
                         <form class="mb-3" role="form" method="post" action="">
                             {% csrf_token %}
@@ -76,12 +80,14 @@
                 <div class="row">
                     {% for portfolio in music %}
                     <div class="col-md-6 col-sm-6 col-lg-4 flt-itm">
-                        <div class="gallery-box">
-                            <img src="{{ portfolio.file.url }}" alt="{{ portfolio.title }}">
-                            <div class="gallery-info">
-                                <h2>{{ portfolio.title }}</h2>
-                                <span class="cate"><a href="" title="">{{ portfolio.tags }}</a></span>
-                            </div>
+                        <div class="cart_detail_box">
+                          <audio id="my-audio" onclick="audioviews({{portfolio.id}})" class="video-js vjs-theme-forest" controls preload="False" data-setup="{}">
+                            <source src="{{ portfolio.file.url }}" type="audio/mp3" >
+                          </audio>
+                        </div>
+                        <div>
+                            <h2>{{ portfolio.title }}</h2>
+                            <span class="cate">By: <a href="" title="">{{ portfolio.user }}</a></span>
                         </div>
                         <form class="mb-3" role="form" method="post" action="">
                             {% csrf_token %}

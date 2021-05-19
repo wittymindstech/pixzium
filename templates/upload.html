@@ -32,7 +32,7 @@
 							<div class="log_wraps">
 								<div class="messages col-lg-12 col-md-12">
 									{% for message in messages %}
-										<p {% if message.tags %} class="{{ message.tags }} alert alert-success" role="alert"{% endif %}>{{ message }}</p>
+										<p {% if message.tags %} class="{{ message.tags }} alert alert-{{ message.tags }}" role="alert"{% endif %}>{{ message }}</p>
 									{% endfor %}
 								</div>
 
