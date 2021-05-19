@@ -1,134 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-		
-        <title>Pecozo - Digital Marketplace HTML Template</title>
-		
-        <!-- All Plugins Css -->
-        <link href="assets/css/plugins.css" rel="stylesheet">
-		 
+{% extends 'layout.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %} About Us {% endblock %}
+{% block style %}
 
-        <!-- Custom CSS -->
-        <link href="assets/css/styles.css" rel="stylesheet">
-    </head>
-	
-    <body class="blue-skin">
-        <!-- ============================================================== -->
-        <!-- Preloader - style you can find in spinners.css -->
-        <!-- ============================================================== -->
-        <div class="Loader"></div>
-		
-        <!-- ============================================================== -->
-        <!-- Main wrapper - style you can find in pages.scss -->
-        <!-- ============================================================== -->
-        <div id="main-wrapper">
-		
-            <!-- ============================================================== -->
-            <!-- Top header  -->
-            <!-- ============================================================== -->
-            <!-- Start Navigation -->
-			<div class="header header-light">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-12 col-md-12 col-sm-12">
-							<nav id="navigation" class="navigation navigation-landscape">
-								<div class="nav-header">
-									<a class="nav-brand" href="#">
-										<img src="assets/img/logo.png" class="logo" alt="" />
-									</a>
-									<div class="nav-toggle"></div>
-								</div>
-								<div class="nav-menus-wrapper">
-									<ul class="nav-menu">
-									
-										<li class="active"><a href="#">Home<span class="submenu-indicator"></span></a>
-											<ul class="nav-dropdown nav-submenu">
-												<li><a href="index.html" class="active">Home Style 1</a></li>                                    
-												<li><a href="home-2.html">Home Style 2</a></li>                                    
-												<li><a href="home-3.html">Home Style 3</a></li> 
-												<li><a href="home-4.html">Home Style 4</a></li> 
-												<li><a href="home-5.html">Home Style 5</a></li> 
-												<li><a href="home-6.html">Home Style 6</a></li> 
-												<li><a href="home-7.html">Home Style 7</a></li>
-											</ul>
-										</li>
-										
-										<li><a href="#">Explore<span class="submenu-indicator"></span></a>
-											<ul class="nav-dropdown nav-submenu">
-												<li><a href="#">Search Product<span class="submenu-indicator"></span></a>
-													<ul class="nav-dropdown nav-submenu">
-														<li><a href="search-product.html">Search Product By Grid</a></li>                                    
-														<li><a href="list-search-product.html">Search Product By List</a></li>  
-														<li><a href="search-product-full.html">Search Product 3 Column</a></li>  														
-													</ul>
-												</li>
-												<li><a href="#">Product Detail<span class="submenu-indicator"></span></a>
-													<ul class="nav-dropdown nav-submenu">
-														<li><a href="item-detail.html">Item Detail 1</a></li>                                    
-														<li><a href="item-detail-2.html">Item Detail 2</a></li> 
-														<li><a href="item-detail-3.html">Item Detail 3</a></li> 
-														<li><a href="photo-detail.html">Photo Detail</a></li> 
-														<li><a href="video-detail.html">Video Detail</a></li> 
-														<li><a href="font-detail.html">Font Detail</a></li>
-														<li><a href="premium-stock-detail.html">Premium Detail</a></li>														
-													</ul>
-												</li>
-												<li><a href="#">User Admin<span class="submenu-indicator"></span></a>
-													<ul class="nav-dropdown nav-submenu">
-														<li><a href="add-to-cart.html">Add To Cart</a></li>
-														<li><a href="billing.html">Billing</a></li>
-														<li><a href="confirmation.html">Confirmation</a></li>
-														<li><a href="dashboard.html">Dashboard</a></li>
-													</ul>
-												</li>
-											</ul>
-										</li>
-										
-										<li><a href="#">Pages<span class="submenu-indicator"></span></a>
-											<ul class="nav-dropdown nav-submenu">
-												<li><a href="about.html">About Us</a></li> 
-												<li><a href="blog.html">Blogs Page</a></li>                                    
-												<li><a href="blog-detail.html">Blog Detail</a></li>                                     
-												<li><a href="pricing.html">Pricing</a></li>  
-												<li><a href="faq.html">FAQ's</a></li>
-												<li><a href="signup.html">Signup</a></li>
-												<li><a href="login.html">LogIn</a></li> 
-											</ul>
-										</li>
-										
-										<li><a href="contact.html">Contacts</a></li>
-										
-									</ul>
-									
-									<ul class="nav-menu nav-menu-social align-to-right">
-										
-										<li>
-											<a href="javascript:void(0);" onclick="openRightMenu()" class="urip_list_cart">
-												<i class="fa fa-shopping-cart"></i><span class="urip_product_count">4</span>
-											</a>
-										</li>
-										<li class="add-listing green-bg">
-											<a href="#" data-toggle="modal" data-target="#login">
-												 <i class="ti-user mr-1"></i> Sign in
-											</a>
-										</li>
-									</ul>
-								</div>
-							</nav>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- End Navigation -->
-			<div class="clearfix"></div>
-			<!-- ============================================================== -->
-			<!-- Top header  -->
-			<!-- ============================================================== -->
-			
-			<!-- ============================ Dashboard Header Start================================== -->
-			<div class="_agt_dash dark" style="background:#675bca url(assets/img/tag-light.png) no-repeat;">
+{% endblock %}
+{% block body %}
+			<div class="_agt_dash dark" style="background:#675bca url({% static 'img/tag-light.png' %}) no-repeat;">
 				<div class="container">
 					<div class="row">
 						<div class="col-lg-12 col-md-12 col-sm-12">
@@ -148,21 +26,24 @@
 								
 						<!-- Single Box -->
 						<div class="col-lg-6 col-md-6 col-sm-12">
-							<img src="assets/img/ceo.png" alt="" class="img-fluid">
+							<img src="{% static 'img/ceo.png' %}" alt="" class="img-fluid">
 						</div>
 						
 						<!-- Single Box -->
 						<div class="col-lg-6 col-md-6 col-sm-12">
 							<div class="about-captione">
-								<h6 class="text-blue">About MediPure</h6>
-								<h2>Let's Short Story About MediPure<br>Pro Clinic.</h2>
-								<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure undertakes laborious</p>
+								<h6 class="text-blue">About Pixzium</h6>
+								<h2>Let's Short Story About Pixzium.</h2>
+								<p>
+									We are inspiring everyone to travel and explore the world and let other people experience it through your innovative creations.
+									<br>We are providing a platform for Photographers, Videographers, Music producers and other digital content Creators who create their raw content and help others in the video production work.
+									<br><br>Whenever you create a good content, you get a reward in form of:-
+								</p>
 								<ul class="lists-3 mt-3">
-									<li>At vero eos et accusamus et iusto odio dignissimos</li>
-									<li>Nam libero tempore, cum soluta nobis est eligendi</li>
-									<li>At vero eos et accusamus et iusto odio dignissimos</li>
+									<li>Coupons</li>
+									<li>Cash</li>
+									<li>Donations</li>
 								</ul>
-								<a href="#" class="btn theme-bg btn-rounded">Learn More</a>
 							</div>
 						</div>
 						
@@ -180,22 +61,22 @@
 						<div class="col-lg-7 col-md-9">
 							<div class="sec-heading">
 								<h2>Our Team</h2>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+								<p>Our Dedicated Development Team</p>
 							</div>
 						</div>
 					</div>
 					
 					<div class="row">
 						<!-- Single -->
-						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
 							<div class="team-grid">
 								<div class="teamgrid-user">
 									<img src="https://via.placeholder.com/400x400" alt="" class="img-fluid">
 								</div>
 								
 								<div class="teamgrid-content">
-									<h4>Rahul Gilkrist</h4>
-									<span>App Designer</span>
+									<h4>Gaurav KS</h4>
+									<span>Mentor, Founder and CEO</span>
 								</div>
 								
 								<div class="teamgrid-social">
@@ -210,15 +91,15 @@
 						</div>
 						
 						<!-- Single -->
-						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
 							<div class="team-grid">
 								<div class="teamgrid-user">
 									<img src="https://via.placeholder.com/400x400" alt="" class="img-fluid">
 								</div>
 								
 								<div class="teamgrid-content">
-									<h4>Shivangi Preet</h4>
-									<span>App Designer</span>
+									<h4>Rajneesh Yadav</h4>
+									<span>Senior Developer</span>
 								</div>
 								
 								<div class="teamgrid-social">
@@ -233,15 +114,15 @@
 						</div>
 						
 						<!-- Single -->
-						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
 							<div class="team-grid">
 								<div class="teamgrid-user">
 									<img src="https://via.placeholder.com/400x400" alt="" class="img-fluid">
 								</div>
 								
 								<div class="teamgrid-content">
-									<h4>Yash Preet</h4>
-									<span>App Designer</span>
+									<h4>Prashanjeet</h4>
+									<span>Full Stack Developer</span>
 								</div>
 								
 								<div class="teamgrid-social">
@@ -254,128 +135,14 @@
 								</div>
 							</div>
 						</div>
-						
-						<!-- Single -->
-						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-							<div class="team-grid">
-								<div class="teamgrid-user">
-									<img src="https://via.placeholder.com/400x400" alt="" class="img-fluid">
-								</div>
-								
-								<div class="teamgrid-content">
-									<h4>Dhananjay Preet</h4>
-									<span>App Designer</span>
-								</div>
-								
-								<div class="teamgrid-social">
-									<ul>
-										<li><a href="#" class="f-cl" tabindex="0"><i class="ti-facebook"></i></a></li>
-										<li><a href="#" class="t-cl" tabindex="0"><i class="ti-twitter"></i></a></li>
-										<li><a href="#" class="i-cl" tabindex="0"><i class="ti-instagram"></i></a></li>
-										<li><a href="#" class="l-cl" tabindex="0"><i class="ti-linkedin"></i></a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						
-						<!-- Single -->
-						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-							<div class="team-grid">
-								<div class="teamgrid-user">
-									<img src="https://via.placeholder.com/400x400" alt="" class="img-fluid">
-								</div>
-								
-								<div class="teamgrid-content">
-									<h4>Rahul Gilkrist</h4>
-									<span>App Designer</span>
-								</div>
-								
-								<div class="teamgrid-social">
-									<ul>
-										<li><a href="#" class="f-cl" tabindex="0"><i class="ti-facebook"></i></a></li>
-										<li><a href="#" class="t-cl" tabindex="0"><i class="ti-twitter"></i></a></li>
-										<li><a href="#" class="i-cl" tabindex="0"><i class="ti-instagram"></i></a></li>
-										<li><a href="#" class="l-cl" tabindex="0"><i class="ti-linkedin"></i></a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						
-						<!-- Single -->
-						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-							<div class="team-grid">
-								<div class="teamgrid-user">
-									<img src="https://via.placeholder.com/400x400" alt="" class="img-fluid">
-								</div>
-								
-								<div class="teamgrid-content">
-									<h4>Adam Wilcard</h4>
-									<span>App Designer</span>
-								</div>
-								
-								<div class="teamgrid-social">
-									<ul>
-										<li><a href="#" class="f-cl" tabindex="0"><i class="ti-facebook"></i></a></li>
-										<li><a href="#" class="t-cl" tabindex="0"><i class="ti-twitter"></i></a></li>
-										<li><a href="#" class="i-cl" tabindex="0"><i class="ti-instagram"></i></a></li>
-										<li><a href="#" class="l-cl" tabindex="0"><i class="ti-linkedin"></i></a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						
-						<!-- Single -->
-						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-							<div class="team-grid">
-								<div class="teamgrid-user">
-									<img src="https://via.placeholder.com/400x400" alt="" class="img-fluid">
-								</div>
-								
-								<div class="teamgrid-content">
-									<h4>Rajni Kantio</h4>
-									<span>App Designer</span>
-								</div>
-								
-								<div class="teamgrid-social">
-									<ul>
-										<li><a href="#" class="f-cl" tabindex="0"><i class="ti-facebook"></i></a></li>
-										<li><a href="#" class="t-cl" tabindex="0"><i class="ti-twitter"></i></a></li>
-										<li><a href="#" class="i-cl" tabindex="0"><i class="ti-instagram"></i></a></li>
-										<li><a href="#" class="l-cl" tabindex="0"><i class="ti-linkedin"></i></a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						
-						<!-- Single -->
-						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-							<div class="team-grid">
-								<div class="teamgrid-user">
-									<img src="https://via.placeholder.com/400x400" alt="" class="img-fluid">
-								</div>
-								
-								<div class="teamgrid-content">
-									<h4>Rahul Rio Singh</h4>
-									<span>App Designer</span>
-								</div>
-								
-								<div class="teamgrid-social">
-									<ul>
-										<li><a href="#" class="f-cl" tabindex="0"><i class="ti-facebook"></i></a></li>
-										<li><a href="#" class="t-cl" tabindex="0"><i class="ti-twitter"></i></a></li>
-										<li><a href="#" class="i-cl" tabindex="0"><i class="ti-instagram"></i></a></li>
-										<li><a href="#" class="l-cl" tabindex="0"><i class="ti-linkedin"></i></a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
+
 					</div>
-					
+
 				</div>
 			</section>
 			<!-- ========================== Team Elements ============================= -->
 			
-						<!-- ============================ Clients Testimonials Start ==================================== -->
+			<!-- ============================ Clients Testimonials Start ==================================== -->
 			<section>
 				<div class="container">
 				
@@ -519,234 +286,5 @@
 				</div>
 			</section>
 			<!-- ============================ Clients Testimonials End ==================================== -->
-			
-			<!-- =========================== Footer Start ========================================= -->
-			<footer class="dark-footer skin-dark-footer">
-				<div>
-					<div class="container">
-						<div class="row">
-							
-							<div class="col-lg-4 col-md-6">
-								<div class="footer-widget">
-									<img src="assets/img/logo-light.png" class="img-fluid f-logo" width="120" alt="">
-									<p>407-472 Rue Saint-Sulpice, Montreal<br>Quebec, H2Y 2V8</p>
-									<ul class="footer-bottom-social">
-										<li><a href="#"><i class="ti-facebook"></i></a></li>
-										<li><a href="#"><i class="ti-twitter"></i></a></li>
-										<li><a href="#"><i class="ti-instagram"></i></a></li>
-										<li><a href="#"><i class="ti-linkedin"></i></a></li>
-									</ul>
-								</div>
-							</div>		
-							<div class="col-lg-2 col-md-4">
-								<div class="footer-widget">
-									<h4 class="widget-title">Useful links</h4>
-									<ul class="footer-menu">
-										<li><a href="about.html">About Us</a></li>
-										<li><a href="faq.html">FAQs Page</a></li>
-										<li><a href="billing.html">Checkout</a></li>
-										<li><a href="login.html">Login</a></li>
-									</ul>
-								</div>
-							</div>
-							
-							<div class="col-lg-2 col-md-4">
-								<div class="footer-widget">
-									<h4 class="widget-title">Developers</h4>
-									<ul class="footer-menu">
-										<li><a href="#">Booking</a></li>
-										<li><a href="#l">Stays</a></li>
-										<li><a href="#">Adventures</a></li>
-										<li><a href="#">Author Detail</a></li>
-									</ul>
-								</div>
-							</div>
-							
-							<div class="col-lg-2 col-md-4">
-								<div class="footer-widget">
-									<h4 class="widget-title">Useful links</h4>
-									<ul class="footer-menu">
-										<li><a href="about.html">About Us</a></li>
-										<li><a href="faq.html">Jobs</a></li>
-										<li><a href="#">Events</a></li>
-										<li><a href="#">Press</a></li>
-									</ul>
-								</div>
-							</div>
-									
-							<div class="col-lg-2 col-md-4">
-								<div class="footer-widget">
-									<h4 class="widget-title">Useful links</h4>
-									<ul class="footer-menu">
-										<li><a href="#">Support</a></li>
-										<li><a href="contact.html">Contact Us</a></li>
-										<li><a href="#">Privacy &amp; Terms</a></li>
-									</ul>
-								</div>
-							</div>
-							
-						</div>
-					</div>
-				</div>
-				
-				<div class="footer-bottom">
-					<div class="container">
-						<div class="row align-items-center">
-							
-							<div class="col-lg-12 col-md-12 text-center">
-								<p class="mb-0">© 2021 Pecozo. Designd By <a href="https://themezhub.com">Themez Hub</a> All Rights Reserved</p>
-							</div>
-							
-						</div>
-					</div>
-				</div>
-			</footer>
-			<!-- =========================== Footer End ========================================= -->
-			
-			<!-- Switcher Start -->
-			<div class="w3-ch-sideBar w3-bar-block w3-card-2 w3-animate-right"  style="display:none;right:0;" id="rightMenu">
-				<div class="_oli987">
-					<h4 class="cart_heading">Your cart</h4>
-					<button onclick="closeRightMenu()" class="w3-bar-item w3-button w3-large"><i class="ti-close"></i></button>
-				</div>
-				<div class="rightMenu-scroll">
-					<div class="right-ch-sideBar" id="side-scroll">
-						
-						<div class="cart_select_items">
-							<!-- Single Item -->
-							<div class="cart_selected_single">
-								<div class="cart_selected_single_thumb">
-									<a href="#"><img src="https://via.placeholder.com/90x90" class="img-fluid" alt="" /></a>
-								</div>
-								<div class="cart_selected_single_caption">
-									<h4 class="product_title">Orio - Online Multipurpose WordPress Theme</h4>
-									<span class="numberof_item">$59</span>
-									<a href="#" class="text-danger">Remove</a>
-								</div>
-							</div>
-							<!-- Single Item -->
-							<div class="cart_selected_single">
-								<div class="cart_selected_single_thumb">
-									<a href="#"><img src="https://via.placeholder.com/90x90" class="img-fluid" alt="" /></a>
-								</div>
-								<div class="cart_selected_single_caption">
-									<h4 class="product_title">LearnUp - Online LMS WordPress Theme</h4>
-									<span class="numberof_item">$39</span>
-									<a href="#" class="text-danger">Remove</a>
-								</div>
-							</div>
-							<!-- Single Item -->
-							<div class="cart_selected_single">
-								<div class="cart_selected_single_thumb">
-									<a href="#"><img src="https://via.placeholder.com/90x90" class="img-fluid" alt="" /></a>
-								</div>
-								<div class="cart_selected_single_caption">
-									<h4 class="product_title">Cario - Digital WordPress Theme</h4>
-									<span class="numberof_item">$15x2</span>
-									<a href="#" class="text-danger">Remove</a>
-								</div>
-							</div>
-						</div>
-						
-						<div class="cart_subtotal">
-							<h6>Subtotal<span class="theme-cl">$120.47</span></h6>
-						</div>
-						
-						<div class="cart_action">
-							<ul>
-								<li><a href="" class="btn btn_checkout">Checkout Now</a></li>
-							</ul>
-						</div>
-						
-					</div>
-				</div>
-			</div>
-			
-			<!-- Log In Modal -->
-			<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="registermodal" aria-hidden="true">
-				<div class="modal-dialog modal-dialog-centered login-pop-form" role="document">
-					<div class="modal-content" id="registermodal">
-						<div class="modal-header">
-							<h4>Close Window</h4>
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="ti-close"></i></span></button>
-						</div>
-						<div class="modal-body">
-							<h4 class="modal-header-title">Sign <span class="theme-cl">In</span></h4>
-							
-							<div class="login-form">
-								<form>
-								
-									<div class="form-group">
-										<label>User Name</label>
-										<div class="input-with-gray light">
-											<input type="text" class="form-control" placeholder="Username">
-										</div>
-									</div>
-									
-									<div class="form-group">
-										<label>Password</label>
-										<div class="input-with-gray light">
-											<input type="password" class="form-control" placeholder="*******">
-										</div>
-									</div>
-									
-									<div class="form-group">
-										<button type="submit" class="btn theme-bg btn-md full-width pop-login">Login</button>
-									</div>
-								
-								</form>
-							</div>
-							
-							<div class="form-group text-center">
-								<span>Or Signup with</span>
-							</div>
-							
-							<div class="social_logs mb-4">
-								<ul>
-									<li class="fb-login"><a href="#"><i class="fa fa-facebook"></i></a></li>
-									<li class="gp-login"><a href="#"><i class="fa fa-google-plus"></i></a></li>
-									<li class="ln-login"><a href="#"><i class="fa fa-linkedin"></i></a></li>
-								</ul>
-							</div>
-							
-						</div>
-						<div class="modal-footer">
-							<div class="mf-link"><i class="ti-user"></i>Haven't An Account?<a href="javascript:void(0)" class="theme-cl"> Sign Up</a></div>
-							<div class="mf-forget"><a href="#"><i class="ti-help"></i>Forget Password</a></div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- End Modal -->		
 
-		</div>
-		<!-- ============================================================== -->
-		<!-- End Wrapper -->
-		<!-- ============================================================== -->
-
-		<!-- ============================================================== -->
-		<!-- All Jquery -->
-		<!-- ============================================================== -->
-		<script src="assets/js/jquery.min.js"></script>
-		<script src="assets/js/popper.min.js"></script>
-		<script src="assets/js/bootstrap.min.js"></script>
-		<script src="assets/js/select2.min.js"></script>
-		<script src="assets/js/owl.carousel.min.js"></script>
-		<script src="assets/js/ion.rangeSlider.min.js"></script>
-		<script src="assets/js/counterup.min.js"></script>
-		<script src="assets/js/custom.js"></script>
-		<!-- ============================================================== -->
-		<!-- This page plugins -->
-		<!-- ============================================================== -->
-		
-		<script>
-			function openRightMenu() {
-				document.getElementById("rightMenu").style.display = "block";
-			}
-			function closeRightMenu() {
-				document.getElementById("rightMenu").style.display = "none";
-			}
-		</script>
-		
-	</body>
-</html>
+{% endblock body %}
