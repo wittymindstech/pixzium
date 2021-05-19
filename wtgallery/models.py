@@ -94,6 +94,10 @@ class Image(models.Model):
         self.slug = self.slug or slugify(self.title)
         super().save(*args, **kwargs)
 
+    def delete(self, *args, **kwargs):
+        self.file.delete()
+        super().delete(*args, **kwargs)
+
     @property
     def number_of_likes(self):
         return self.likes.count()
@@ -123,6 +127,10 @@ class Video(models.Model):
         self.slug = self.slug or slugify(self.title)
         super().save(*args, **kwargs)
 
+    def delete(self, *args, **kwargs):
+        self.file.delete()
+        super().delete(*args, **kwargs)
+
 
 class Music(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
@@ -148,3 +156,8 @@ class Music(models.Model):
     def save(self, *args, **kwargs):
         self.slug = self.slug or slugify(self.title)
         super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        self.file.delete()
+        self.thumbnail.delete()
+        super().delete(*args, **kwargs)

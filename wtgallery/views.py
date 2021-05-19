@@ -3,7 +3,7 @@
 import os
 from django.contrib.auth.models import User, AnonymousUser
 from django.core.mail import send_mail
-from django.http import JsonResponse, HttpResponse, HttpResponseRedirect, FileResponse, Http404
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect, Http404, FileResponse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -14,12 +14,18 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView
 from django.core.paginator import Paginator
 from django.core.files import File
+import boto3
 
 from itertools import chain
 from pixzium import settings
 from .forms import ImageForm, SignUpForm, LoginForm, VideoForm, MusicForm
 from django.contrib import messages
 from .models import Image, Video, Music, Profile
+
+resource = boto3.resource('s3',
+                          aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+                          aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+                          )
 
 
 def index(request):
@@ -82,17 +88,18 @@ def my_account(request):
             messages.success(request, 'Message Submitted Successfully. Our Team will reply you ASAP.')
         # User Profile Update(Basic Info)
         if 'btnSave' in request.POST:
-            FirstName = request.POST.get("firstname", None)
-            LastName = request.POST.get("lastname", None)
-            Mobile = request.POST.get("mobile", 000)
-            Address = request.POST.get("address", None)
-            City = request.POST.get("city", None)
-            State = request.POST.get("state", None)
-            Country = request.POST.get("country", None)
-            Pincode = request.POST.get("pincode", 000)
-
+            FirstName = request.POST.get("firstname", profileRecord.user.first_name)
+            LastName = request.POST.get("lastname", profileRecord.user.last_name)
+            Mobile = request.POST.get("mobile", profileRecord.mobile)
+            Address = request.POST.get("address", profileRecord.address)
+            City = request.POST.get("city", profileRecord.city)
+            State = request.POST.get("state", profileRecord.state)
+            Country = request.POST.get("country", profileRecord.country)
+            Pincode = request.POST.get("pincode", profileRecord.pincode)
+            Email = request.POST.get('email', current_user.email)
             current_user.first_name = FirstName
             current_user.last_name = LastName
+            current_user.email = Email
             profileRecord.mobile = Mobile
             profileRecord.address = Address
             profileRecord.city = City
@@ -150,7 +157,7 @@ def my_account(request):
                'image': image,
                'video': video,
                'music': music,
-               'followers': '',}
+               'followers': '', }
     return render(request, "dashboard.html", context)
 
 
@@ -161,35 +168,37 @@ def dashboard(request):
 
 @login_required
 def approval(request):
-    if request.method == 'POST':
-        obj_id = int(request.POST.get("obj_id"))
-        status = str(request.POST.get("status"))
-        user_id = request.POST.get("user_id")
-        type = request.POST.get("type")
-        print(user_id)
-        user = User.objects.get(id=user_id)
-        u_email = user.email
+    if request.user.is_superuser:
+        if request.method == 'POST':
+            obj_id = int(request.POST.get("obj_id"))
+            status = str(request.POST.get("status"))
+            user_id = request.POST.get("user_id")
+            type = request.POST.get("type")
+            print(user_id)
+            user = User.objects.get(id=user_id)
+            u_email = user.email
 
-        if type == 'image':
-            sts = Image.objects.get(id=obj_id)
-        elif type == 'video':
-            sts = Video.objects.get(id=obj_id)
-        else:
-            sts = Music.objects.get(id=obj_id)
+            if type == 'image':
+                sts = Image.objects.get(id=obj_id)
+            elif type == 'video':
+                sts = Video.objects.get(id=obj_id)
+            else:
+                sts = Music.objects.get(id=obj_id)
 
-        if status == "A":
-            sts.status = status
-            sts.save()
-        else:
-            subject = 'Warning Message for Uploaded Image from Pixzium'
-            message = f'Hi {user}, we have found Inappropriate Image. This is a waring Email, Please Follow ' \
-                      f'Our Company Guideline. '
-            email_from = settings.EMAIL_HOST_USER
-            recipient_list = [u_email, ]
-            send_mail(subject, message, email_from, recipient_list)
-            sts.delete()
-            messages.success(request, 'Record Deleted Successfully.')
-
+            if status == "A":
+                sts.status = status
+                sts.save()
+            else:
+                subject = 'Warning Message for Uploaded Image from Pixzium'
+                message = f'Hi {user}, we have found Inappropriate Image. This is a waring Email, Please Follow ' \
+                          f'Our Company Guideline. '
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list = [u_email, ]
+                send_mail(subject, message, email_from, recipient_list)
+                sts.delete()
+                messages.success(request, 'Record Deleted Successfully.')
+    else:
+        raise Http404
     images = Image.objects.all().filter(status__exact='P')
     videos = Video.objects.all().filter(status__exact='P')
     music = Music.objects.all().filter(status__exact='P')
@@ -530,13 +539,21 @@ def count_downloads(request, type, slug):
             obj = Music.objects.get(slug=slug)
         elif type == 'video':
             obj = Video.objects.get(slug=slug)
+            return HttpResponse(obj.file.url, content_type='text/plain')
         else:
-            return Http404
+            print('THIS ERROR FOR TYPE')
+            raise Http404
         obj.total_downloads += 1
-        file = open(f'.{obj.file.url}', 'rb')
-        obj.save()
-        return FileResponse(file, content_type='application/force-download')
-    return Http404
+        try:
+            # TODO: Works absolutely fine with images and music but not videos
+            # filename = obj.file.name.split('/')[-1]
+            # response = HttpResponse(obj.file, content_type='text/plain')
+            # response['Content-Disposition'] = f'attachment; filename={filename}'
+            # obj.save()
+            return response
+        except:
+            raise Http404
+    raise Http404
 
 
 def sitemap(request):
@@ -549,8 +566,6 @@ def subscription(request):
 
 def about(request):
     return render(request, "subscription.html")
-
-
 
 # class IndexView(generic.ListView):
 #     model = Image
