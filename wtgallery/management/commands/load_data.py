@@ -122,7 +122,7 @@ class Command(BaseCommand):
             image.uploaded_at = generate_upload_date()
             image.status = generate_image_status()
             path_to_file = os.path.abspath(f"sample/{image_file}")
-            image.file.save(file_name, File(open(path_to_file, 'rb')))
+            image.file.save(image_file, File(open(path_to_file, 'rb')))
             image.save()
             for _ in range(0, random.randint(1, 6)):
                 image.tags.add(generate_tags_name())

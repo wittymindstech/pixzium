@@ -3,7 +3,7 @@
 import os
 from django.contrib.auth.models import User, AnonymousUser
 from django.core.mail import send_mail
-from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect, FileResponse, Http404
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -13,8 +13,9 @@ from django.views import generic
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView
 from django.core.paginator import Paginator
+from django.core.files import File
 
-
+from itertools import chain
 from pixzium import settings
 from .forms import ImageForm, SignUpForm, LoginForm, VideoForm, MusicForm
 from django.contrib import messages
@@ -24,7 +25,6 @@ from .models import Image, Video, Music, Profile
 def index(request):
     form = LoginForm(request.POST or None)
     msg = None
-    portfolio_list = Image.objects.all().order_by('-uploaded_at').filter(status__exact='A')
     if request.method == "POST":
         if form.is_valid():
             username = form.cleaned_data.get("username")
@@ -41,12 +41,8 @@ def index(request):
                 msg = "Username or Password Doesn't match"
         else:
             msg = 'Error validating the form'
-    # current_user = request.user
 
-    # current_user = request.user if type(request.user) is not AnonymousUser else None
-    # profileRecord = Profile.objects.get_or_create(user=current_user)[0]
-    # print(profileRecord.profile_pic)
-    # image = Image.objects.filter(user__user__username__exact=profileRecord)
+    portfolio_list = Image.objects.all().order_by('-uploaded_at').filter(status__exact='A')
 
     current_page = request.GET.get('page', 1)
     paginator = Paginator(portfolio_list, 4)
@@ -167,20 +163,26 @@ def dashboard(request):
 @login_required
 def approval(request):
     if request.method == 'POST':
-        pic_id = int(request.POST.get("pic_id"))
+        obj_id = int(request.POST.get("obj_id"))
         status = str(request.POST.get("status"))
         user_id = request.POST.get("user_id")
+        type = request.POST.get("type")
         print(user_id)
         user = User.objects.get(id=user_id)
         u_email = user.email
 
+        if type == 'image':
+            sts = Image.objects.get(id=obj_id)
+        elif type == 'video':
+            sts = Video.objects.get(id=obj_id)
+        else:
+            sts = Music.objects.get(id=obj_id)
+
         if status == "A":
-            sts = Image.objects.get(id=pic_id)
             sts.status = status
             sts.save()
         else:
-            sts = Image.objects.filter(id=pic_id)
-            subject = 'Waring Message for Uploaded Image from Pixzium'
+            subject = 'Warning Message for Uploaded Image from Pixzium'
             message = f'Hi {user}, we have found Inappropriate Image. This is a waring Email, Please Follow ' \
                       f'Our Company Guideline. '
             email_from = settings.EMAIL_HOST_USER
@@ -189,8 +191,14 @@ def approval(request):
             sts.delete()
             messages.success(request, 'Record Deleted Successfully.')
 
-    portfolio = Image.objects.all().filter(status__exact='P')
-    context = {"portfolios": portfolio}
+    images = Image.objects.all().filter(status__exact='P')
+    videos = Video.objects.all().filter(status__exact='P')
+    music = Music.objects.all().filter(status__exact='P')
+    context = {
+        "images": images,
+        "videos": videos,
+        "music": music,
+    }
     return render(request, "dashboard/gallery.html", context)
 
 
@@ -265,6 +273,7 @@ def photo_detail(request, id):
     image = get_object_or_404(Image, id=id)
     profile = Profile.objects.filter(user=image.user.id).first()
     print(profile)
+
     tagsList = []
     for tag in image.tags.all():
         tagsList.append(tag.name)
@@ -277,14 +286,32 @@ def photo_detail(request, id):
 
 
 def image(request):
-    portfolio = Image.objects.all().order_by('-uploaded_at')
-    context = {"portfolio": portfolio}
+    portfolio_list = Image.objects.all().order_by('-uploaded_at').filter(status__exact='A')
+    current_page = request.GET.get('page', 1)
+    paginator = Paginator(portfolio_list, 4)
+    try:
+        portfolio = paginator.page(current_page)
+    except PageNotAnInteger:
+        portfolio = paginator.page(1)
+    except EmptyPage:
+        portfolio = paginator.page(paginator.num_pages)
+    page_obj = paginator.get_page(current_page)
+    context = {"portfolio": portfolio, 'page_obj': page_obj}
     return render(request, "images.html", context)
 
 
 def video(request):
-    portfolio = Video.objects.all().order_by('-uploaded_at')
-    context = {"videooj": portfolio}
+    video_list = Video.objects.all().order_by('-uploaded_at').filter(status__exact='A')
+    current_page = request.GET.get('page', 1)
+    paginator = Paginator(video_list, 4)
+    try:
+        videos = paginator.page(current_page)
+    except PageNotAnInteger:
+        videos = paginator.page(1)
+    except EmptyPage:
+        videos = paginator.page(paginator.num_pages)
+    page_obj = paginator.get_page(current_page)
+    context = {"portfolio": videos, 'page_obj': page_obj}
     return render(request, "video.html", context)
 
 
@@ -292,6 +319,7 @@ def music(request):
     portfolio = Music.objects.all().order_by('-uploaded_at')
     print(portfolio)
     context = {"portfolio": portfolio}
+
     return render(request, "music.html", context)
 
 
@@ -399,10 +427,22 @@ class SearchResultsView(ListView):
                 Q(title__icontains=query) | Q(file__icontains=query) | Q(tags__name__icontains=query))
             return object_list
 
+        elif st == 'music':
+            object_list = Music.objects.filter(
+                Q(title__icontains=query) | Q(file__icontains=query) | Q(tags__name__icontains=query))
+            return object_list
+
         else:
-            object_list = Image.objects.filter(
+            images = Image.objects.filter(
                 Q(title__icontains=query) | Q(file__icontains=query) | Q(
                     tags__name__icontains=query))
+            videos = Video.objects.filter(
+                Q(title__icontains=query) | Q(file__icontains=query) | Q(
+                    tags__name__icontains=query))
+            musics = Music.objects.filter(
+                Q(title__icontains=query) | Q(file__icontains=query) | Q(
+                    tags__name__icontains=query))
+            object_list = list(chain(images, videos, musics))
             return object_list
 
 
@@ -483,14 +523,22 @@ def save_music_view(request):
     pass
 
 
-def count_downloads(request):
+# TODO update with slug
+def count_downloads(request, type, slug):
     if request.method == "GET":
-        pk = request.GET.get("obj")
-        obj = Image.objects.get(pk=pk)
+        if type == 'image':
+            obj = Image.objects.get(slug=slug)
+        elif type == 'music':
+            obj = Music.objects.get(slug=slug)
+        elif type == 'video':
+            obj = Video.objects.get(slug=slug)
+        else:
+            return Http404
         obj.total_downloads += 1
+        file = open(f'.{obj.file.url}', 'rb')
         obj.save()
-
-    return JsonResponse({'status': obj.total_downloads})
+        return FileResponse(file, content_type='application/force-download')
+    return Http404
 
 
 def sitemap(request):

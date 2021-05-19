@@ -4,7 +4,15 @@
 {% block style %}
 
 {% endblock %}
-
+{% block head %}
+	<!--  Video.js -->
+  	<link href="https://vjs.zencdn.net/7.8.4/video-js.css" rel="stylesheet" />
+	<script src="https://vjs.zencdn.net/7.8.4/video.js"></script>
+  	<!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
+  	<script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+  	<!-- Forest -->
+  	<link href="https://unpkg.com/@videojs/themes@1/dist/forest/index.css" rel="stylesheet">
+{% endblock %}
 {% block body %}
 	<!-- ============================ Dashboard Header Start================================== -->
 	<div class="_agt_dash dark" style="background:#675bca url({% static 'img/tag-light.png' %}) no-repeat;">
@@ -23,7 +31,7 @@
 	<section id="portfolio" class="portfolio">
 	  <div class="container" data-aos="fade-up">
 		{% for search in all_search_results %}
-		<div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
+            <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
 
 		  <div class="col-lg-4 col-md-6 portfolio-item">
 			<div class="item_image_urip">
@@ -35,8 +43,8 @@
 					<div class="urip_caption_flex">
 						<div class="urip_author">
 							<div class="urip_avater">
-								<a href="author-detail.html.html" class="author-img">
-									<img src="https://via.placeholder.com/400x400" class="img-fluid" alt="">
+								<a href="{% url 'profile' username=search.user.user.username  %}" class="author-img">
+									<img src="{{  search.user.profile_pic.url }}" class="img-fluid" alt="">
 								</a>
 							</div>
 							<div class="urip_avater_place">
@@ -61,5 +69,4 @@
 	  </div>
 	</section>
 	<!-- End Portfolio Section -->
-
 {% endblock body %}

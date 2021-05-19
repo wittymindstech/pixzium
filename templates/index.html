@@ -27,7 +27,7 @@
 
 {% block body %}
     <!-- ============================ Hero Banner  Start================================== -->
-    <div class="hero-banner bg-cover center" style="background:#93d4f0 url(https://via.placeholder.com/1920x900) no-repeat;" data-overlay="4">
+    <div class="hero-banner bg-cover center" style="background:#93d4f0 url('/media/background.png') no-repeat;" data-overlay="4">
         <div class="container">
             <h1 class="small">Stunning free stock Images & Videos</h1>
             <p class="lead">Only Your, Creativity Matter</p>
@@ -127,8 +127,8 @@
                           {% for portfolio in portfolios %}
                           <div id="like-{{ portfolio.id }}" class="col-lg-4 col-md-6 portfolio-item">
                             <div class="item_image_urip">
-                                <a href="{{ portfolio.file.url }}" class="urip_link download" download="{{ portfolio.file.url }}"><i class="fa fa-download"></i></a>
-                                <a class="item-img">
+                                <a href="{% url 'download' 'image' portfolio.slug %}" class="urip_link download"><i class="fa fa-download"></i></a>
+                                <a href="{% url 'photo_detail' slug=portfolio.slug %}" class="item-img">
                                     <img src="{{ portfolio.file.url }}" class="img-fluid" alt="{{ portfolio.title }}">
                                 </a>
                                 <div class="image_urip_caption">
@@ -136,18 +136,20 @@
                                         <div class="urip_author">
                                             <div class="urip_avater">
                                                 <a href="{% url 'profile' username=portfolio.user.user.username %}" class="author-img">
-                                                    <img src="https://via.placeholder.com/400x400" class="img-fluid" alt="" />
+                                                    <img src="{{  portfolio.user.profile_pic.url }}" class="img-fluid" alt="" />
                                                 </a>
                                             </div>
                                             <div class="urip_avater_place">
                                                 <h3 class="urip_title"><a href="{% url 'profile' username=portfolio.user.user.username %}">{{portfolio.user.user}}</a></h3>
-                                                <span>Bhopal, India</span>
+                                                {% if portfolio.user.city or portfolio.user.country %}
+                                                    <span>{{ portfolio.user.city  | default_if_none:'unknown' | capfirst }}, {{ portfolio.user.country | default_if_none:'' | capfirst }}</span>
+                                                {% endif %}
                                             </div>
                                         </div>
                                     </div>
                                     <div class="urip_caption_last">
                                         <div class="item_list_links">
-                                            <a href="{% url 'photo_detail' id=portfolio.id %}" target="_blank" class="urip_link"><i class="fa fa-eye"></i></a>
+                                            <a href="{% url 'photo_detail' portfolio.slug %}" target="_blank" class="urip_link"><i class="fa fa-eye"></i></a>
                                             <a href ='#like-{{ portfolio.id }}' data-catid = '{{ portfolio.id }}' class="like-btn urip_link" ><i class="fa fa-heart fa-heart-o"></i></a>
                                         </div>
                                     </div>
@@ -163,11 +165,6 @@
                 </div>
             </div>
 
-{#            <div class="row">#}
-{#                <div class="col-lg-12 col-md-12 text-center">#}
-{#                    <a href="#" class="ure09w">Browse More</a>#}
-{#                </div>#}
-{#            </div>#}
         {% if page_obj.has_other_pages %}
           <ul class="pagination">
             {% if page_obj.has_previous %}
