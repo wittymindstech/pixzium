@@ -74,6 +74,7 @@ def my_account(request):
     current_user = request.user
     profileRecord = Profile.objects.get_or_create(user=current_user)[0]
     image = Image.objects.filter(user__user__username__exact=profileRecord)
+    print(image)
     video = Video.objects.filter(user__user__username__exact=profileRecord)
     music = Music.objects.filter(user__user__username__exact=profileRecord)
 
@@ -82,7 +83,7 @@ def my_account(request):
         if 'btnContact' in request.POST:
             message = request.POST.get('message')
             detail = "Name : " + profileRecord.user.username + "\n" + "Email : " + profileRecord.user.email + "\n" + "Message : " + message
-            send_mail("Complaint or Suggestion", detail, "Pixzium", ["yadavrajneesh999@gmail.com"])
+            send_mail("Complaint or Suggestion", detail, "Pixzium", ["pixziumfootages@gmail.com"])
             messages.success(request, 'Message Submitted Successfully. Our Team will reply you ASAP.')
         # User Profile Update(Basic Info)
         if 'btnSave' in request.POST:
@@ -123,7 +124,7 @@ def my_account(request):
             profileRecord.profileheading = heading
             profileRecord.description = message
             profileRecord.save()
-            messages.success(request, 'Your Payment Profile is successfully Uploaded')
+            messages.success(request, 'Your Public Profile is successfully Uploaded')
         # User Social Links Update
         if 'btnSMSave' in request.POST:
             facebook = request.POST.get("facebook")
@@ -205,7 +206,7 @@ def contact(request):
         subject = request.POST.get('subject')
         message = request.POST.get('message')
         detail = "Name : " + name + "\n" + "Email : " + email + "\n" + "Message : " + message
-        send_mail(subject, detail, email, ["yadavrajneesh999@gmail.com"])
+        send_mail(subject, detail, email, ["pixziumfootages@gmail.com"])
         messages.success(request, 'Message Send Successfully.')
     return render(request, "contact.html")
 
@@ -262,10 +263,17 @@ def profile(request, username):
 
 def photo_detail(request, id):
     image = get_object_or_404(Image, id=id)
+    profile = Profile.objects.filter(user=image.user.id).first()
+    print(profile)
     tagsList = []
     for tag in image.tags.all():
         tagsList.append(tag.name)
-    return render(request, 'photo_detail.html', {'image': image, 'tagsList': tagsList})
+    context = {
+        'image': image,
+        'tagsList': tagsList,
+        'profile': profile,
+    }
+    return render(request, 'photo_detail.html', context)
 
 
 def image(request):
@@ -282,6 +290,7 @@ def video(request):
 
 def music(request):
     portfolio = Music.objects.all().order_by('-uploaded_at')
+    print(portfolio)
     context = {"portfolio": portfolio}
     return render(request, "music.html", context)
 
@@ -493,7 +502,7 @@ def subscription(request):
 
 
 def about(request):
-    return render(request, "subscription.html")
+    return render(request, "about.html")
 
 
 

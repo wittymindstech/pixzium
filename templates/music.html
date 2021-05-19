@@ -20,49 +20,33 @@
 	</div>
 	<!-- ========================== Dashboard Header header ============================= -->
 	<!-- ======= Portfolio Section ======= -->
-	{% for portfolio in portfolios %}
-	<section id="portfolio" class="portfolio">
-	  <div class="container" data-aos="fade-up">
+    <section id="portfolio" class="portfolio">
+      <div class="container">
 
-		<div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
+        <div class="row portfolio-container">
+          {% for portfolio in portfolio %}
 
-		  <div class="col-lg-4 col-md-6 portfolio-item">
-			<div class="item_image_urip">
-				<a href="" class="urip_link download"><i class="fa fa-download"></i></a>
-				<a class="item-img">
-					<img src="{{ portfolio.file.url }}" class="img-fluid" alt="{{ portfolio.title }}">
-				</a>
-				<div class="image_urip_caption">
-					<div class="urip_caption_flex">
-						<div class="urip_author">
-							<div class="urip_avater">
-								<a href="author-detail.html.html" class="author-img">
-									<img src="https://via.placeholder.com/400x400" class="img-fluid" alt="" />
-								</a>
-							</div>
-							<div class="urip_avater_place">
-								<h3 class="urip_title"><a href="{% url 'profile' username=portfolio.user.user.username %}">{{portfolio.user}}</a></h3>
+          <div class="col-lg-4 col-md-6 portfolio-item">
+              <audio id="{{portfolio.id}}" onplay="views({{portfolio.id}});"  style="margin-top:10px;margin-bottom:10px"   controls   download>
+                 <source  src="{{ portfolio.file.url }}"  name="{{portfolio.file.name}}" type="audio/mp3" download="{{portfolio.file.name}}">
+              </audio>
+              <div class="mx-auto my-1 col-lg-12 d-block" style="font-size: 10px;">
+                <p class="float-left">
+                  <span class="font-weight-bold">Uploaded by:</span> <a href="{% url 'profile' username=portfolio.user.user.username %}">{{portfolio.user}}</a>
+                  <span class="font-weight-bold">&nbsp Title: {{portfolio.title}}</span>
+                  <span class="font-weight-bold">&nbsp Views: {{portfolio.views}}</span>
+                </p>
+              </div>
+          </div>
+			{% empty %}
+			<img class="w-25 img-fluid mx-auto d-block" src="{% static 'img/nodata.jpg' %}">
+          {% endfor %}
+        </div>
 
-								<span>Liverpool, London</span>
-							</div>
-						</div>
-					</div>
-					<div class="urip_caption_last">
-						<div class="item_list_links">
-							<a href="photo-detail.html" class="urip_link"><i class="fa fa-plus-circle"></i></a>
-							<a href="photo-detail.html" class="urip_link"><i class="fa fa-heart"></i></a>
-						</div>
-					</div>
-				</div>
-			</div>
-		  </div>
-		</div>
+      </div>
+    </section><!-- End Portfolio Section -->
 
-	  </div>
-	</section>
-	{% empty %}
-		<img class="w-25 img-fluid mx-auto d-block" src="{% static 'img/nodata.jpg' %}">
-	{% endfor %}
+
 	<!-- End Portfolio Section -->
 
 {% endblock body %}
