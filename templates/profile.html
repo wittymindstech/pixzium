@@ -8,7 +8,7 @@
 {% block body %}
 			
 	<!-- ============================ Dashboard Header Start================================== -->
-	<div class="_agt_dash dark" style="background:#675bca url(assets/img/tag-light.png) no-repeat;">
+	<div class="_agt_dash dark" style="background:#675bca url({% static 'assets/img/tag-light.png' %}) no-repeat;">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 col-md-12 col-sm-12">
@@ -72,8 +72,12 @@
 							    <a href="#" class="link_portfolio">Hire Now</a>
 						    </div>
                         {% endif %}
-						<div class="widget_avater_423">
-							<a href="#" class="link_portfolio">Donate Now</a>
+						<div class="widget_avater_423 text-center">
+							{% if profile.razorpay is not None %}
+							<form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="{{profile.razorpay}}" async> </script> </form>
+							{% else %}
+							<a href="#" class="link_portfolio">User Didn't Added Payment Button</a>
+							{% endif%}
 						</div>
 					</div>
 

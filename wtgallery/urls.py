@@ -20,6 +20,7 @@ urlpatterns = [
     path('my_account/', views.my_account, name='my_account'),
     path('subscription/', views.subscription, name='subscription'),
     path('image/', views.image, name='image'),
+    path('about/', views.about, name='about'),
     path('music/', views.music, name='music'),
     path('login/', views.login_view, name='login'),
     path('contact/', views.contact, name='contact'),
