@@ -44,7 +44,7 @@
 						<div class="urip_author">
 							<div class="urip_avater">
 								<a href="{% url 'profile' username=portfolio.user.user.username %}" class="author-img">
-									<img src="https://via.placeholder.com/400x400" class="img-fluid" alt="" />
+										<img src="{{ portfolio.user.profile_pic.url }}" class="img-fluid" alt="" />
 								</a>
 							</div>
 							<div class="urip_avater_place">
@@ -55,7 +55,7 @@
 					</div>
 					<div class="urip_caption_last">
 						<div class="item_list_links">
-							<a href="{% url 'photo_detail' id=portfolio.id %}" target="_blank" class="urip_link"><i class="fa fa-eye"></i></a>
+							<a href="{% url 'photo_detail' slug=portfolio.slug %}" target="_blank" class="urip_link"><i class="fa fa-eye"></i></a>
 							<a href ='#like-{{ portfolio.id }}' data-catid = '{{ portfolio.id }}' class="like-btn urip_link" ><i class="fa fa-heart fa-heart-o"></i></a>
 						</div>
 					</div>
