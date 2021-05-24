@@ -3,6 +3,11 @@
 {% block keywords %}free stock photos, pexels, free, images, indian images, india, pixzium upload{% endblock %}
 {% load crispy_forms_tags %}
 {% block title %} Upload {% endblock %}
+{% block head %}
+	<!-- Upload CSS -->
+    <link href="{% static 'dropify/css/dropify.min.css' %}" rel="stylesheet">
+    <link href="{% static 'tagsinput/tagsinput.css' %}" rel="stylesheet">
+{% endblock %}
 {% block style %}
 
 {% endblock %}
@@ -31,6 +36,9 @@
 
 						<div class="col-lg-12 col-md-12 position-static p-4 pl-md-0">
 							<div class="log_wraps">
+								<div class="alert alert-danger" role="alert">
+									If you are uploading Video then please make it less 200 MB.
+								</div>
 								<div class="messages col-lg-12 col-md-12">
 									{% for message in messages %}
 										<p {% if message.tags %} class="{{ message.tags }} alert alert-success" role="alert"{% endif %}>{{ message }}</p>
@@ -80,4 +88,9 @@
 	</section>
 	<!-- ========================== Upload Elements ============================= -->
 
+    {% block script %}
+	<!-- Upload JS -->
+    <script src="{% static 'dropify/js/dropify.min.js' %}"></script>
+    <script src="{% static 'tagsinput/tagsinput.js' %}"></script>
+    {% endblock %}
 {% endblock body %}
