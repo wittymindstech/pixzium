@@ -3,13 +3,11 @@
 {% block keywords %}free stock photos, pexels, free, images, indian images, india, pixzium images{% endblock %}
 {% block title %} Image {% endblock %}
 {% block head %}
-	<!--  Video.js -->
-  	<link href="https://vjs.zencdn.net/7.8.4/video-js.css" rel="stylesheet" />
-	<script src="https://vjs.zencdn.net/7.8.4/video.js"></script>
-  	<!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
-  	<script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
-  	<!-- Forest -->
-  	<link href="https://unpkg.com/@videojs/themes@1/dist/forest/index.css" rel="stylesheet">
+    <!-- Portfolio CSS -->
+    <link href="{% static 'portfolio/venobox/venobox.css' %}" rel="stylesheet">
+    <link href="{% static 'portfolio/icofont/icofont.min.css' %}" rel="stylesheet">
+    <link href="{% static 'portfolio/aos/aos.css' %}" rel="stylesheet">
+    <link href="{% static 'portfolio/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -84,4 +82,15 @@
 	  </div>
 	</section>
 	<!-- End Portfolio Section -->
+{% block script %}
+    <!-- Portfolio JS-->
+    <script src="{% static 'portfolio/jquery.easing/jquery.easing.min.js' %}"></script>
+    <script src="{% static 'portfolio/isotope-layout/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'portfolio/venobox/venobox.min.js' %}"></script>
+    <script src="{% static 'portfolio/waypoints/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'portfolio/aos/aos.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/infinity/0.2.2/infinity.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+{% endblock %}
 {% endblock body %}
+

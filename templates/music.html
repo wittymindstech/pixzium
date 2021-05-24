@@ -2,6 +2,13 @@
 {% load static %}
 {% block keywords %}free stock photos, pexels, free, images, indian images, india, pixzium music{% endblock %}
 {% block title %} Music {% endblock %}
+{% block head %}
+    <!-- Portfolio CSS -->
+    <link href="{% static 'portfolio/venobox/venobox.css' %}" rel="stylesheet">
+    <link href="{% static 'portfolio/icofont/icofont.min.css' %}" rel="stylesheet">
+    <link href="{% static 'portfolio/aos/aos.css' %}" rel="stylesheet">
+    <link href="{% static 'portfolio/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+{% endblock %}
 {% block style %}
 
 {% endblock %}
@@ -103,6 +110,15 @@
         {% endif %}
       </div>
     </section><!-- End Portfolio Section -->
-
 	<!-- End Portfolio Section -->
+{% block script %}
+    <!-- Portfolio JS-->
+    <script src="{% static 'portfolio/jquery.easing/jquery.easing.min.js' %}"></script>
+    <script src="{% static 'portfolio/isotope-layout/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'portfolio/venobox/venobox.min.js' %}"></script>
+    <script src="{% static 'portfolio/waypoints/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'portfolio/aos/aos.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/infinity/0.2.2/infinity.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+{% endblock %}
 {% endblock body %}
