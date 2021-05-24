@@ -71,7 +71,7 @@ class VideoForm(forms.ModelForm):
 class MusicForm(forms.ModelForm):
     class Meta:
         model = Music
-        fields = ('title', 'file', 'description', 'tags')
+        fields = ('title', 'file', 'description', 'tags', 'thumbnail')
         widgets = {
             'tags': forms.TextInput(attrs={'data-role': 'tagsinput'})
         }

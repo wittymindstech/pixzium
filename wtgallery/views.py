@@ -279,7 +279,7 @@ def profile(request, username):
     return render(request, 'profile.html', context)
 
 
-def photo_detail(request, slug):
+def photo_detail(request, slug, *args, **kwargs):
     image = get_object_or_404(Image, slug=slug)
     profile = Profile.objects.filter(user=image.user.id).first()
 
@@ -297,7 +297,7 @@ def photo_detail(request, slug):
 def image(request):
     portfolio_list = Image.objects.all().order_by('-uploaded_at').filter(status__exact='A')
     current_page = request.GET.get('page', 1)
-    paginator = Paginator(portfolio_list, 12)
+    paginator = Paginator(portfolio_list, 3)
     try:
         portfolio = paginator.page(current_page)
     except PageNotAnInteger:
