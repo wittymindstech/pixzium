@@ -2,6 +2,11 @@
 {% load static %}
 {% block title %} My Account {% endblock %}
 {% block head %}
+    <!-- Portfolio CSS -->
+    <link href="{% static 'portfolio/venobox/venobox.css' %}" rel="stylesheet">
+    <link href="{% static 'portfolio/icofont/icofont.min.css' %}" rel="stylesheet">
+    <link href="{% static 'portfolio/aos/aos.css' %}" rel="stylesheet">
+    <link href="{% static 'portfolio/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
 	<!--  Video.js -->
   	<link href="https://vjs.zencdn.net/7.8.4/video-js.css" rel="stylesheet" />
 	<script src="https://vjs.zencdn.net/7.8.4/video.js"></script>
@@ -13,15 +18,7 @@
 {% block style %}
 
 {% endblock %}
-{% block script %}
-<script>
-{# previews the profile image while updating #}
-    var loadFile = function(event) {
-        var image = document.getElementById('avtar-src');
-        image.src = URL.createObjectURL(event.target.files[0]);
-    };
-</script>
-{% endblock %}
+
 
 {% block body %}
 
@@ -433,7 +430,7 @@
 																		<div class="_sin89lio_thumb col-lg-9 col-md-8 col-sm-12">
 																			<ul class="no-ul-list mb-3">
 																				<li>
-																					<input id="b" class="checkbox-custom" name="freelance" value="{{ profile.freelance | default:"False" }}" type="checkbox"  {% if profile.freelance %}checked{% endif %}>
+																					<input id="b" class="checkbox-custom" name="freelance" value="{{ profile.freelance | default:'False' }}" type="checkbox"  {% if profile.freelance %}checked{% endif %}>
 																					<label for="b" class="checkbox-custom-label">Yes</label>
 																				</li>
 																			</ul>
@@ -549,5 +546,21 @@
 				</div>
 			</section>
 			<!-- ========================== Dashboard Elements ============================= -->
-
+{% block script %}
+    <!-- Portfolio JS-->
+    <script src="{% static 'portfolio/jquery.easing/jquery.easing.min.js' %}"></script>
+    <script src="{% static 'portfolio/isotope-layout/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'portfolio/venobox/venobox.min.js' %}"></script>
+    <script src="{% static 'portfolio/waypoints/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'portfolio/aos/aos.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/infinity/0.2.2/infinity.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script>
+	{# previews the profile image while updating #}
+		var loadFile = function(event) {
+			var image = document.getElementById('avtar-src');
+			image.src = URL.createObjectURL(event.target.files[0]);
+		};
+	</script>
+{% endblock %}
 {% endblock body %}
