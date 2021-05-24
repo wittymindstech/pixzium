@@ -4,7 +4,7 @@ from pathlib import Path
 from dotenv import dotenv_values
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+config = dotenv_values()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'wtgallery',
 
 ]
-
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
@@ -135,6 +134,7 @@ DATABASES = {
         'PASSWORD': config['DB_PASSWORD'],  # Your AWS Password
         'HOST': 'pixziummain.cssgwjlhiewv.ap-south-1.rds.amazonaws.com',  # Your AWS Hostname
         'PORT': '5432',
+    }
 }
 
 
@@ -179,7 +179,6 @@ EMAIL_HOST_USER = config['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = config['EMAIL_HOST_PASSWORD']
 
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
@@ -205,6 +204,10 @@ AWS_LOCATION = 'static'
 AWS_ACCESS_KEY_ID = config['AWS_ACCESS_KEY']  # Your AWS Access Key ID
 AWS_SECRET_ACCESS_KEY = config['AWS_SECRET_KEY']  # Your AWS Secret Access Key
 AWS_STORAGE_BUCKET_NAME = config['AWS_BUCKET_NAME']  # Your AWS Bucket name
+
+AWS_S3_REGION_NAME = 'ap-south-1'  # AWS s3 Bucket region name
+AWS_S3_SIGNATURE_VERSION = 's3v4'
+
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 AWS_S3_CLOUDFRONT_DOMAIN = 'd3gxnqjvuiz5a8.cloudfront.net'
 AWS_S3_OBJECT_PARAMETERS = {

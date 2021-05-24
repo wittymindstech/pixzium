@@ -72,7 +72,7 @@
 				<div class="container">
 					<div class="messages col-lg-12 col-md-12">
 						{% for message in messages %}
-						<p {% if message.tags %} class="{{ message.tags }} alert alert-success" role="alert"{% endif %}>{{ message }}</p>
+						<p {% if message.tags %} class="{{ message.tags }} alert alert-{{ message.tags }}" role="alert"{% endif %}>{{ message }}</p>
 						{% endfor %}
 					</div>
 					<div class="tab-content" id="myTabContent">
@@ -375,7 +375,7 @@
 															<div class="col-lg-6 col-md-6">
 																<div class="form-group">
 																	<label>Pin Code</label>
-																	<input value="{{ profile.pincode | default:'212'}}" type="text" name="pincode" class="form-control">
+																	<input value="{{ profile.pincode | default:'0'}}" type="text" name="pincode" class="form-control">
 																</div>
 															</div>
 

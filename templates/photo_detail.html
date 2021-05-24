@@ -50,8 +50,6 @@
 								<li><a href="#" class="liks light-gray">Follow</a></li>
 								{% if profile.razorpay is not None %}
 									<form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="{{profile.razorpay}}" async> </script> </form>
-								{% else %}
-									<p class="btn btn-primary">User Didn't Added Payment Button</p>
 								{% endif%}
 							</ul>
 						</div>

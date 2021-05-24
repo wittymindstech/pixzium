@@ -12,6 +12,27 @@
 {% block style %}
 
 {% endblock %}
+{% block script %}
+    <script type="text/javascript">
+    $('.like-btn').click(function(){
+    var catid;
+    catid = $(this).attr("data-catid");
+
+    $.ajax({
+            type:"GET",
+            url: /like_post/,
+            data:{
+                     post_id: catid
+            },
+            datatype:'json',
+            success: function( data )
+            {
+                console.log(data)
+            }
+         })
+        });
+    </script>
+{% endblock %}
 
 {% block body %}
 	<!-- ============================ Dashboard Header Start================================== -->
@@ -28,29 +49,65 @@
 	</div>
 	<!-- ========================== Dashboard Header header ============================= -->
 	<!-- ======= Portfolio Section ======= -->
+
     <section id="portfolio" class="portfolio">
       <div class="container">
 
         <div class="row portfolio-container">
-          {% for portfolio in portfolio %}
-
+          {% for music in portfolio %}
           <div class="col-lg-4 col-md-6 portfolio-item">
-              <audio id="{{portfolio.id}}" onplay="views({{portfolio.id}});"  style="margin-top:10px;margin-bottom:10px"   controls   download>
-                 <source  src="{{ portfolio.file.url }}"  name="{{portfolio.file.name}}" type="audio/mp3" download="{{portfolio.file.name}}">
-              </audio>
-              <div class="mx-auto my-1 col-lg-12 d-block" style="font-size: 10px;">
-                <p class="float-left">
-                  <span class="font-weight-bold">Uploaded by:</span> <a href="{% url 'profile' username=portfolio.user.user.username %}">{{portfolio.user}}</a>
-                  <span class="font-weight-bold">&nbsp Title: {{portfolio.title}}</span>
-                  <span class="font-weight-bold">&nbsp Views: {{portfolio.views}}</span>
-                </p>
+			<div class="item_image_urip">
+				<a class="item-img">
+					<img src="{{ music.thumbnail.url }}" class="img-fluid" alt="{{ music.title }}">
+				</a>
+				<div class="image_urip_caption">
+					<div class="urip_caption_flex">
+						<div class="urip_author">
+							<div class="urip_avater">
+								<a href="{% url 'profile' username=music.user.user.username %}" class="author-img">
+									<img src="{{ music.user.profile_pic.url }}" class="img-fluid" alt="" />
+								</a>
+							</div>
+							<div class="urip_avater_place">
+								<h3 class="urip_title">{{music.title}}</h3>
+								<span class="urip_title"><a href="{% url 'profile' username=music.user.user.username %}">{{music.user.user}}</a></span>
+							</div>
+						</div>
+					</div>
+					<div class="urip_caption_last">
+						<div class="item_list_links">
+							<a href ='#like-{{ music.id }}' data-catid = '{{ music.id }}' class="like-btn urip_link" ><i class="fa fa-heart fa-heart-o"></i></a>
+						</div>
+					</div>
+				</div>
+            </div>
+              <div class="urip_column_wrap justify-content-center">
+                  <audio id="{{music.id}}" onplay="views({{music.id}});" style="margin-top: 1em;"  controls   download>
+                      <source  src="{{ music.file.url }}"  name="{{music.file.name}}" type="audio/mp3" download="{{portfolio.file.name}}">
+                  </audio>
               </div>
           </div>
 			{% empty %}
 			<img class="w-25 img-fluid mx-auto d-block" src="{% static 'img/nodata.jpg' %}">
           {% endfor %}
         </div>
-
+        {% if page_obj.has_other_pages %}
+          <ul class="pagination">
+            {% if page_obj.has_previous %}
+              <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+            {% endif %}
+            {% for i in page_obj.paginator.page_range %}
+              {% if page_obj.number == i %}
+                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+              {% else %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+              {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+              <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+            {% endif %}
+          </ul>
+        {% endif %}
       </div>
     </section><!-- End Portfolio Section -->
 	<!-- End Portfolio Section -->

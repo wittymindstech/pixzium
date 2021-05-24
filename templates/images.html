@@ -42,7 +42,7 @@
 						<div class="urip_author">
 							<div class="urip_avater">
 								<a href="{% url 'profile' username=portfolio.user.user.username %}" class="author-img">
-									<img src="https://via.placeholder.com/400x400" class="img-fluid" alt="" />
+										<img src="{{ portfolio.user.profile_pic.url }}" class="img-fluid" alt="" />
 								</a>
 							</div>
 							<div class="urip_avater_place">
@@ -53,16 +53,32 @@
 					</div>
 					<div class="urip_caption_last">
 						<div class="item_list_links">
-							<a href="{% url 'photo_detail' id=portfolio.id %}" target="_blank" class="urip_link"><i class="fa fa-eye"></i></a>
+							<a href="{% url 'photo_detail' slug=portfolio.slug %}" target="_blank" class="urip_link"><i class="fa fa-eye"></i></a>
 							<a href ='#like-{{ portfolio.id }}' data-catid = '{{ portfolio.id }}' class="like-btn urip_link" ><i class="fa fa-heart fa-heart-o"></i></a>
 						</div>
 					</div>
 				</div>
 			</div>
-		  </div>
+          </div>
 		  {% endfor %}
 		</div>
-
+        {% if page_obj.has_other_pages %}
+          <ul class="pagination">
+            {% if page_obj.has_previous %}
+              <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+            {% endif %}
+            {% for i in page_obj.paginator.page_range %}
+              {% if page_obj.number == i %}
+                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+              {% else %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+              {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+              <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+            {% endif %}
+          </ul>
+        {% endif %}
 	  </div>
 	</section>
 	<!-- End Portfolio Section -->
@@ -77,3 +93,4 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 {% endblock %}
 {% endblock body %}
+
