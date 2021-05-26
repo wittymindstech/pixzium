@@ -342,7 +342,6 @@ def upload(request):
 
         if ext == ".mp4" or ext == ".mkv" or ext == ".mov":
             print(f"{ext} file!")
-
             if video.is_valid:
                 # form.save()
                 fs = video.save(commit=False)

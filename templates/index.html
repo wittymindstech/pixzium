@@ -117,7 +117,7 @@
                           <div id="like-{{ portfolio.id }}" class="col-lg-4 col-md-6 portfolio-item">
                             <div class="item_image_urip">
                                 <a href="{% url 'download' 'image' portfolio.slug %}" class="urip_link download"><i class="fa fa-download"></i></a>
-                                <a href="{% url 'photo_detail' slug=portfolio.slug user_name=portfolio.user.user.first_name %}" class="item-img">
+                                <a href="{% url 'photo_detail' slug=portfolio.slug user_name=portfolio.user.user.username %}" class="item-img">
                                     <img src="{{ portfolio.file.url }}" class="img-fluid" alt="{{ portfolio.title }}">
                                 </a>
                                 <div class="image_urip_caption">
@@ -138,7 +138,7 @@
                                     </div>
                                     <div class="urip_caption_last">
                                         <div class="item_list_links">
-                                            <a href="{% url 'photo_detail' slug=portfolio.slug user_name=portfolio.user.user.first_name  %}" target="_blank" class="urip_link"><i class="fa fa-eye"></i></a>
+                                            <a href="{% url 'photo_detail' slug=portfolio.slug user_name=portfolio.user.user.username  %}" target="_blank" class="urip_link"><i class="fa fa-eye"></i></a>
                                             <a href ='#like-{{ portfolio.id }}' data-catid = '{{ portfolio.id }}' class="like-btn urip_link" ><i class="fa fa-heart fa-heart-o"></i></a>
                                         </div>
                                     </div>

@@ -57,8 +57,8 @@
 						<div class="widget_lkpi">
 							<ul class="auhor_info_list_215">
 								<li><div class="urip_jbl"><span class="count">97</span>K</div><span class="smallest">Photos</span></li>
-								<li><div class="urip_jbl"><span class="count">93</span>M</div><span class="smallest">Followers</span></li>
-								<li><div class="urip_jbl"><span class="count">87</span>K</div><span class="smallest">Followings</span></li>
+								<li><div class="urip_jbl"><span class="count">{{ image.user.followers }}</span></div><span class="smallest">Followers</span></li>
+								<li><div class="urip_jbl"><span class="count">{{ image.user.following }}</div><span class="smallest">Followings</span></li>
 							</ul>
 						</div>
 					</div>
@@ -97,7 +97,7 @@
 				<div class="col-lg-12 col-md-12">
 					<ul class="iuhyt_list">
 						{% for mt in tagsList %}
-						<li><a href="#">{{ mt }}</a></li>
+						<li><a href="/search?q={{ mt }}">{{ mt }}</a></li>
 						{% endfor %}
 					</ul>
 				</div>
