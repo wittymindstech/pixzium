@@ -53,7 +53,7 @@
 					</div>
 					<div class="urip_caption_last">
 						<div class="item_list_links">
-							<a href="{% url 'photo_detail' slug=portfolio.slug %}" target="_blank" class="urip_link"><i class="fa fa-eye"></i></a>
+							<a href="{% url 'photo_detail' slug=portfolio.slug user_name=portfolio.user.user.username  %}" target="_blank" class="urip_link"><i class="fa fa-eye"></i></a>
 							<a href ='#like-{{ portfolio.id }}' data-catid = '{{ portfolio.id }}' class="like-btn urip_link" ><i class="fa fa-heart fa-heart-o"></i></a>
 						</div>
 					</div>

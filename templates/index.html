@@ -25,7 +25,7 @@
                         <div class="banner-search style-1">
                             <div class="input-group">
 
-                                <input name="q" type="text" class="form-control lio-rad" placeholder="Search free High-Resolution Indian Photos">
+                                <input name="q" type="text" class="form-control lio-rad" placeholder="Search Media">
                                 <div class="input-group-append hime_m">
                                     <div class="form-group b-r">
                                         <select id="category" name="searchType" class="js-states form-control">
@@ -35,6 +35,7 @@
                                             <option value="music">Musics</option>
                                         </select>
                                     </div>
+
                                 </div>
                                 <div class="input-group-append">
                                     <button type="submit" class="btn bt-round"><i class="ti-search"></i></button>
@@ -116,7 +117,7 @@
                           <div id="like-{{ portfolio.id }}" class="col-lg-4 col-md-6 portfolio-item">
                             <div class="item_image_urip">
                                 <a href="{% url 'download' 'image' portfolio.slug %}" class="urip_link download"><i class="fa fa-download"></i></a>
-                                <a href="{% url 'photo_detail' slug=portfolio.slug %}" class="item-img">
+                                <a href="{% url 'photo_detail' slug=portfolio.slug user_name=portfolio.user.user.username %}" class="item-img">
                                     <img src="{{ portfolio.file.url }}" class="img-fluid" alt="{{ portfolio.title }}">
                                 </a>
                                 <div class="image_urip_caption">
@@ -137,7 +138,7 @@
                                     </div>
                                     <div class="urip_caption_last">
                                         <div class="item_list_links">
-                                            <a href="{% url 'photo_detail' portfolio.slug %}" target="_blank" class="urip_link"><i class="fa fa-eye"></i></a>
+                                            <a href="{% url 'photo_detail' slug=portfolio.slug user_name=portfolio.user.user.username  %}" target="_blank" class="urip_link"><i class="fa fa-eye"></i></a>
                                             <a href ='#like-{{ portfolio.id }}' data-catid = '{{ portfolio.id }}' class="like-btn urip_link" ><i class="fa fa-heart fa-heart-o"></i></a>
                                         </div>
                                     </div>

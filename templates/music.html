@@ -12,27 +12,6 @@
 {% block style %}
 
 {% endblock %}
-{% block script %}
-    <script type="text/javascript">
-    $('.like-btn').click(function(){
-    var catid;
-    catid = $(this).attr("data-catid");
-
-    $.ajax({
-            type:"GET",
-            url: /like_post/,
-            data:{
-                     post_id: catid
-            },
-            datatype:'json',
-            success: function( data )
-            {
-                console.log(data)
-            }
-         })
-        });
-    </script>
-{% endblock %}
 
 {% block body %}
 	<!-- ============================ Dashboard Header Start================================== -->
@@ -56,31 +35,19 @@
         <div class="row portfolio-container">
           {% for music in portfolio %}
           <div class="col-lg-4 col-md-6 portfolio-item">
-			<div class="item_image_urip">
+			<div class="">
 				<a class="item-img">
 					<img src="{{ music.thumbnail.url }}" class="img-fluid" alt="{{ music.title }}">
 				</a>
-				<div class="image_urip_caption">
-					<div class="urip_caption_flex">
-						<div class="urip_author">
-							<div class="urip_avater">
-								<a href="{% url 'profile' username=music.user.user.username %}" class="author-img">
-									<img src="{{ music.user.profile_pic.url }}" class="img-fluid" alt="" />
-								</a>
-							</div>
-							<div class="urip_avater_place">
-								<h3 class="urip_title">{{music.title}}</h3>
-								<span class="urip_title"><a href="{% url 'profile' username=music.user.user.username %}">{{music.user.user}}</a></span>
-							</div>
-						</div>
-					</div>
-					<div class="urip_caption_last">
-						<div class="item_list_links">
-							<a href ='#like-{{ music.id }}' data-catid = '{{ music.id }}' class="like-btn urip_link" ><i class="fa fa-heart fa-heart-o"></i></a>
-						</div>
-					</div>
-				</div>
             </div>
+              <div class="card-body">
+                  <div class="float-left">
+                      <h5>{{ music.title | truncatechars:24 | capfirst}}</h5>
+                  </div>
+                  <div class="float-right">
+                      <p>{{ music.user.user.first_name | capfirst}}</p>
+                  </div>
+              </div>
               <div class="urip_column_wrap justify-content-center">
                   <audio id="{{music.id}}" onplay="views({{music.id}});" style="margin-top: 1em;"  controls   download>
                       <source  src="{{ music.file.url }}"  name="{{music.file.name}}" type="audio/mp3" download="{{portfolio.file.name}}">
@@ -113,6 +80,25 @@
 	<!-- End Portfolio Section -->
 {% block script %}
     <!-- Portfolio JS-->
+        <script type="text/javascript">
+    $('.like-btn').click(function(){
+    var catid;
+    catid = $(this).attr("data-catid");
+
+    $.ajax({
+            type:"GET",
+            url: /like_post/,
+            data:{
+                     post_id: catid
+            },
+            datatype:'json',
+            success: function( data )
+            {
+                console.log(data)
+            }
+         })
+        });
+    </script>
     <script src="{% static 'portfolio/jquery.easing/jquery.easing.min.js' %}"></script>
     <script src="{% static 'portfolio/isotope-layout/isotope.pkgd.min.js' %}"></script>
     <script src="{% static 'portfolio/venobox/venobox.min.js' %}"></script>
