@@ -2,7 +2,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from taggit.managers import TaggableManager
-from PIL import Image
+from django_resized import ResizedImageField
 from django.conf import settings
 from django.utils.text import slugify
 import re
@@ -132,13 +132,21 @@ class Video(models.Model):
         self.file.delete(save=False)
         super().delete(*args, **kwargs)
 
+    @property
+    def number_of_likes(self):
+        return self.likes.count()
+
 
 class Music(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=255, blank=False)
     description = models.TextField(max_length=1000, blank=True, null=True)
     file = models.FileField(upload_to='musics', blank=False)
-    thumbnail = models.ImageField(upload_to='musics/thumbnails', default='img/9.jpg')
+    # thumbnail = models.ImageField(upload_to='musics/thumbnails', default='img/9.jpg')
+    thumbnail = ResizedImageField(size=[400, 300], quality=75,
+                                  crop=['middle', 'center'],
+                                  upload_to='musics/thumbnails',
+                                  default='img/9.jpg')
     tags = TaggableManager()
     uploaded_at = models.DateTimeField(auto_now_add=True)
     views = models.IntegerField(default=0)
@@ -157,14 +165,12 @@ class Music(models.Model):
     def save(self, *args, **kwargs):
         self.slug = self.slug or slugify(self.title)
         super().save(*args, **kwargs)
-        img = Image.open(self.thumbnail.path) # Open image using self
-
-        if img.height >= 600 or img.width >= 600:
-            new_img = (400, 400)
-            img.thumbnail(new_img)
-            img.save(self.thumbnail.path)
 
     def delete(self, *args, **kwargs):
         self.file.delete(save=False)
         self.thumbnail.delete(save=False)
         super().delete(*args, **kwargs)
+
+    @property
+    def number_of_likes(self):
+        return self.likes.count()

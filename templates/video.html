@@ -38,7 +38,7 @@
             <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
         	{% for video in portfolio %}
 			  <div class="col-lg-4 col-md-6 portfolio-item">
-				  <video id="my-video" onclick="videoviews({{video.id}})" class="video-js vjs-theme-forest" controls preload="auto" width="360" height="264" data-setup="{}">
+				  <video id="my-video" onclick="window.location='{% url 'video_detail' user_name=video.user.user.username slug=video.slug %}'" class="video-js vjs-theme-forest" preload="metadata" width="360" height="264" data-setup="{}">
 					<source src="{{ video.file.url }}" type="video/mp4" >
 				  </video>
 				  <div class="mx-auto my-1 col-lg-12 d-block" style="font-size: 13px;">
@@ -48,7 +48,7 @@
                       </p>
                       <a class="img-fluid urip_title" href="{% url 'profile' username=video.user.user.username %}">{{video.user.user.first_name | capfirst}} {{video.user.user.last_name | capfirst}} </a>
                       <p class="float-right">
-                          <a class="ml-2 font-weight-bold" href="{{ video.file.url }}" download> <i class="fa fa-download"></i></a> &nbsp; : {{video.total_downloads}}
+                          <a class="ml-2 font-weight-bold" href="{{ video.file.url }}" download> <i class="fa fa-download"></i></a> &nbsp; : {{ video.total_downloads }}
                       </p>
                   </div>
 

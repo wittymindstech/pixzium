@@ -281,6 +281,8 @@ def profile(request, username):
 
 def photo_detail(request, slug, *args, **kwargs):
     image = get_object_or_404(Image, slug=slug)
+    image.views += 1
+    image.save()
     profile = Profile.objects.filter(user=image.user.id).first()
 
     tagsList = []
@@ -294,10 +296,27 @@ def photo_detail(request, slug, *args, **kwargs):
     return render(request, 'photo_detail.html', context)
 
 
+def video_detail(request, slug, *args, **kwargs):
+    video = get_object_or_404(Video, slug=slug)
+    video.views += 1
+    video.save()
+    profile = Profile.objects.filter(user=video.user.id).first()
+
+    tagsList = []
+    for tag in video.tags.all():
+        tagsList.append(tag.name)
+    context = {
+        'video': video,
+        'tagsList': tagsList,
+        'profile': profile,
+    }
+    return render(request, 'video_detail.html', context)
+
+
 def image(request):
     portfolio_list = Image.objects.all().order_by('-uploaded_at').filter(status__exact='A')
     current_page = request.GET.get('page', 1)
-    paginator = Paginator(portfolio_list, 3)
+    paginator = Paginator(portfolio_list, 12)
     try:
         portfolio = paginator.page(current_page)
     except PageNotAnInteger:
@@ -325,7 +344,7 @@ def video(request):
 
 
 def music(request):
-    portfolio = Music.objects.all().order_by('-uploaded_at')
+    portfolio = Music.objects.all().order_by('-uploaded_at').filter(status__exact='A')
     context = {"portfolio": portfolio}
 
     return render(request, "music.html", context)
@@ -386,6 +405,7 @@ def upload(request):
         return render(request, 'upload.html', {'form': form})
 
 
+# TODO : UI needs fix for video and music search rendering
 class SearchResultsView(ListView):
     model = Image
     template_name = 'search.html'
@@ -396,7 +416,7 @@ class SearchResultsView(ListView):
         st = self.request.GET.get('searchType')
         if st == 'image':
             object_list = Image.objects.filter(
-                Q(title__icontains=query) | Q(file__icontains=query) | Q(tags__name__icontains=query))
+                Q(title__icontains=query) | Q(file__icontains=query) | Q(tags__name__icontains=query) & Q(status__exact='A'))
             return object_list
 
         elif st == 'video':
@@ -455,6 +475,7 @@ def music_views(request):
     raise Http404
 
 
+# TODO needs updation (handle conflicts in object id's) Solution = uuid
 @login_required
 def count_likes(request):
     if request.method == 'GET':
@@ -481,18 +502,25 @@ def count_likes(request):
 @login_required
 def follow(request):
     if request.method == 'GET':
-        id = request.GET.get('profile_id')
-        follower = Profile.objects.get(user=request.user)
-        profile = Profile.objects.get(pk=id)
-        followed = False
-        if follower in profile.followers:
-            follow_list.remove(profile)
-        else:
-            followed = True
-            profile.followers.add(request.user)
+        try:
+            id = request.GET.get('profile_id')
+            next = request.GET.get('next', '/')
+            follower = Profile.objects.get(user=request.user)
+            profile = Profile.objects.get(pk=id)
+            # followed = False
+            if profile.followers.filter(id=follower.user.id).exists():
+                print('Asad')
+                profile.followers.remove(request.user)
+            else:
+                print('Dasa')
+                # followed = True
+                profile.followers.add(request.user)
 
-        total_followers = profile.number_of_followers
-        return JsonResponse({'followed': followed, 'total_followers': total_followers, 'id': id})
+            total_followers = profile.number_of_followers
+            # return JsonResponse({'followed': followed, 'total_followers': total_followers, 'id': id})
+            return redirect(next)
+        except:
+            redirect('login')
 
 
 def save_music_view(request):
