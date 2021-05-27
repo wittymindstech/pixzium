@@ -325,7 +325,7 @@ def video(request):
 
 
 def music(request):
-    portfolio = Music.objects.all().order_by('-uploaded_at')
+    portfolio = Music.objects.all().order_by('-uploaded_at').filter(status__exact='A')
     context = {"portfolio": portfolio}
 
     return render(request, "music.html", context)
