@@ -132,6 +132,10 @@ class Video(models.Model):
         self.file.delete(save=False)
         super().delete(*args, **kwargs)
 
+    @property
+    def number_of_likes(self):
+        return self.likes.count()
+
 
 class Music(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
@@ -166,3 +170,7 @@ class Music(models.Model):
         self.file.delete(save=False)
         self.thumbnail.delete(save=False)
         super().delete(*args, **kwargs)
+
+    @property
+    def number_of_likes(self):
+        return self.likes.count()

@@ -1,7 +1,8 @@
 {% extends 'layout.html' %}
 {% load static %}
-{% block title %} {{image.title}} {% endblock %}
 {% load social_share %}
+
+{% block title %} {{video.title}} {% endblock %}
 
 {% block style %}
 {% endblock %}
@@ -13,11 +14,13 @@
 
 				<div class="col-lg-8 col-md-12 col-sm-12">
 					<div class="_uy76_gallery mb-4">
-						<img src="{{ image.file.url }}" class="img-fluid rounded" alt="">
+                        <video class="img-fluid rounded" preload="metadata" controls >
+					        <source src="{{ video.file.url }}" type="video/mp4" >
+                        </video>
 					</div>
 					<div class="_uy76_caption">
 						<div class="g6">
-                            {{ image.description }}
+                            {{ video.description }}
                         </div>
 					</div>
 				</div>
@@ -26,38 +29,38 @@
 				<div class="col-lg-4 col-md-12 col-sm-12">
 
 					<!-- Like & Donate -->
-                    <div class="urip_follo_link">
+					<div class="urip_follo_link">
 						<ul class="mt-0">
-							<li><a href="#" class="liks light-dark">&nbsp;{{ image.number_of_likes }}&nbsp;<i class="fa fa-heart mr-1"></i>&nbsp;Likes</a></li>
-							<li><a href="#" class="liks light-dark">&nbsp;{{ image.total_downloads }}&nbsp;<i class="fa fa-download mr-1"></i>&nbsp;Downloads</a></li>
-
-                        </ul>
+							<li><a href="#" class="liks light-dark"><i class="fa fa-heart mr-1"></i>{{ video.number_of_likes }} Likes</a></li>
+							<li><a href="#" class="liks light-dark"><i class="fa fa-download mr-1"></i>{{ video.total_downloads }} Downloads</a></li>
+						</ul>
 					</div>
-                    <div class="urip_follo_link">
-                        <ul class="mt-0">
-                            <li><a href="#" class="liks light-dark">&nbsp;{{ image.views }}&nbsp;<i class="fas fa-eye"></i>&nbsp;Views</a></li>
+					<div class="urip_follo_link">
+						<ul class="mt-0">
+							<li><a href="#" class="liks light-dark">&nbsp;{{ video.views }}&nbsp;<i class="fas fa-eye"></i> &nbsp;Views</a></li>
 						</ul>
 					</div>
 					<!-- Author Info -->
 					<div class="urip_widget_wrap shadow_0 mb-4 large">
 						<div class="urip_widget_avater">
-							<a href="{% url 'profile' username=image.user.user.username  %}"><img src="{{ image.user.profile_pic.url }}" class="img-fluid circle" alt=""></a>
+							<a href="{% url 'profile' username=video.user.user.username  %}"><img src="{{ video.user.profile_pic.url }}" class="img-fluid circle" alt=""></a>
 							<div class="veryfied_author"><img src="{% static 'img/verified.svg' %}" class="img-fluid" width="15" alt=""></div>
 						</div>
 						<div class="widget_avater_124">
-							<h4 class="avater_name_214"><a href="{% url 'profile' username=image.user.user.username  %}">{{ image.user.user.first_name }} {{ image.user.user.last_name }}</a></h4>
+							<h4 class="avater_name_214"><a href="{% url 'profile' username=video.user.user.username  %}">{{ video.user.user.first_name }} {{ video.user.user.last_name }}</a></h4>
+							<span>{{ video.user.number_of_followers }} followers</span>
 						</div>
 
 						<div class="urip_follo_link">
 							<ul>
-								<li><a href="/follow/?profile_id={{ image.user.user.id }}&next={{ request.path }}"
-                                    {% if request.user not in image.user.followers.all %}
+								<li><a href="/follow/?profile_id={{ video.user.user.id }}&next={{ request.path }}"
+                                    {% if request.user not in video.user.followers.all %}
                                         class="liks light-gray">Follow
                                     {% else %}
-                                        class="liks light-dark" > Following
+                                        class="liks light-gray" > Following
                                     {% endif %}
                                 </a></li>
-                                {% if profile.razorpay is not None %}
+								{% if profile.razorpay is not None %}
 									<form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="{{profile.razorpay}}" async> </script> </form>
 								{% endif%}
 							</ul>
@@ -66,16 +69,16 @@
 						<div class="widget_lkpi">
 							<ul class="auhor_info_list_215">
 								<li><div class="urip_jbl"><span class="count">97</span>K</div><span class="smallest">Photos</span></li>
-								<li><div class="urip_jbl"><span class="count">{{ image.user.number_of_followers }}</span></div><span class="smallest">Followers</span></li>
-								<li><div class="urip_jbl"><span class="count">{{ image.user.number_of_following }}</div><span class="smallest">Followings</span></li>
+								<li><div class="urip_jbl"><span class="count">{{ video.user.number_of_followers }}</span></div><span class="smallest">Followers</span></li>
+								<li><div class="urip_jbl"><span class="count">{{ video.user.number_of_following }}</div><span class="smallest">Followings</span></li>
 							</ul>
 						</div>
 					</div>
 
 					<!-- Download Options -->
 					<div class="dropdown">
-{#						<a class="btn btn-download" href="#"  download="{{ image.file.url }}" role="button" data-toggle="dropdown" aria-expanded="false">Free Download</a>#}
-						<a class="btn btn-download" href="{% url 'download' 'image' image.slug%}"role="button" >Free Download</a>
+{#						<a class="btn btn-download" href="#"  download="{{ video.file.url }}" role="button" data-toggle="dropdown" aria-expanded="false">Free Download</a>#}
+						<a class="btn btn-download" href="{% url 'download' 'video' video.slug%}"role="button" >Free Download</a>
 {#                        <i class="ti-angle-down"></i>#}
 {#						<ul class="dropdown-menu light" aria-labelledby="dropdownMenuLink">#}
 {#							<li><a class="dropdown-item" href="#"><strong>Small</strong> (600x400)</a></li>#}
@@ -90,7 +93,7 @@
                             {% post_to_facebook object_or_url "<i class='fab fa-facebook-f fa-2x'></i>" %}
 						</div>
                         <div class="col-sm">
-                            {% post_to_twitter "See this wonderful image by {{ video.user.user.first_name | capfirst }} {{ video.user.user.last_name | capfirst }} : {{ video.title }}. on pixzium" object_or_url "<i class='fab fa-twitter fa-2x'></i>" %}
+                            {% post_to_twitter "New video: {{ video.title }}. Check it out!" object_or_url "<i class='fab fa-twitter fa-2x'></i>" %}
                         </div>
                         <div class="col-sm">
                         {% post_to_whatsapp object_or_url "<i class='fab fa-whatsapp fa-2x'></i>" %}
