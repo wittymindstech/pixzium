@@ -89,7 +89,7 @@
                                     </li>
 
                                     <li class="add-listing red-bg">
-                                        <a href="{% url 'upload' %}">Submit Creativity</a>
+                                        <a href="{% url 'upload' %}">Upload Media</a>
                                     </li>
 
                                     <li {% if request.user.is_authenticated %} style="display: none;" {% endif %} class="add-listing green-bg">
@@ -243,6 +243,7 @@
     <!-- End Wrapper -->
 
     <!-- All Jquery -->
+
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/popper.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -251,6 +252,7 @@
     <script src="{% static 'js/ion.rangeSlider.min.js' %}"></script>
     <script src="{% static 'js/counterup.min.js' %}"></script>
     <script src="{% static 'js/custom.js' %}"></script>
+    <script src="https://kit.fontawesome.com/e2775e299c.js" crossorigin="anonymous"></script>
 
     {% block script %}
 

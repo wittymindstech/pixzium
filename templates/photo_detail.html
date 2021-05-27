@@ -4,8 +4,6 @@
 
 {% block style %}
 {% endblock %}
-{% block script %}
-{% endblock %}
 {% block body %}
 	<!-- ============================ Item Detail Start ================================== -->
 	<section class="gray-light">
@@ -33,7 +31,11 @@
 							<li><a href="#" class="liks light-dark"><i class="fa fa-download mr-1"></i>{{ image.total_downloads }} Downloads</a></li>
 						</ul>
 					</div>
-
+					<div class="urip_follo_link">
+						<ul class="mt-0">
+							<li><a href="#" class="liks light-dark"><i class="fas fa-eye"></i> &nbsp;Views</a></li>
+						</ul>
+					</div>
 					<!-- Author Info -->
 					<div class="urip_widget_wrap shadow_0 mb-4 large">
 						<div class="urip_widget_avater">
@@ -75,6 +77,17 @@
 {#							<div class="dropdown-divider"></div>#}
 {#							<li><a class="dropdown-item" href="#"><strong>Original</strong> (5420x2400)</a></li>#}
 						</ul>
+					</div>
+					<div class="row col-lg-12 col-md-12 col-sm-12 ml-2 mr-2 mt-4 text-center">
+						<div class="col-sm">
+						  <i class="fab fa-facebook-f fa-2x"></i>
+						</div>
+						<div class="col-sm">
+						  <i class="fab fa-twitter fa-2x"></i>
+						</div>
+						<div class="col-sm">
+						  <i class="fab fa-whatsapp fa-2x"></i>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -128,5 +141,4 @@
 		</div>
 	</section>
 	<!-- ============================ Call To Action End ================================== -->
-
 {% endblock body %}
