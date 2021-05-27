@@ -49,7 +49,7 @@
                   </div>
               </div>
               <div class="urip_column_wrap justify-content-center">
-                  <audio id="{{music.id}}" onplay="views({{ music.id }});" style="margin-top: 0.3em;" controls>
+                  <audio id="{{music.id}}" onplay="views({{ music.id }});" style="margin-top: 0.3em;"  preload="metadata" controls>
                       <source  src="{{ music.file.url }}" type="audio/mp3" au>
                   </audio>
               </div>
