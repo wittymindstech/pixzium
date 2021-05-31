@@ -280,16 +280,19 @@ def profile(request, username):
 
 
 def photo_detail(request, slug, *args, **kwargs):
+    # username = kwargs['user_name']
     image = get_object_or_404(Image, slug=slug)
     image.views += 1
     image.save()
     profile = Profile.objects.filter(user=image.user.id).first()
-
+    imagep = Image.objects.filter(user=profile)
+    image_count = imagep.count()
     tagsList = []
     for tag in image.tags.all():
         tagsList.append(tag.name)
     context = {
         'image': image,
+        'image_count': image_count,
         'tagsList': tagsList,
         'profile': profile,
     }
@@ -301,12 +304,14 @@ def video_detail(request, slug, *args, **kwargs):
     video.views += 1
     video.save()
     profile = Profile.objects.filter(user=video.user.id).first()
-
+    imagep = Image.objects.filter(user=profile)
+    image_count = imagep.count()
     tagsList = []
     for tag in video.tags.all():
         tagsList.append(tag.name)
     context = {
         'video': video,
+        'image_count': image_count,
         'tagsList': tagsList,
         'profile': profile,
     }
