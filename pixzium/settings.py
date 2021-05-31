@@ -214,10 +214,7 @@ AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
 }
 DEFAULT_FILE_STORAGE = 'pixzium.storage_backends.MediaStorage'
-STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
+
 
 
 STATIC_URL = 'https://%s/%s/' % (AWS_S3_CLOUDFRONT_DOMAIN, AWS_LOCATION)
