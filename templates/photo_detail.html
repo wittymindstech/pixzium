@@ -65,34 +65,25 @@
 
 						<div class="widget_lkpi">
 							<ul class="auhor_info_list_215">
-								<li><div class="urip_jbl"><span class="count">97</span>K</div><span class="smallest">Photos</span></li>
+								<li><div class="urip_jbl"><span class="count">{{ image_count }}</span></div><span class="smallest">Photos</span></li>
 								<li><div class="urip_jbl"><span class="count">{{ image.user.number_of_followers }}</span></div><span class="smallest">Followers</span></li>
-								<li><div class="urip_jbl"><span class="count">{{ image.user.number_of_following }}</div><span class="smallest">Followings</span></li>
+								<li><div class="urip_jbl"><span class="count">{{ image.user.number_of_following }}</span></div><span class="smallest">Followings</span></li>
 							</ul>
 						</div>
 					</div>
 
 					<!-- Download Options -->
 					<div class="dropdown">
-{#						<a class="btn btn-download" href="#"  download="{{ image.file.url }}" role="button" data-toggle="dropdown" aria-expanded="false">Free Download</a>#}
 						<a class="btn btn-download" href="{% url 'download' 'image' image.slug%}"role="button" >Free Download</a>
-{#                        <i class="ti-angle-down"></i>#}
-{#						<ul class="dropdown-menu light" aria-labelledby="dropdownMenuLink">#}
-{#							<li><a class="dropdown-item" href="#"><strong>Small</strong> (600x400)</a></li>#}
-{#							<li><a class="dropdown-item" href="#"><strong>Medium</strong> (1200x800)</a></li>#}
-{#							<li><a class="dropdown-item" href="#"><strong>Large</strong> (1920x900)</a></li>#}
-{#							<div class="dropdown-divider"></div>#}
-{#							<li><a class="dropdown-item" href="#"><strong>Original</strong> (5420x2400)</a></li>#}
-						</ul>
 					</div>
 					<div class="row col-lg-12 col-md-12 col-sm-12 ml-2 mr-2 mt-4 text-center">
-						<div class="col-sm">
+						<div class="col-4">
                             {% post_to_facebook object_or_url "<i class='fab fa-facebook-f fa-2x'></i>" %}
 						</div>
-                        <div class="col-sm">
+                        <div class="col-4">
                             {% post_to_twitter "See this wonderful image by {{ video.user.user.first_name | capfirst }} {{ video.user.user.last_name | capfirst }} : {{ video.title }}. on pixzium" object_or_url "<i class='fab fa-twitter fa-2x'></i>" %}
                         </div>
-                        <div class="col-sm">
+                        <div class="col-4">
                         {% post_to_whatsapp object_or_url "<i class='fab fa-whatsapp fa-2x'></i>" %}
 						</div>
 					</div>
