@@ -200,7 +200,7 @@ LOGOUT_REDIRECT_URL = '/'
 
 # AWS Settings
 
-# AWS_LOCATION = 'static'
+AWS_LOCATION = 'static'
 AWS_ACCESS_KEY_ID = config['AWS_ACCESS_KEY']  # Your AWS Access Key ID
 AWS_SECRET_ACCESS_KEY = config['AWS_SECRET_KEY']  # Your AWS Secret Access Key
 AWS_STORAGE_BUCKET_NAME = config['AWS_BUCKET_NAME']  # Your AWS Bucket name
@@ -217,11 +217,11 @@ DEFAULT_FILE_STORAGE = 'pixzium.storage_backends.MediaStorage'
 
 
 
-# STATIC_URL = 'https://%s/%s/' % (AWS_S3_CLOUDFRONT_DOMAIN, AWS_LOCATION)
-# ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
-# STATICFILES_FINDERS = (
-#     'django.contrib.staticfiles.finders.FileSystemFinder', 'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-# )
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CLOUDFRONT_DOMAIN, AWS_LOCATION)
+ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder', 'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
 AWS_DEFAULT_ACL = None
 
 
