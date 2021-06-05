@@ -12,7 +12,7 @@ from django.urls import reverse
 from django.views import generic
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core.files import File
 import boto3
 
@@ -547,7 +547,7 @@ def count_downloads(request, type, slug):
             obj = Music.objects.get(slug=slug)
         elif type == 'video':
             obj = Video.objects.get(slug=slug)
-            return HttpResponse(obj.file.url, content_type='text/plain')
+            # return HttpResponse(obj.file.url, content_type='text/plain')
         else:
             print('THIS ERROR FOR TYPE')
             raise Http404
@@ -557,6 +557,7 @@ def count_downloads(request, type, slug):
             filename = obj.file.name.split('/')[-1]
             response = HttpResponse(obj.file, content_type='text/plain')
             response['Content-Disposition'] = f'attachment; filename={filename}'
+            response['message'] = 'Your file is Downloading...'
             obj.save()
             return response
         except:

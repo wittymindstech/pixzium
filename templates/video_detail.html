@@ -77,7 +77,7 @@
 
 					<!-- Download Options -->
 					<div class="dropdown">
-						<a class="btn btn-download" href="{% url 'download' 'video' video.slug%}"role="button" >Free Download</a>
+						<a class="btn btn-download" href="{% url 'download' 'video' video.slug%}" onclick="alert('Your file is being downloaded... please wait.\n DO NOT REFRESH or GO BACK');" role="button" >Free Download</a>
 					</div>
 					<div class="row col-lg-12 col-md-12 col-sm-12 ml-2 mr-2 mt-4 text-center">
 						<div class="col-4">
