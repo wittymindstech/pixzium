@@ -44,7 +44,7 @@
 				  <div class="mx-auto my-1 col-lg-12 d-block" style="font-size: 13px;">
 					<p class="float-left">
 
-					  <h4 class="_uy76_title">{{video.title}}</h4>
+					  <h4 class="_uy76_title">{{video.title | truncatechars:30}}</h4>
                       </p>
                       <a class="img-fluid urip_title" href="{% url 'profile' username=video.user.user.username %}">{{video.user.user.first_name | capfirst}} {{video.user.user.last_name | capfirst}} </a>
                       <p class="float-right">
