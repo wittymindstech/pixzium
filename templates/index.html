@@ -109,12 +109,12 @@
                         </div>
                     </div>
                     <!-- ======= Portfolio Section ======= -->
-                    <section id="portfolio" class="portfolio infinite-container">
+                    <section id="portfolio" class="portfolio">
                       <div class="container" data-aos="fade-up">
 
                         <div class="row " data-aos="fade-up" data-aos-delay="200">
                           {% for portfolio in portfolios %}
-                          <div id="like-{{ portfolio.id }}" class="col-lg-4 col-md-6 infinite-item">
+                          <div id="like-{{ portfolio.id }}" class="col-lg-4 col-md-6 portfolio-item">
                             <div class="item_image_urip">
                                 <a href="{% url 'download' 'image' portfolio.slug %}" class="urip_link download"><i class="fa fa-download"></i></a>
                                 <a href="{% url 'photo_detail' slug=portfolio.slug user_name=portfolio.user.user.username %}" class="item-img">
