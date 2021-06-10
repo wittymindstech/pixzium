@@ -112,7 +112,7 @@
                     <section id="portfolio" class="portfolio">
                       <div class="container" data-aos="fade-up">
 
-                        <div class="row infinite-container" data-aos="fade-up" data-aos-delay="200">
+                        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
                           {% for portfolio in portfolios %}
                           <div id="like-{{ portfolio.id }}" class="col-lg-4 col-md-6 portfolio-item">
                             <div class="item_image_urip">
@@ -154,35 +154,24 @@
                 </div>
             </div>
 
-{#        {% if page_obj.has_other_pages %}#}
-{#          <ul class="pagination">#}
-{#            {% if page_obj.has_previous %}#}
-{#              <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>#}
-{#            {% endif %}#}
-{#            {% for i in page_obj.paginator.page_range %}#}
-{#              {% if page_obj.number == i %}#}
-{#                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>#}
-{#              {% else %}#}
-{#                <li><a href="?page={{ i }}">{{ i }}</a></li>#}
-{#              {% endif %}#}
-{#            {% endfor %}#}
-{#            {% if page_obj.has_next %}#}
-{#              <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>#}
-{#            {% endif %}#}
-{#          </ul>#}
-{#        {% endif %}#}
+        {% if page_obj.has_other_pages %}
+          <ul class="pagination">
+            {% if page_obj.has_previous %}
+              <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+           {% endif %}
+            {% for i in page_obj.paginator.page_range %}
+              {% if page_obj.number == i %}
+                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+              {% else %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+              {% endif %}
+            {% endfor %}
             {% if page_obj.has_next %}
-            <div class="pagination">
-                <a class="next-page" href="?page={{ page_obj.next_page_number }}">1</a>
-            </div>
+              <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
             {% endif %}
-            <div class="scroller-status">
-              <div class="infinite-scroll-request loader-ellips">
-                    ...
-              </div>
-              <p class="infinite-scroll-last">End of content</p>
-              <p class="infinite-scroll-error">No more pages to load</p>
-            </div>
+          </ul>
+        {% endif %}
+
         </div>
     </section>
     <!-- ============================ All Images List End ================================== -->
@@ -211,21 +200,13 @@
 {% block script %}
     <!-- Portfolio JS-->
     <script src="{% static 'portfolio/isotope-layout/isotope.pkgd.min.js' %}"></script>
-{#    <script src="{% static 'portfolio/waypoints/jquery-2.2.4.min.js' %}"></script>#}
+    <script src="{% static 'portfolio/waypoints/jquery-2.2.4.min.js' %}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="{% static 'portfolio/jquery.easing/jquery.easing.min.js' %}"></script>
     <script src="{% static 'portfolio/waypoints/jquery.waypoints.min.js' %}"></script>
     <script src="{% static 'portfolio/waypoints/infinite-scroll.min.js' %}"></script>
     <script src="{% static 'portfolio/venobox/venobox.min.js' %}"></script>
     <script src="{% static 'portfolio/aos/aos.js' %}"></script>
-    <script type="application/javascript" >
-        $('.article-feed').infiniteScroll({
-          path: '.next-page',
-          append: '.infinite-container',
-          status: '.scroller-status',
-          hideNav: '.pagination',
-        });
-    </script>
     <script type="text/javascript">
     $('.like-btn').click(function(){
     var catid;
