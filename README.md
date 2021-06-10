@@ -7,12 +7,12 @@
 ![](pixzium_home1.png)
 
 
-# Videos
+# Music
 
 ![](pixzium_home2.png)
 
 
-# Music
+# Videos
 
 ![](pixzium_home3.png)
 
