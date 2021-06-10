@@ -4,6 +4,8 @@
 
 # Simple Media Gallery app in Django 
 
+# Contribution for enhancement of website is welcome, create a branch and then PR and send us a screenshot at wittytechminds@gmail.com for approval.
+
 # Django Project
 
 # Images
