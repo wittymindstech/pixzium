@@ -1,4 +1,8 @@
-# pixzium
+# pixzium - Stock Photos, Videos and Music India
+
+# Opensource Media Gallery Project
+
+# Simple Media Gallery app in Django 
 
 # Django Project
 
