@@ -1,0 +1,100 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block keywords %}free stock photos, pexels, free, images, indian images, india, pixzium music{% endblock %}
+{% block title %} Music {% endblock %}
+{% block head %}
+    <!-- Music UI -->
+    <link rel="stylesheet" type="text/css" href="{% static 'music/assets/css/flexslider.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'music/assets/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'music/assets/css/owl.carousel.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'music/assets/css/animations.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'music/assets/css/dl-menu.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'music/assets/css/jquery.datetimepicker.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'music/assets/css/jquery.bxslider.css' %}">
+    <link rel="stylesheet" href="{% static 'music/assets/css/main.css' %}">
+    <script src="{% static 'music/assets/js/modernizr-2.6.2-respond-1.1.0.min.js' %}"></script>
+{% endblock %}
+{% block style %}
+
+{% endblock %}
+
+{% block body %}
+	<!-- ============================ Dashboard Header Start================================== -->
+	<div class="_agt_dash dark" style="background:#675bca url({% static 'img/tag-light.png' %}) no-repeat;">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12">
+					<div class="_capt9oi">
+						<h1 class="text-light">Latest Uploaded Music by Creator's</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ========================== Dashboard Header header ============================= -->
+	<!-- ======= Portfolio Section ======= -->
+<div class="majorWrap">
+    <div id="ajaxArea">
+        <section>
+            <header>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h2 class="text-uppercase">Trending.</h2>
+                        </div>
+                    </div>
+                </div>
+            </header><!--section header-->
+
+            <div class="container">
+                <ul class="song-list text-uppercase text-bold clearfix">
+                    {% for music in portfolio %}
+                    <li id="singleSongPlayer-{{music.id}}" class="song-unit singleSongPlayer clearfix" {# data-before="{{music.id}} #}">
+
+                        <div id="singleSong-jplayer-{{music.id}}" class="singleSong-jplayer" data-title="{{ music.title }}" data-mp3="{{ music.file.url }}">
+                        </div>
+
+                        <figure>
+                            <img src="{{ music.thumbnail.url }}" alt="" width="265" height="265"/>
+                        </figure>
+
+                        <span class="playit controls jp-controls-holder">
+                            <i class="jp-play pc-play"></i>
+                            <i class="jp-pause pc-pause"></i>
+                        </span>
+                        <span class="song-title jp-title" data-before="title">{{ music.title }}</span>
+                        <span class="song-author" data-before="Author">{{ music.user.user.first_name }}</span>
+                        <!-- <span class="song-time jp-duration" data-before="Time"></span> -->
+                        <a class="song-btn" href="#">$1.29</a>
+                        <div class="audio-progress">
+                            <div class="jp-seek-bar">
+                                <div class="jp-play-bar" style="width:20%;"></div>
+                            </div><!--jp-seek-bar-->
+                        </div><!--audio-progress-->
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+        </section>
+    </div>
+</div>
+{% block script %}
+    <script src="{% static 'mausic/assets/js/jquery.js' %}"></script>
+    <script src="{% static 'mausic/assets/js/ajaxify.min.js' %}"></script>
+    <script src="{% static 'mausic/assets/js/jquery.downCount.js' %}"></script>
+    <script src="{% static 'mausic/assets/js/jquery.datetimepicker.full.min.js' %}"></script>
+    <script src="{% static 'mausic/assets/js/jplayer/jquery.jplayer.min.js' %}"></script>
+    <script src="{% static 'mausic/assets/js/jplayer/jplayer.playlist.min.js' %}"></script>
+    <script src="{% static 'mausic/assets/js/jquery.flexslider-min.js' %}"></script>
+    <script src="{% static 'mausic/assets/js/jquery.stellar.min.js' %}"></script>
+    <script src="{% static 'mausic/assets/js/jquery.sticky.js' %}"></script>
+    <script src="{% static 'mausic/assets/js/jquery.waitforimages.js' %}"></script>
+    <script src="{% static 'mausic/assets/js/masonry.pkgd.min.js' %}"></script>
+    <script src="{% static 'mausic/assets/js/packery.pkgd.min.js' %}"></script>
+    <script src="{% static 'mausic/assets/js/tweetie.min.js' %}"></script>
+    <script src="{% static 'mausic/assets/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'mausic/assets/js/jquery.bxslider.min.js' %}"></script>
+    <script src="{% static 'mausic/assets/js/main.js' %}"></script>
+{% endblock %}
+{% endblock body %}
