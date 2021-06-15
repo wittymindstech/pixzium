@@ -12,10 +12,11 @@
     <meta content="Pixzium is make in India Website for Free Indian Stock Photos and Videos" name="descriptison">
     <meta content="{% block keywords %} {% endblock %}" name="keywords">
     <title>{% block title %} {% endblock %} | Pixzium</title>
-
+    {% block meta %}
+    {% endblock %}
     <!-- Favicons -->
     <link href="{% static 'img/favicon.png' %}" rel="icon">
-    <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+    <!-- <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon"> -->
 
     <!-- All Plugins Css -->
     <link href="{% static 'css/plugins.css' %}" rel="stylesheet">

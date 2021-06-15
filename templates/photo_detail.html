@@ -3,6 +3,14 @@
 {% block title %} {{image.title}} {% endblock %}
 {% load social_share %}
 
+{% block meta %}
+<meta name="description" content="{{ image.description }}">
+<meta name="keywords" content="{{ tagsList }}">
+<meta name="author" content="{{ image.user.user.username }}">
+<meta property="og:title" content="{{ image.title }}" />
+<meta property="og:image" content="{{ image.file.url }}" />
+<meta property="og:url" content="{{ request.get_full_path }}" />
+{% endblock %}
 {% block style %}
 {% endblock %}
 {% block body %}

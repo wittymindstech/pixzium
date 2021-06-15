@@ -38,7 +38,8 @@
             <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
         	{% for video in portfolio %}
 			  <div class="col-lg-4 col-md-6 portfolio-item">
-				  <video id="my-video" onclick="window.location='{% url 'video_detail' user_name=video.user.user.username slug=video.slug %}'" class="video-js vjs-theme-forest" preload="metadata" width="360" height="264" data-setup="{}">
+				  <video id="my-video" onclick="window.location='{% url 'video_detail' user_name=video.user.user.username slug=video.slug %}'"
+						 class="video-js vjs-theme-forest" preload="metadata" width="360" height="264" data-setup="{}">
 					<source src="{{ video.file.url }}" type="video/mp4" >
 				  </video>
 				  <div class="mx-auto my-1 col-lg-12 d-block" style="font-size: 13px;">

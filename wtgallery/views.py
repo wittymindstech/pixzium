@@ -414,7 +414,7 @@ def upload(request):
 class SearchResultsView(ListView):
     model = Image
     template_name = 'search.html'
-    context_object_name = 'all_search_results'
+    context_object_name = 'search_results'
 
     def get_queryset(self):
         query = self.request.GET.get('q')
@@ -432,6 +432,8 @@ class SearchResultsView(ListView):
         elif st == 'music':
             object_list = Music.objects.filter(
                 Q(title__icontains=query) | Q(file__icontains=query) | Q(tags__name__icontains=query))
+            print(object_list)
+            print(type(object_list))
             return object_list
 
         else:
@@ -444,9 +446,12 @@ class SearchResultsView(ListView):
             musics = Music.objects.filter(
                 Q(title__icontains=query) | Q(file__icontains=query) | Q(
                     tags__name__icontains=query))
-            object_list = list(chain(images, videos, musics))
-            return object_list
-
+            object_dict = {
+                'images':images,
+                'videos':videos,
+                'musics':musics
+            }
+            return object_dict
 
 def save_views(request):
     if request.method == "GET":
