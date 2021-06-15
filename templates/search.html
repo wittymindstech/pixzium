@@ -30,9 +30,12 @@
 	<!-- ======= Portfolio Section ======= -->
 	<section id="portfolio" class="portfolio">
 	  <div class="container" data-aos="fade-up">
-        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
-		{% for search in all_search_results %}
-
+		  <div class="col">
+			  <h3 class="text-lg-center">Images </h3>
+			  <hr>
+		  </div>
+		<div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
+		{% for search in search_results.images %}
 		  <div class="col-lg-4 col-md-6 portfolio-item">
 			<div class="item_image_urip">
 				<a href="{{ search.file.url }}" class="urip_link download"><i class="fa fa-download"></i></a>
@@ -66,6 +69,69 @@
 			<img class="w-25 img-fluid mx-auto d-block" src="{% static 'img/nosearch.jpg' %}">
 		</div>
 		{% endfor %}
+	  </div>
+
+
+		<div class="container" data-aos="fade-up">
+		  <div class="col">
+			  <h3 class="text-lg-center">Music</h3>
+			  <hr>
+		  </div>
+		<div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
+		{% for music in search_results.musics %}
+          <div class="col-lg-4 col-md-6 portfolio-item">
+			<div class="">
+				<a class="item-img">
+					<img src="{{ music.thumbnail.url }}" class="img-fluid" alt="{{ music.title }}">
+				</a>
+            </div>
+              <div class="card-body">
+                  <div class="float-left">
+                      <h5>{{ music.title | truncatechars:24 | capfirst}}</h5>
+                  </div>
+                  <div class="float-right">
+                      <p>{{ music.user.user.first_name | capfirst}}</p>
+                  </div>
+              </div>
+              <div class="urip_column_wrap justify-content-center">
+                  <audio id="{{music.id}}" onplay="views({{ music.id }});" style="margin-top: 0.3em;"  preload="metadata" controls controlsList="nodownload" >
+                      <source  src="{{ music.file.url }}" type="audio/mp3" au>
+                  </audio>
+              </div>
+          </div>
+			{% empty %}
+			<img class="w-25 img-fluid mx-auto d-block" src="{% static 'img/nodata.jpg' %}">
+          {% endfor %}
+	  </div>
+
+		<div class="container" data-aos="fade-up">
+		  <div class="col">
+			  <h3 class="text-lg-center">Videos </h3>
+			  <hr>
+		  </div>
+		<div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
+
+		{% for video in search_results.videos %}
+			  <div class="col-lg-4 col-md-6 portfolio-item">
+				  <video id="my-video" onclick="window.location='{% url 'video_detail' user_name=video.user.user.username slug=video.slug %}'"
+						 class="video-js vjs-theme-forest" preload="metadata" width="360" height="264" data-setup="{}">
+					<source src="{{ video.file.url }}" type="video/mp4" >
+				  </video>
+				  <div class="mx-auto my-1 col-lg-12 d-block" style="font-size: 13px;">
+					<p class="float-left">
+
+					  <h4 class="_uy76_title">{{video.title | truncatechars:30}}</h4>
+                      </p>
+                      <a class="img-fluid urip_title" href="{% url 'profile' username=video.user.user.username %}">{{video.user.user.first_name | capfirst}} {{video.user.user.last_name | capfirst}} </a>
+                      <p class="float-right">
+                          <a class="ml-2 font-weight-bold" href="{{ video.file.url }}" download> <i class="fa fa-download"></i></a> &nbsp; : {{ video.total_downloads }}
+                      </p>
+                  </div>
+
+			  </div>
+			{% empty %}
+				<img class="w-25 img-fluid mx-auto d-block" src="{% static 'img/nodata.jpg' %}">
+			{% endfor %}
 	  </div>
 	</section>
 	<!-- End Portfolio Section -->

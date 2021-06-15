@@ -114,7 +114,7 @@
 
                         <div class="row " data-aos="fade-up" data-aos-delay="200">
                           {% for portfolio in portfolios %}
-                          <div id="like-{{ portfolio.id }}" class="col-lg-4 col-md-6 infinite-item">
+                          <div id="like-{{ portfolio.id }}" class="col-lg-4 col-md-6 portfolio-item">
                             <div class="item_image_urip">
                                 <a href="{% url 'download' 'image' portfolio.slug %}" class="urip_link download"><i class="fa fa-download"></i></a>
                                 <a href="{% url 'photo_detail' slug=portfolio.slug user_name=portfolio.user.user.username %}" class="item-img">
@@ -171,14 +171,6 @@
             {% endif %}
           </ul>
         {% endif %}
-{#            {% if page_obj.has_next %} #}
-{#            <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a> #}
-{#            {% endif %} #}
-{#            <div class="d-flex justify-content-center" style="display:none;"> #}
-{#                <div class="spinner-border" role="status"> #}
-{#                    <span class="sr-only">Loading...</span> #}
-{#                </div> #}
-{#            </div> #}
 
         </div>
     </section>
