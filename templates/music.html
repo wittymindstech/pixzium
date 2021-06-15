@@ -49,9 +49,9 @@
             <div class="container">
                 <ul class="song-list text-uppercase text-bold clearfix">
                     {% for music in portfolio %}
-                    <li id="singleSongPlayer-{{music.id}}" class="song-unit singleSongPlayer clearfix" data-before="{{music.id}}">
+                    <li id="singleSongPlayer-{{music.id}}" class="song-unit singleSongPlayer clearfix" {# data-before="{{music.id}} #}">
 
-                        <div id="singleSong-jplayer-{{music.id}}" class="singleSong-jplayer" data-title="Tranquil Landscape" data-mp3="{{ music.file.url }}">
+                        <div id="singleSong-jplayer-{{music.id}}" class="singleSong-jplayer" data-title="{{ music.title }}" data-mp3="{{ music.file.url }}">
                         </div>
 
                         <figure>
@@ -62,9 +62,9 @@
                             <i class="jp-play pc-play"></i>
                             <i class="jp-pause pc-pause"></i>
                         </span>
-                        <span class="song-title jp-title" data-before="title"></span>
-                        <span class="song-author" data-before="Author">{{ music.title }}</span>
-                        <span class="song-time jp-duration" data-before="Time"></span>
+                        <span class="song-title jp-title" data-before="title">{{ music.title }}</span>
+                        <span class="song-author" data-before="Author">{{ music.user.user.first_name }}</span>
+                        <!-- <span class="song-time jp-duration" data-before="Time"></span> -->
                         <a class="song-btn" href="#">$1.29</a>
                         <div class="audio-progress">
                             <div class="jp-seek-bar">
