@@ -109,10 +109,11 @@
                         </div>
                     </div>
                     <!-- ======= Portfolio Section ======= -->
-                    <section id="portfolio" class="portfolio infinite-container">
+                    <section id="portfolio" class="portfolio">
                       <div class="container" data-aos="fade-up">
 
-                        <div class="row " data-aos="fade-up" data-aos-delay="200">
+                        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
+
                           {% for portfolio in portfolios %}
                           <div id="like-{{ portfolio.id }}" class="col-lg-4 col-md-6 portfolio-item">
                             <div class="item_image_urip">
@@ -158,7 +159,8 @@
           <ul class="pagination">
             {% if page_obj.has_previous %}
               <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
-            {% endif %}
+           {% endif %}
+
             {% for i in page_obj.paginator.page_range %}
               {% if page_obj.number == i %}
                 <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
@@ -171,6 +173,7 @@
             {% endif %}
           </ul>
         {% endif %}
+
 
         </div>
     </section>
@@ -202,29 +205,12 @@
     <script src="{% static 'portfolio/waypoints/jquery.waypoints.min.js' %}"></script>
     <script src="{% static 'portfolio/waypoints/infinite-scroll.min.js' %}"></script>
     <script src="{% static 'portfolio/isotope-layout/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'portfolio/waypoints/jquery-2.2.4.min.js' %}"></script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="{% static 'portfolio/jquery.easing/jquery.easing.min.js' %}"></script>
     <script src="{% static 'portfolio/venobox/venobox.min.js' %}"></script>
     <script src="{% static 'portfolio/aos/aos.js' %}"></script>
-
-    <script>
-        var infinite = new Waypoint({
-            element: $('.infinite-container')[0],
-            handler: function(direction) {
-
-        },
-        offset: 'bottom-in-view',
-        onBeforePageLoad: function () {
-            $('.spinner-border').show();
-        },
-        onAfterPageLoad: function () {
-            $('.spinner-border').hide();
-        }
-
-
-        });
-
-    </script>
 
     <script type="text/javascript">
     $('.like-btn').click(function(){
