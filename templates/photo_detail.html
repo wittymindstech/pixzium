@@ -2,7 +2,11 @@
 {% load static %}
 {% block title %} {{image.title}} {% endblock %}
 {% load social_share %}
-
+{% block head %}
+<meta property="og:title" content="{{image.title}}">
+<meta property="og:image" content="{{ image.file.url }}">
+<meta property="og:description" content="{{ image.description }}">
+{% endblock %}
 {% block meta %}
 <meta name="description" content="{{ image.description }}">
 <meta name="keywords" content="{{ tagsList }}">
