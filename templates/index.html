@@ -15,7 +15,7 @@
 
 {% block body %}
     <!-- ============================ Hero Banner  Start================================== -->
-    <div class="hero-banner bg-cover center" style="background:#93d4f0 url('/media/background.png') no-repeat;" data-overlay="4">
+    <div class="hero-banner bg-cover center" style="background : #93d4f0 url('{% static 'img/background.png' %}') no-repeat;" data-overlay="4">
         <div class="container">
             <h1 class="small">Stunning free stock Images & Videos</h1>
             <p class="lead">Only Your, Creativity Matter</p>
@@ -119,7 +119,7 @@
                             <div class="item_image_urip">
                                 <a href="{% url 'download' 'image' portfolio.slug %}" class="urip_link download"><i class="fa fa-download"></i></a>
                                 <a href="{% url 'photo_detail' slug=portfolio.slug user_name=portfolio.user.user.username %}" class="item-img">
-                                    <img src="{{ portfolio.file.url }}" class="img-fluid" alt="{{ portfolio.title }}">
+                                    <img src="{{ portfolio.file.url }}" class="img-fluid" alt="{{ portfolio.title }}" loading="lazy">
                                 </a>
                                 <div class="image_urip_caption">
                                     <div class="urip_caption_flex">

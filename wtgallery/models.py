@@ -142,7 +142,6 @@ class Music(models.Model):
     title = models.CharField(max_length=255, blank=False)
     description = models.TextField(max_length=1000, blank=True, null=True)
     file = models.FileField(upload_to='musics', blank=False)
-    # thumbnail = models.ImageField(upload_to='musics/thumbnails', default='img/9.jpg')
     thumbnail = ResizedImageField(size=[400, 400], quality=75,
                                   crop=['middle', 'center'],
                                   upload_to='musics/thumbnails',
