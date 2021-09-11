@@ -10,8 +10,7 @@ config = dotenv_values()
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'l)ll(*5)=y!gof=b#!ejiawcv1@&j_out4!uqtzql5%pxpygq8'
-# SECRET_KEY = 'fsfs@4%mskd%s9sec1qf1$v*ix1_6lo-1iyapjahausdh3n2a3M'
+SECRET_KEY = config['SECRET_KEY'] 
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -48,6 +47,7 @@ INSTALLED_APPS = [
     'wtgallery',
 
 ]
+
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
@@ -162,7 +162,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -208,20 +208,18 @@ AWS_STORAGE_BUCKET_NAME = config['AWS_BUCKET_NAME']  # Your AWS Bucket name
 AWS_S3_REGION_NAME = 'ap-south-1'  # AWS s3 Bucket region name
 AWS_S3_SIGNATURE_VERSION = 's3v4'
 
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-AWS_S3_CLOUDFRONT_DOMAIN = 'd3gxnqjvuiz5a8.cloudfront.net'
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-}
-DEFAULT_FILE_STORAGE = 'pixzium.storage_backends.MediaStorage'
+# AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+# AWS_S3_CLOUDFRONT_DOMAIN = 'd3gxnqjvuiz5a8.cloudfront.net'
+# AWS_S3_OBJECT_PARAMETERS = {
+#     'CacheControl': 'max-age=86400',
+# }
+# DEFAULT_FILE_STORAGE = 'pixzium.storage_backends.MediaStorage'
 
 
 
-STATIC_URL = 'https://%s/%s/' % (AWS_S3_CLOUDFRONT_DOMAIN, AWS_LOCATION)
-ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder', 'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-)
-AWS_DEFAULT_ACL = None
-
-
+# STATIC_URL = 'https://%s/%s/' % (AWS_S3_CLOUDFRONT_DOMAIN, AWS_LOCATION)
+# ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
+# STATICFILES_FINDERS = (
+#     'django.contrib.staticfiles.finders.FileSystemFinder', 'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+# )
+# AWS_DEFAULT_ACL = None
