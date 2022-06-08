@@ -1,5 +1,7 @@
 # pixzium - Stock Photos, Videos and Music India
 
+# Use this to create your own media gallery 
+
 # Opensource Media Gallery Project
 
 # Simple Media Gallery app in Django 
